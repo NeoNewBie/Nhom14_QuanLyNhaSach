@@ -407,3 +407,73 @@ PRINT N'Đã tạo lại cấu trúc tỉnh - xã thành công!';
 PRINT N'Các bảng cũ (nếu có) đã được đổi tên thành *_CU_BACKUP.';
 PRINT N'Bạn có thể xóa các bảng backup sau khi kiểm tra dữ liệu.';
 GO
+
+-- =============================================
+-- 15. Bảng NHA_CUNG_CAP
+-- =============================================
+CREATE TABLE NHA_CUNG_CAP (
+    MaNhaCungCap INT IDENTITY(1,1) PRIMARY KEY,
+    TenNhaCungCap NVARCHAR(150) NOT NULL,
+    NguoiLienHe NVARCHAR(100) NULL,
+    SoDienThoai VARCHAR(15) NULL,
+    Email VARCHAR(100) NULL,
+    DiaChi NVARCHAR(255) NULL,
+    TrangThai BIT NOT NULL DEFAULT 1
+);
+GO
+-- =============================================
+-- 16. Bảng PHIEU_NHAP
+-- =============================================
+CREATE TABLE PHIEU_NHAP (
+    MaPhieuNhap INT IDENTITY(1,1) PRIMARY KEY,
+    MaNguoiDung INT NOT NULL, -- Admin hoặc nhân viên kho thực hiện
+    MaNhaCungCap INT NOT NULL,
+    NgayNhap DATETIME2 NOT NULL DEFAULT GETDATE(),
+    TongTien DECIMAL(18,2) NOT NULL DEFAULT 0,
+    GhiChu NVARCHAR(255) NULL,
+    FOREIGN KEY (MaNguoiDung) REFERENCES NGUOI_DUNG(MaNguoiDung),
+    FOREIGN KEY (MaNhaCungCap) REFERENCES NHA_CUNG_CAP(MaNhaCungCap)
+);
+GO
+
+-- =============================================
+-- 17. Bảng CHI_TIET_PHIEU_NHAP
+-- =============================================
+CREATE TABLE CHI_TIET_PHIEU_NHAP (
+    MaPhieuNhap INT NOT NULL,
+    MaSanPham INT NOT NULL,
+    SoLuong INT NOT NULL CHECK (SoLuong > 0),
+    GiaNhap DECIMAL(18,2) NOT NULL, -- Giá vốn khi nhập về
+    ThanhTien AS (SoLuong * GiaNhap) PERSISTED, -- Cột tự động tính toán
+    PRIMARY KEY (MaPhieuNhap, MaSanPham),
+    FOREIGN KEY (MaPhieuNhap) REFERENCES PHIEU_NHAP(MaPhieuNhap),
+    FOREIGN KEY (MaSanPham) REFERENCES SAN_PHAM(MaSanPham)
+);
+GO
+ALTER TABLE SAN_PHAM ADD GiaNhap DECIMAL(18,2) NOT NULL DEFAULT 0;
+GO
+-- Trigger tự động tăng số lượng tồn kho khi nhập hàng
+CREATE TRIGGER TRG_CapNhatKho_KhiNhapHang
+ON CHI_TIET_PHIEU_NHAP
+AFTER INSERT
+AS
+BEGIN
+    UPDATE SAN_PHAM
+    SET SoLuongTon = SoLuongTon + (SELECT SoLuong FROM inserted WHERE inserted.MaSanPham = SAN_PHAM.MaSanPham)
+    FROM SAN_PHAM
+    JOIN inserted ON SAN_PHAM.MaSanPham = inserted.MaSanPham;
+END;
+GO
+
+-- Trigger tự động giảm số lượng tồn kho khi có đơn hàng ĐÃ XÁC NHẬN
+CREATE TRIGGER TRG_CapNhatKho_KhiBanHang
+ON CHI_TIET_DON_HANG
+AFTER INSERT
+AS
+BEGIN
+    UPDATE SAN_PHAM
+    SET SoLuongTon = SoLuongTon - (SELECT SoLuong FROM inserted WHERE inserted.MaSanPham = SAN_PHAM.MaSanPham)
+    FROM SAN_PHAM
+    JOIN inserted ON SAN_PHAM.MaSanPham = inserted.MaSanPham;
+END;
+GO
