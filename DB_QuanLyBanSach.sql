@@ -477,3 +477,27 @@ BEGIN
     JOIN inserted ON SAN_PHAM.MaSanPham = inserted.MaSanPham;
 END;
 GO
+
+USE QuanLyBanSach;
+GO
+
+-- =============================================
+-- Trigger tự động xóa sản phẩm khỏi giỏ hàng khi đã thanh toán/đặt hàng
+-- =============================================
+CREATE TRIGGER TRG_XoaGioHang_KhiMuaHang
+ON CHI_TIET_DON_HANG
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Xóa các sản phẩm trong chi tiết giỏ hàng hoạt động (TrangThai = 1)
+    -- của người dùng vừa tạo đơn hàng thành công
+    DELETE ctgh
+    FROM CHI_TIET_GIO_HANG ctgh
+    JOIN GIO_HANG gh ON ctgh.MaGioHang = gh.MaGioHang
+    JOIN DON_HANG dh ON gh.MaNguoiDung = dh.MaNguoiDung
+    JOIN inserted i ON i.MaDonHang = dh.MaDonHang AND i.MaSanPham = ctgh.MaSanPham
+    WHERE gh.TrangThai = 1; -- Chỉ áp dụng với giỏ hàng đang hoạt động
+END;
+GO
