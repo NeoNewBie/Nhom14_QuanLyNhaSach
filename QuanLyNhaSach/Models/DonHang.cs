@@ -35,6 +35,24 @@ public class DonHang
     [ForeignKey(nameof(MaNguoiDung))]
     public NguoiDung? NguoiDung { get; set; }
 
+<<<<<<< HEAD
     public ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
     public ThanhToan? ThanhToan { get; set; }
+=======
+    public int? MaXaGiao { get; set; }
+
+    public string? SoNhaGiao { get; set; }
+
+    public string? DuongGiao { get; set; }
+
+    public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
+
+    public virtual KhuyenMai? MaKhuyenMaiNavigation { get; set; }
+
+    public virtual NguoiDung MaNguoiDungNavigation { get; set; } = null!;
+
+    public virtual XaPhuong? MaXaGiaoNavigation { get; set; }
+
+    public virtual ThanhToan? ThanhToan { get; set; }
+>>>>>>> origin/main
 }

@@ -46,8 +46,24 @@ public class SanPham
     [ForeignKey(nameof(MaNhaXuatBan))]
     public NhaXuatBan? NhaXuatBan { get; set; }
 
+<<<<<<< HEAD
     public ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
     public ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
     public ICollection<YeuThich> YeuThichs { get; set; } = new List<YeuThich>();
     public ICollection<DanhGia> DanhGias { get; set; } = new List<DanhGia>();
+=======
+    public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
+
+    public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
+
+    public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhaps { get; set; } = new List<ChiTietPhieuNhap>();
+
+    public virtual ICollection<DanhGium> DanhGia { get; set; } = new List<DanhGium>();
+
+    public virtual DanhMuc MaDanhMucNavigation { get; set; } = null!;
+
+    public virtual NhaXuatBan? MaNhaXuatBanNavigation { get; set; }
+
+    public virtual ICollection<TacGia> MaTacGia { get; set; } = new List<TacGia>();
+>>>>>>> origin/main
 }

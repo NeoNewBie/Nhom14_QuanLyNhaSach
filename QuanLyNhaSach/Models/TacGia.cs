@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,4 +20,22 @@ public class TacGia
     public string? MoTa { get; set; }
 
     public ICollection<SanPham> SanPhams { get; set; } = new List<SanPham>();
+=======
+﻿using System;
+using System.Collections.Generic;
+
+namespace QuanLyNhaSach.Models;
+
+public partial class TacGia
+{
+    public int MaTacGia { get; set; }
+
+    public string TenTacGia { get; set; } = null!;
+
+    public string? QuocTich { get; set; }
+
+    public string? MoTa { get; set; }
+
+    public virtual ICollection<SanPham> MaSanPhams { get; set; } = new List<SanPham>();
+>>>>>>> origin/main
 }

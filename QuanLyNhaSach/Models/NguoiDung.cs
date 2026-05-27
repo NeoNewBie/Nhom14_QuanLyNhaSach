@@ -33,8 +33,28 @@ public class NguoiDung
     [ForeignKey(nameof(MaVaiTro))]
     public VaiTro? VaiTro { get; set; }
 
+<<<<<<< HEAD
     public GioHang? GioHang { get; set; }
     public ICollection<DonHang> DonHangs { get; set; } = new List<DonHang>();
     public ICollection<YeuThich> YeuThichs { get; set; } = new List<YeuThich>();
     public ICollection<DanhGia> DanhGias { get; set; } = new List<DanhGia>();
+=======
+    public int? MaXa { get; set; }
+
+    public string? SoNha { get; set; }
+
+    public string? Duong { get; set; }
+
+    public virtual ICollection<DanhGium> DanhGia { get; set; } = new List<DanhGium>();
+
+    public virtual ICollection<DonHang> DonHangs { get; set; } = new List<DonHang>();
+
+    public virtual GioHang? GioHang { get; set; }
+
+    public virtual VaiTro MaVaiTroNavigation { get; set; } = null!;
+
+    public virtual XaPhuong? MaXaNavigation { get; set; }
+
+    public virtual ICollection<PhieuNhap> PhieuNhaps { get; set; } = new List<PhieuNhap>();
+>>>>>>> origin/main
 }
