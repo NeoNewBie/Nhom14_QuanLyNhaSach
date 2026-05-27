@@ -42,7 +42,7 @@ public partial class QuanLyBanSachContext : DbContext
 
     public virtual DbSet<SanPham> SanPhams { get; set; }
 
-    public virtual DbSet<TacGium> TacGia { get; set; }
+    public virtual DbSet<TacGia> TacGia { get; set; }
 
     public virtual DbSet<ThanhToan> ThanhToans { get; set; }
 
@@ -362,7 +362,7 @@ public partial class QuanLyBanSachContext : DbContext
             entity.HasMany(d => d.MaTacGia).WithMany(p => p.MaSanPhams)
                 .UsingEntity<Dictionary<string, object>>(
                     "SanPhamTacGium",
-                    r => r.HasOne<TacGium>().WithMany()
+                    r => r.HasOne<TacGia>().WithMany()
                         .HasForeignKey("MaTacGia")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK__SAN_PHAM___MaTac__66603565"),
@@ -377,7 +377,7 @@ public partial class QuanLyBanSachContext : DbContext
                     });
         });
 
-        modelBuilder.Entity<TacGium>(entity =>
+        modelBuilder.Entity<TacGia>(entity =>
         {
             entity.HasKey(e => e.MaTacGia).HasName("PK__TAC_GIA__F24E675636A84915");
 
