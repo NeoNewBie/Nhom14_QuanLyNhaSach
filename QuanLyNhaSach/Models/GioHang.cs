@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
-public partial class GioHang
+[Table("GIO_HANG")]
+public class GioHang
 {
+    [Key]
     public int MaGioHang { get; set; }
-
     public int MaNguoiDung { get; set; }
+    public DateTime NgayTao { get; set; } = DateTime.Now;
+    public bool TrangThai { get; set; } = true;
 
-    public DateTime NgayTao { get; set; }
+    [ForeignKey(nameof(MaNguoiDung))]
+    public NguoiDung? NguoiDung { get; set; }
 
-    public bool TrangThai { get; set; }
-
-    public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
-
-    public virtual NguoiDung MaNguoiDungNavigation { get; set; } = null!;
+    public ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
 }

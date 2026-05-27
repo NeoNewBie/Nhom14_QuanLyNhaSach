@@ -1,36 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
-public partial class SanPham
+[Table("SAN_PHAM")]
+public class SanPham
 {
+    [Key]
     public int MaSanPham { get; set; }
 
-    public string TenSanPham { get; set; } = null!;
+    [Required, StringLength(200)]
+    public string TenSanPham { get; set; } = string.Empty;
 
     public string? MoTa { get; set; }
 
+    [Column(TypeName = "decimal(18,2)")]
     public decimal GiaBia { get; set; }
 
+    [Column(TypeName = "decimal(18,2)")]
     public decimal GiaBan { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal GiaNhap { get; set; }
 
     public int SoLuongTon { get; set; }
 
+    [StringLength(255)]
     public string? AnhBia { get; set; }
 
-    public string LoaiSanPham { get; set; } = null!;
+    [StringLength(50)]
+    public string LoaiSanPham { get; set; } = "Sách giấy";
 
     public int MaDanhMuc { get; set; }
-
+    public int? MaTacGia { get; set; }
     public int? MaNhaXuatBan { get; set; }
+    public bool TrangThai { get; set; } = true;
+    public DateTime NgayTao { get; set; } = DateTime.Now;
 
-    public bool TrangThai { get; set; }
+    [ForeignKey(nameof(MaDanhMuc))]
+    public DanhMuc? DanhMuc { get; set; }
 
-    public DateTime NgayTao { get; set; }
+    [ForeignKey(nameof(MaTacGia))]
+    public TacGia? TacGia { get; set; }
 
-    public decimal GiaNhap { get; set; }
+    [ForeignKey(nameof(MaNhaXuatBan))]
+    public NhaXuatBan? NhaXuatBan { get; set; }
 
+<<<<<<< HEAD
+    public ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
+    public ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
+    public ICollection<YeuThich> YeuThichs { get; set; } = new List<YeuThich>();
+    public ICollection<DanhGia> DanhGias { get; set; } = new List<DanhGia>();
+=======
     public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
 
     public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
@@ -44,4 +65,5 @@ public partial class SanPham
     public virtual NhaXuatBan? MaNhaXuatBanNavigation { get; set; }
 
     public virtual ICollection<TacGia> MaTacGia { get; set; } = new List<TacGia>();
+>>>>>>> origin/main
 }

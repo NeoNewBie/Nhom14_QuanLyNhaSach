@@ -1,0 +1,35 @@
+@model ReviewViewModel
+@{
+    ViewData["Title"] = "Đánh giá sách";
+}
+<div class="container py-4">
+    <div class="card-soft mx-auto" style="max-width:720px">
+        <h1 class="page-title">Đánh giá sách</h1>
+        <h4>@Model.TenSanPham</h4>
+        <form asp-action="Review" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="MaSanPham" />
+            <input type="hidden" asp-for="MaDonHang" />
+            <input type="hidden" asp-for="TenSanPham" />
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+            <div class="mb-3">
+                <label asp-for="SoSao" class="form-label">Số sao</label>
+                <select asp-for="SoSao" class="form-select">
+                    <option value="5">5 sao - Rất tốt</option>
+                    <option value="4">4 sao - Tốt</option>
+                    <option value="3">3 sao - Bình thường</option>
+                    <option value="2">2 sao - Chưa tốt</option>
+                    <option value="1">1 sao - Không hài lòng</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="NoiDung" class="form-label">Nội dung đánh giá</label>
+                <textarea asp-for="NoiDung" rows="5" class="form-control" placeholder="Nhận xét của bạn về chất lượng sách, giao hàng..."></textarea>
+                <span asp-validation-for="NoiDung" class="text-danger small"></span>
+            </div>
+            <button type="submit" class="btn btn-danger">Lưu đánh giá</button>
+            <a asp-controller="DonHang" asp-action="History" class="btn btn-outline-secondary">Quay lại lịch sử</a>
+        </form>
+    </div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

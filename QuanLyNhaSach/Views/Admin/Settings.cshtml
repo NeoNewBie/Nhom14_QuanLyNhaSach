@@ -1,0 +1,17 @@
+@model NguoiDung?
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Settings";
+}
+<h1 class="admin-title">Settings</h1>
+<section class="admin-card" style="max-width:720px">
+    <h4>System Preferences</h4>
+    <p class="text-muted">Cập nhật tài khoản quản trị dùng để demo hệ thống.</p>
+    <form asp-action="Settings" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3"><label class="form-label">Họ tên admin</label><input class="form-control" name="hoTen" value="@Model?.HoTen" required /></div>
+        <div class="mb-3"><label class="form-label">Số điện thoại</label><input class="form-control" name="soDienThoai" value="@Model?.SoDienThoai" required /></div>
+        <div class="mb-3"><label class="form-label">Mật khẩu mới</label><input class="form-control" name="matKhauMoi" placeholder="Bỏ trống nếu không đổi" /></div>
+        <button class="btn btn-danger" type="submit">Lưu thiết lập</button>
+    </form>
+</section>

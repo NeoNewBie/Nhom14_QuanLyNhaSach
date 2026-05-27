@@ -1,5 +1,6 @@
 @model CartViewModel
 @{
+<<<<<<< HEAD
     ViewData["Title"] = "Giỏ hàng";
 }
 
@@ -51,3 +52,108 @@ else
         </aside>
     </div>
 }
+=======
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Giỏ hàng";
+    var user = Model.NguoiDung;
+}
+<div class="figma-canvas cart-canvas">
+    <a class="figma-back" asp-controller="Home" asp-action="Index">‹</a>
+    <div class="cart-figma-panel">
+        <h1>Giỏ hàng của bạn (@Model.Items.Count sản phẩm)</h1>
+        @if (!Model.Items.Any())
+        {
+            <div class="empty-box">Giỏ hàng đang trống. <a asp-controller="Home" asp-action="Index">Tiếp tục mua sách</a></div>
+        }
+        else
+        {
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-8">
+                    <div class="shipping-card">
+                        <div class="d-flex justify-content-between">
+                            <h4>● Thông tin nhận hàng mặc định</h4>
+                            <a asp-controller="User" asp-action="Profile">Thay đổi</a>
+                        </div>
+                        <strong>@(user?.HoTen ?? "Khách hàng")</strong> <span class="text-muted">| @(user?.SoDienThoai ?? "Chưa có số điện thoại")</span>
+                        <p>@(string.IsNullOrWhiteSpace(user?.DiaChi) ? "Bạn chưa cập nhật địa chỉ. Có thể nhập lại địa chỉ ở bước thanh toán." : user!.DiaChi)</p>
+                    </div>
+                    <div class="cart-items-card">
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="cart-figma-row">
+                                <img class="cover-img" src="@(string.IsNullOrWhiteSpace(item.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : item.SanPham!.AnhBia)" alt="@item.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                                <div class="cart-book-info">
+                                    <h5>@item.SanPham?.TenSanPham</h5>
+                                    <p>@(item.SanPham?.DanhMuc?.TenDanhMuc ?? "Sách") - @(item.SanPham?.TacGia?.TenTacGia ?? "Đang cập nhật")</p>
+                                    <strong>@item.DonGia.ToString("N0") đ</strong>
+                                </div>
+                                <form asp-action="Update" method="post" class="qty-mini-control qty-js">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
+                                    <button type="button" class="qty-minus">−</button>
+                                    <input type="number" name="soLuong" value="@item.SoLuong" min="1" max="@Math.Max(1, item.SanPham?.SoLuongTon ?? 99)" />
+                                    <button type="button" class="qty-plus">＋</button>
+                                    <button type="submit" class="qty-save">Lưu</button>
+                                </form>
+                                <form asp-action="Remove" method="post" class="remove-mini-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
+                                    <button type="submit" onclick="return confirm('Xóa sách này khỏi giỏ hàng?')">🗑</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="voucher-card">
+                        <h4>Mã khuyến mãi</h4>
+                        @if (!string.IsNullOrWhiteSpace(Model.MaGiamGiaDangApDung))
+                        {
+                            <div class="voucher-applied">
+                                <strong>@Model.MaGiamGiaDangApDung</strong>
+                                <span>@Model.MoTaGiamGia</span>
+                                <form asp-action="RemoveVoucher" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit">Bỏ mã</button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <form asp-action="ApplyVoucher" method="post" class="voucher-form">
+                                @Html.AntiForgeryToken()
+                                <input name="code" placeholder="Nhập mã voucher..." />
+                                <button type="submit">Áp dụng</button>
+                            </form>
+                        }
+                        @if (Model.MaGiamGiaKhaDung.Any())
+                        {
+                            <div class="voucher-suggest">
+                                <small>Mã có thể thử:</small>
+                                @foreach (var v in Model.MaGiamGiaKhaDung.Take(3))
+                                {
+                                    <form asp-action="ApplyVoucher" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="code" value="@v.Code" />
+                                        <button type="submit">@v.Code</button>
+                                    </form>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="order-summary-card">
+                        <h4>Đơn hàng</h4>
+                        <div><span>Tiền hàng:</span><strong>@Model.TamTinh.ToString("N0") đ</strong></div>
+                        <div><span>Phí vận chuyển:</span><strong>@Model.PhiShip.ToString("N0") đ</strong></div>
+                        <div><span>Giảm giá:</span><strong class="text-success">-@Model.GiamGia.ToString("N0") đ</strong></div>
+                        <hr />
+                        <div class="summary-total"><span>Tổng cộng:</span><strong>@Model.TongTien.ToString("N0") đ</strong></div>
+                        <a asp-action="Checkout" class="checkout-red-btn">THANH TOÁN NGAY</a>
+                        <a asp-controller="Home" asp-action="Index" class="continue-link">‹ Tiếp tục mua hàng</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+>>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8

@@ -1,0 +1,21 @@
+@model List<DonHang>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Schedule";
+}
+<h1 class="admin-title">Schedule</h1>
+<div class="admin-card">
+    <h4>Lịch xử lý đơn hàng</h4>
+    @if (!Model.Any())
+    {
+        <div class="empty-box">Không có đơn hàng cần xử lý.</div>
+    }
+    @foreach (var dh in Model)
+    {
+        <div class="timeline-row">
+            <span></span>
+            <div><strong>#BP-@dh.MaDonHang.ToString("000000") - @dh.HoTenNguoiNhan</strong><p>@dh.NgayDat.ToString("dd/MM/yyyy HH:mm") | @dh.TrangThaiDonHang</p></div>
+            <a asp-action="OrderDetail" asp-route-id="@dh.MaDonHang">Chi tiết</a>
+        </div>
+    }
+</div>

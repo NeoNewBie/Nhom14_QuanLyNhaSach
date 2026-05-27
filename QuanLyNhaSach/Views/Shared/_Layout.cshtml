@@ -1,8 +1,17 @@
+<<<<<<< HEAD
+=======
+@using Microsoft.AspNetCore.Http
+@{
+    var hoTen = Context.Session.GetString("HoTen");
+    var vaiTro = Context.Session.GetString("VaiTro");
+}
+>>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<<<<<<< HEAD
     <title>@ViewData["Title"] - BOOKPORT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -92,6 +101,105 @@
         <div class="bp-footer-bottom">
             <span>© @DateTime.Now.Year BOOKPORT - Nhóm 14</span>
             <span>ASP.NET Core MVC + EF Core + SQL Server</span>
+=======
+    <title>@ViewData["Title"] - BookPort</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="store-body">
+    <header class="bookport-header">
+        <div class="bookport-logo-wrap">
+            <a class="bookport-logo" asp-controller="Home" asp-action="Index">BOOKPORT</a>
+            <div class="bookport-tagline">YOUR NEXT GREAT ADVENTURE AWAITS</div>
+        </div>
+        <form class="bookport-search" asp-controller="Home" asp-action="Index" method="get">
+            <span>⌕</span>
+            <input name="q" value="@Context.Request.Query["q"]" placeholder="Tìm sách, tác giả, thể loại..." />
+        </form>
+        <nav class="bookport-topnav">
+            <a asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="1">Lập trình</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="3">Văn học</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="4">Kỹ năng</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="5">Manga</a>
+            <a asp-controller="Information" asp-action="Page" asp-route-slug="gift">Deals</a>
+        </nav>
+        <div class="bookport-actions">
+            <a class="header-icon" asp-controller="YeuThich" asp-action="Index" title="Yêu thích">♡</a>
+            @if (string.IsNullOrEmpty(hoTen))
+            {
+                <a class="header-icon" asp-controller="Account" asp-action="Login" title="Đăng nhập">◎</a>
+            }
+            else
+            {
+                <div class="dropdown">
+                    <button class="header-icon header-user" data-bs-toggle="dropdown" type="button">◎</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">@hoTen</h6></li>
+                        <li><a class="dropdown-item" asp-controller="User" asp-action="Profile">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" asp-controller="DonHang" asp-action="History">Lịch sử đơn hàng</a></li>
+                        <li><a class="dropdown-item" asp-controller="User" asp-action="Notifications">Thông báo</a></li>
+                        @if (vaiTro == "Admin")
+                        {
+                            <li><a class="dropdown-item text-danger" asp-controller="Admin" asp-action="Dashboard">Trang Admin</a></li>
+                        }
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            }
+            <a class="cart-button" asp-controller="GioHang" asp-action="Index">🛒 Giỏ hàng</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container pt-3">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-bookport">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-bookport">@TempData["Error"]</div>
+            }
+        </div>
+        @RenderBody()
+    </main>
+
+    <footer class="bookport-footer">
+        <div class="bookport-footer-inner">
+            <div>
+                <h3>BookPort</h3>
+                <p>Website quản lý bán sách trực tuyến: tìm kiếm sách, thêm giỏ hàng, đặt hàng và theo dõi đơn hàng.</p>
+                <div class="footer-social"><a asp-controller="Contact" asp-action="Index">✉</a><a asp-controller="Information" asp-action="AppDownload">▣</a></div>
+            </div>
+            <div>
+                <h6>Liên kết nhanh</h6>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="catalog">Browse Catalog</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="top-sellers">Best Sellers</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="new-releases">New Releases</a>
+                <a asp-controller="Contact" asp-action="Index">Contact Us</a>
+            </div>
+            <div>
+                <h6>Customer Care</h6>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="shipping">Shipping Policy</a>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="returns">Returns & Refunds</a>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="gift">Gift Card Balance</a>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="help">Help Center</a>
+            </div>
+            <div>
+                <h6>Newsletter</h6>
+                <p>Stay updated with new arrivals and exclusive offers.</p>
+                <form asp-controller="Home" asp-action="SubscribeNewsletter" method="post" class="newsletter-form">
+                    @Html.AntiForgeryToken()
+                    <input name="email" placeholder="Email address" />
+                    <button type="submit">Join</button>
+                </form>
+            </div>
+        </div>
+        <div class="bookport-copyright">
+            <span>© 2026 BOOKPORT. ALL RIGHTS RESERVED.</span>
+            <span><a asp-controller="Information" asp-action="Page" asp-route-slug="privacy">PRIVACY POLICY</a> <a asp-controller="Information" asp-action="Page" asp-route-slug="terms">TERMS OF SERVICE</a> <a asp-controller="Information" asp-action="Page" asp-route-slug="sitemap">SITEMAP</a></span>
+>>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8
         </div>
     </footer>
 

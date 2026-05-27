@@ -1,0 +1,39 @@
+﻿# Visual Studio
+.vs/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# ASP.NET Core
+appsettings.Development.json
+
+# Database local files
+*.mdf
+*.ldf
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+
+# Logs
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Rider / VS Code
+.idea/
+.vscode/

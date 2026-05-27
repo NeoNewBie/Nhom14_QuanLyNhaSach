@@ -1,0 +1,48 @@
+@model List<DanhMuc>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý danh mục";
+}
+<h1 class="admin-title">Quản lý danh mục</h1>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <form asp-action="SaveCategory" method="post" class="admin-card">
+            @Html.AntiForgeryToken()
+            <h4>Thêm danh mục</h4>
+            <input type="hidden" name="MaDanhMuc" value="0" />
+            <div class="mb-3"><label class="form-label">Tên danh mục</label><input name="TenDanhMuc" class="form-control" required /></div>
+            <div class="mb-3"><label class="form-label">Mô tả</label><textarea name="MoTa" class="form-control"></textarea></div>
+            <input type="hidden" name="TrangThai" value="true" />
+            <button class="btn btn-danger" type="submit">Thêm</button>
+        </form>
+    </div>
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <h4 class="mb-3">Danh sách danh mục</h4>
+            <div class="admin-list-edit">
+                @foreach (var dm in Model)
+                {
+                    <form asp-action="SaveCategory" method="post" class="admin-edit-row">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="MaDanhMuc" value="@dm.MaDanhMuc" />
+                        <input name="TenDanhMuc" class="form-control" value="@dm.TenDanhMuc" required />
+                        <input name="MoTa" class="form-control" value="@dm.MoTa" />
+                        <select name="TrangThai" class="form-select">
+                            @if (dm.TrangThai)
+                            {
+                                <option value="true" selected>Đang dùng</option>
+                                <option value="false">Ẩn</option>
+                            }
+                            else
+                            {
+                                <option value="true">Đang dùng</option>
+                                <option value="false" selected>Ẩn</option>
+                            }
+                        </select>
+                        <button class="btn btn-outline-danger" type="submit">Lưu</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

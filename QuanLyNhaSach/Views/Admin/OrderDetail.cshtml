@@ -1,0 +1,111 @@
+@model DonHang
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    var email = Model.NguoiDung?.Email ?? "";
+    var mailSubject = System.Net.WebUtility.UrlEncode($"BookPort - Cập nhật đơn hàng #BP-{Model.MaDonHang:000000}");
+    var mailBody = System.Net.WebUtility.UrlEncode($"Xin chào {Model.HoTenNguoiNhan}, đơn hàng #BP-{Model.MaDonHang:000000} của bạn hiện có trạng thái: {Model.TrangThaiDonHang}. Tổng tiền: {Model.TongTien:N0} đ.");
+}
+<div class="admin-breadcrumb"><a asp-action="Dashboard">Dashboard</a> › <a asp-action="Orders">Đơn hàng</a> › <strong>#BP-@Model.MaDonHang.ToString("000000")</strong></div>
+<section class="order-detail-head-card">
+    <div>
+        <h2>Đơn hàng #BP-@Model.MaDonHang.ToString("000000") <span>@Model.TrangThaiDonHang</span></h2>
+        <p>Ngày đặt: @Model.NgayDat.ToString("dd/MM/yyyy HH:mm")</p>
+    </div>
+    <div class="order-head-actions">
+        <button type="button" onclick="window.print()">▤ Print Invoice</button>
+        @if (!string.IsNullOrWhiteSpace(email))
+        {
+            <a href="mailto:@email?subject=@mailSubject&body=@mailBody">✉ Email Customer</a>
+        }
+        <a asp-action="Orders">← Quay lại danh sách</a>
+    </div>
+</section>
+
+<section class="admin-order-items-card">
+    <h3>Sản phẩm trong đơn</h3>
+    <table class="table align-middle">
+        <thead><tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th>Thành tiền</th></tr></thead>
+        <tbody>
+        @foreach (var item in Model.ChiTietDonHangs)
+        {
+            <tr>
+                <td>
+                    <div class="admin-product-cell">
+                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(item.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : item.SanPham!.AnhBia)" alt="@item.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <div><strong>@item.SanPham?.TenSanPham</strong><span>@(item.SanPham?.TacGia?.TenTacGia ?? "Đang cập nhật")</span></div>
+                    </div>
+                </td>
+                <td>@item.DonGia.ToString("N0") đ</td>
+                <td>@item.SoLuong</td>
+                <td><strong>@item.ThanhTien.ToString("N0") đ</strong></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>
+
+<section class="timeline-card">
+    <h3>Trạng thái xử lý</h3>
+    <div class="timeline-list">
+        <div class="done"><span></span><strong>Đã tạo đơn</strong><p>@Model.NgayDat.ToString("dd/MM/yyyy HH:mm")</p></div>
+        <div class="@(Model.TrangThaiDonHang != "Chờ xác nhận" ? "done" : "")"><span></span><strong>Xác nhận</strong><p>@(Model.TrangThaiDonHang == "Chờ xác nhận" ? "Đang chờ xác nhận" : "Đã qua bước xác nhận")</p></div>
+        <div class="@(Model.TrangThaiDonHang == "Đang giao" || Model.TrangThaiDonHang == "Đã giao" ? "done" : "")"><span></span><strong>Giao hàng</strong><p>@(Model.TrangThaiDonHang == "Đã hủy" ? "Đơn đã hủy" : Model.TrangThaiDonHang)</p></div>
+        <div class="@(Model.TrangThaiDonHang == "Đã giao" ? "done" : "")"><span></span><strong>Hoàn tất</strong><p>@(Model.ThanhToan?.TrangThaiThanhToan ?? "Chưa thanh toán")</p></div>
+    </div>
+</section>
+
+<div class="row g-4 admin-order-bottom">
+    <div class="col-lg-4">
+        <section class="detail-box-card customer-box">
+            <h3>Thông tin khách hàng</h3>
+            <div class="customer-name"><span>@Model.HoTenNguoiNhan.Substring(0,1).ToUpper()</span><div><strong>@Model.HoTenNguoiNhan</strong><p>@(Model.NguoiDung?.Email ?? "Chưa có email")</p></div></div>
+            <small>ĐỊA CHỈ GIAO HÀNG</small>
+            <p>@Model.DiaChiGiaoHang</p>
+            <small>SỐ ĐIỆN THOẠI</small>
+            <p>@Model.SoDienThoaiNhan</p>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <section class="detail-box-card payment-box">
+            <h3>Thanh toán</h3>
+            <p>▣ @(Model.ThanhToan?.PhuongThucThanhToan ?? "COD")</p>
+            <small>Trạng thái: @(Model.ThanhToan?.TrangThaiThanhToan ?? "Chưa thanh toán")</small>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <section class="detail-box-card summary-box-admin">
+            <h3>Tổng kết đơn hàng</h3>
+            <div><span>Tạm tính</span><strong>@((Model.TongTien - Model.PhiShip).ToString("N0")) đ</strong></div>
+            <div><span>Phí vận chuyển</span><strong class="green-text">@(Model.PhiShip == 0 ? "0 đ" : Model.PhiShip.ToString("N0") + " đ")</strong></div>
+            <hr />
+            <div class="total"><span>Tổng tiền</span><strong>@Model.TongTien.ToString("N0") đ</strong></div>
+            <form asp-action="UpdateOrderStatus" method="post" class="mt-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.MaDonHang" />
+                <select name="trangThai" class="form-select mb-2">
+                    @foreach (var st in new[] { "Chờ xác nhận", "Đã xác nhận", "Đang giao", "Đã giao", "Đã hủy" })
+                    {
+                        if (Model.TrangThaiDonHang == st)
+                        {
+                            <option value="@st" selected>@st</option>
+                        }
+                        else
+                        {
+                            <option value="@st">@st</option>
+                        }
+                    }
+                </select>
+                <button class="btn btn-danger w-100" type="submit">Cập nhật trạng thái</button>
+            </form>
+            @if (Model.TrangThaiDonHang != "Đã giao" && Model.TrangThaiDonHang != "Đã hủy")
+            {
+                <form asp-action="CancelOrder" method="post" class="mt-2">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.MaDonHang" />
+                    <button class="btn btn-outline-danger w-100" type="submit" onclick="return confirm('Hủy đơn hàng này và hoàn lại tồn kho?')">🗑 Hủy đơn</button>
+                </form>
+            }
+        </section>
+    </div>
+</div>

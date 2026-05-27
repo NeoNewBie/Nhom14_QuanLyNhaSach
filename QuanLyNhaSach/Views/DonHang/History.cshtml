@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @model IEnumerable<DonHang>
 @{
     ViewData["Title"] = "Lịch sử đơn hàng";
@@ -57,3 +58,72 @@ else
         </table>
     </div>
 }
+=======
+@model List<DonHang>
+@{
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Lịch sử đơn hàng";
+}
+<div class="figma-canvas history-canvas">
+    <a class="figma-back history-back" asp-controller="Home" asp-action="Index">‹</a>
+    <section class="history-panel">
+        <div class="history-header-row">
+            <h1>Lịch sử đơn hàng của bạn</h1>
+            <form asp-controller="DonHang" asp-action="History" method="get" class="history-search">
+                <input name="q" value="@ViewBag.TuKhoa" placeholder="Tìm theo tên sách, mã đơn hàng, trạng thái..." />
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="empty-box">Bạn chưa có đơn hàng nào.</div>
+        }
+        else
+        {
+            @foreach (var dh in Model)
+            {
+                var first = dh.ChiTietDonHangs.FirstOrDefault();
+                <article class="history-order-card">
+                    <div class="order-top-line">
+                        <strong>Mã đơn: #BP-@dh.MaDonHang.ToString("000000")</strong>
+                        <span class="history-status">@dh.TrangThaiDonHang.ToUpper()</span>
+                    </div>
+                    <div class="order-body-line">
+                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(first?.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : first!.SanPham!.AnhBia)" alt="@first?.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <div class="order-book-detail">
+                            <h3>@(first?.SanPham?.TenSanPham ?? "Đơn hàng sách")</h3>
+                            <p>Nhà xuất bản: @(first?.SanPham?.NhaXuatBan?.TenNhaXuatBan ?? "Đang cập nhật")</p>
+                            <div><span>Đơn giá: @((first?.DonGia ?? 0).ToString("N0")) đ</span><strong>x @(first?.SoLuong ?? dh.ChiTietDonHangs.Count)</strong></div>
+                            @if (dh.ChiTietDonHangs.Count > 1)
+                            {
+                                <small>+ @(dh.ChiTietDonHangs.Count - 1) sản phẩm khác</small>
+                            }
+                        </div>
+                    </div>
+                    <div class="history-bottom-line">
+                        <span>Thành tiền:</span><strong>@dh.TongTien.ToString("N0") đ</strong>
+                        <a asp-action="Details" asp-route-id="@dh.MaDonHang">Xem chi tiết</a>
+                        @if (dh.TrangThaiDonHang == "Đã giao" && first != null)
+                        {
+                            <a class="history-review-btn" asp-controller="SanPham" asp-action="Review" asp-route-maSanPham="@first.MaSanPham" asp-route-maDonHang="@dh.MaDonHang">Đánh giá</a>
+                        }
+                        @if (dh.TrangThaiDonHang != "Đã giao" && dh.TrangThaiDonHang != "Đã hủy")
+                        {
+                            <form asp-action="Cancel" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@dh.MaDonHang" />
+                                <button class="history-cancel-btn" type="submit" onclick="return confirm('Bạn chắc chắn muốn hủy đơn hàng này?')">Hủy đơn</button>
+                            </form>
+                        }
+                        <form asp-action="Reorder" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@dh.MaDonHang" />
+                            <button class="red history-reorder-btn" type="submit">Đặt lại</button>
+                        </form>
+                    </div>
+                </article>
+            }
+        }
+    </section>
+</div>
+>>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8

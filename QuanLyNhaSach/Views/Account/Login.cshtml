@@ -1,5 +1,6 @@
 @model LoginViewModel
 @{
+<<<<<<< HEAD
     ViewData["Title"] = "Đăng nhập";
 }
 
@@ -32,4 +33,48 @@
     </div>
 </section>
 
+=======
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Đăng nhập";
+}
+<div class="figma-canvas auth-canvas">
+    <a class="figma-back" asp-controller="Home" asp-action="Index">‹</a>
+    <section class="auth-figma-card login-card-size">
+        <div class="text-center mb-4">
+            <h1 class="auth-brand">BOOK<span>PORT</span></h1>
+            <h2>Đăng nhập</h2>
+        </div>
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+            <div class="form-block">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" placeholder="Nhập email của bạn" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+            <div class="form-block">
+                <label asp-for="MatKhau">Mật khẩu</label>
+                <input asp-for="MatKhau" type="password" placeholder="Nhập mật khẩu" />
+                <span asp-validation-for="MatKhau" class="text-danger small"></span>
+            </div>
+            <button class="auth-submit" type="submit">Đăng Nhập</button>
+        </form>
+        <div class="auth-divider"><span>Hoặc tiếp tục với</span></div>
+        <div class="social-login-row">
+            <form asp-action="SocialLogin" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="provider" value="Google" />
+                <button type="submit" class="social-btn google">G Google</button>
+            </form>
+            <form asp-action="SocialLogin" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="provider" value="Facebook" />
+                <button type="submit" class="social-btn facebook">f Facebook</button>
+            </form>
+        </div>
+        <p class="auth-bottom">Bạn mới biết đến BookPort? <a asp-action="Register">Đăng ký ngay</a></p>
+    </section>
+</div>
+>>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }
