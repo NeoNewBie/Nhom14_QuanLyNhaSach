@@ -1,94 +1,6 @@
 @model HomeIndexViewModel
 @{
     ViewData["Title"] = "Trang chủ";
-<<<<<<< HEAD
-}
-
-<section class="hero-bookport">
-    <div class="hero-copy">
-        <p class="eyebrow">LITERARY SELECTION</p>
-        <h1>Discover the future of reading.</h1>
-        <p>Hàng trăm đầu sách chất lượng, nhiều thể loại khác nhau, đặt hàng nhanh và theo dõi đơn hàng rõ ràng.</p>
-        <a asp-controller="SanPhams" asp-action="Index" class="hero-button">KHÁM PHÁ SÁCH →</a>
-    </div>
-</section>
-
-<section class="bp-grid-layout">
-    <aside class="bp-sidebar">
-        <h3>Thể loại sách</h3>
-        <a class="cat-link @(Model.MaDanhMuc == null ? "active" : "")" asp-controller="Home" asp-action="Index">Tất cả sách</a>
-        @foreach (var cat in Model.DanhMucs)
-        {
-            <a class="cat-link @(Model.MaDanhMuc == cat.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@cat.MaDanhMuc">@cat.TenDanhMuc</a>
-        }
-    </aside>
-
-    <div class="bp-content">
-        <form class="search-box" asp-controller="Home" asp-action="Index" method="get">
-            <input name="keyword" value="@Model.Keyword" placeholder="Tìm kiếm tên sách, mô tả..." />
-            <select name="maDanhMuc">
-                <option value="">Tất cả thể loại</option>
-                @foreach (var cat in Model.DanhMucs)
-                {
-                    if (Model.MaDanhMuc == cat.MaDanhMuc)
-                    {
-                        <option value="@cat.MaDanhMuc" selected>@cat.TenDanhMuc</option>
-                    }
-                    else
-                    {
-                        <option value="@cat.MaDanhMuc">@cat.TenDanhMuc</option>
-                    }
-                }
-            </select>
-            <button type="submit">Tìm kiếm</button>
-        </form>
-
-        <div class="section-heading">
-            <div>
-                <span>BOOKPORT</span>
-                <h2>Sách phù hợp với bạn</h2>
-            </div>
-            <a asp-controller="SanPhams" asp-action="Index">Xem tất cả</a>
-        </div>
-        <div class="book-grid">
-            @foreach (var item in Model.SanPhams)
-            {
-                <partial name="_ProductCard" model="item" />
-            }
-        </div>
-    </div>
-</section>
-
-<section class="bp-section">
-    <div class="section-heading">
-        <div>
-            <span>NEW RELEASES</span>
-            <h2>Sách mới cập nhật</h2>
-        </div>
-    </div>
-    <div class="book-grid compact">
-        @foreach (var item in Model.SachMoi)
-        {
-            <partial name="_ProductCard" model="item" />
-        }
-    </div>
-</section>
-
-<section class="bp-section">
-    <div class="section-heading">
-        <div>
-            <span>TOP SELLERS</span>
-            <h2>Sách bán chạy</h2>
-        </div>
-    </div>
-    <div class="book-grid compact">
-        @foreach (var item in Model.SachBanChay)
-        {
-            <partial name="_ProductCard" model="item" />
-        }
-    </div>
-</section>
-=======
     var coLoc = !string.IsNullOrWhiteSpace(Model.TuKhoa) || Model.MaDanhMuc.HasValue;
     var tenDanhMucDangLoc = Model.DanhMucs.FirstOrDefault(x => x.MaDanhMuc == Model.MaDanhMuc)?.TenDanhMuc;
     var thongBaoBoLocParts = new List<string>();
@@ -239,4 +151,3 @@
         </section>
     </div>
 </div>
->>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8

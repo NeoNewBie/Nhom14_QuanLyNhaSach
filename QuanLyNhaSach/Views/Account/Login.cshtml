@@ -1,39 +1,5 @@
 @model LoginViewModel
 @{
-<<<<<<< HEAD
-    ViewData["Title"] = "Đăng nhập";
-}
-
-<section class="auth-page">
-    <div class="auth-card">
-        <p class="eyebrow">WELCOME BACK</p>
-        <h1>Đăng nhập</h1>
-        <p class="muted">Sử dụng tài khoản mẫu hoặc tài khoản bạn đã đăng ký.</p>
-
-        <form asp-action="Login" method="post">
-            @Html.AntiForgeryToken()
-            <input asp-for="ReturnUrl" type="hidden" />
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-            <label>Email</label>
-            <input asp-for="Email" placeholder="customer1@gmail.com" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-
-            <label>Mật khẩu</label>
-            <input asp-for="MatKhau" placeholder="Customer@123" />
-            <span asp-validation-for="MatKhau" class="text-danger"></span>
-
-            <button type="submit">Đăng nhập</button>
-        </form>
-        <p class="auth-note">Chưa có tài khoản? <a asp-action="Register">Đăng ký ngay</a></p>
-        <div class="demo-account">
-            <strong>Tài khoản mẫu</strong>
-            <p>User: customer1@gmail.com / Customer@123</p>
-            <p>Admin: admin@quanlynhasach.vn / Admin@123</p>
-        </div>
-    </div>
-</section>
-
-=======
     Layout = "_BlankLayout";
     ViewData["Title"] = "Đăng nhập";
 }
@@ -76,5 +42,4 @@
         <p class="auth-bottom">Bạn mới biết đến BookPort? <a asp-action="Register">Đăng ký ngay</a></p>
     </section>
 </div>
->>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

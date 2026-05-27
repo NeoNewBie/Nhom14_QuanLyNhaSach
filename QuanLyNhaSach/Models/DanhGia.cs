@@ -1,17 +1,17 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
 [Table("DANH_GIA")]
-public class DanhGia
+public partial class DanhGia
 {
     [Key]
     public int MaDanhGia { get; set; }
 
     public int MaNguoiDung { get; set; }
     public int MaSanPham { get; set; }
-    public int MaDonHang { get; set; }
+    public int? MaDonHang { get; set; }
 
     [Range(1, 5)]
     public int SoSao { get; set; } = 5;
@@ -21,12 +21,16 @@ public class DanhGia
 
     public DateTime NgayDanhGia { get; set; } = DateTime.Now;
 
-    [ForeignKey(nameof(MaNguoiDung))]
-    public NguoiDung? NguoiDung { get; set; }
+    public virtual NguoiDung MaNguoiDungNavigation { get; set; } = null!;
+    public virtual SanPham MaSanPhamNavigation { get; set; } = null!;
+    public virtual DonHang? MaDonHangNavigation { get; set; }
 
-    [ForeignKey(nameof(MaSanPham))]
-    public SanPham? SanPham { get; set; }
+    [NotMapped]
+    public NguoiDung? NguoiDung { get => MaNguoiDungNavigation; set { if (value != null) MaNguoiDungNavigation = value; } }
 
-    [ForeignKey(nameof(MaDonHang))]
-    public DonHang? DonHang { get; set; }
+    [NotMapped]
+    public SanPham? SanPham { get => MaSanPhamNavigation; set { if (value != null) MaSanPhamNavigation = value; } }
+
+    [NotMapped]
+    public DonHang? DonHang { get => MaDonHangNavigation; set => MaDonHangNavigation = value; }
 }

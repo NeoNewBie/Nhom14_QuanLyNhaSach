@@ -1,50 +1,5 @@
 @model RegisterViewModel
 @{
-<<<<<<< HEAD
-    ViewData["Title"] = "Đăng ký";
-}
-
-<section class="auth-page">
-    <div class="auth-card wide">
-        <p class="eyebrow">CREATE ACCOUNT</p>
-        <h1>Đăng ký tài khoản</h1>
-        <form asp-action="Register" method="post" class="two-col-form">
-            @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="text-danger grid-full"></div>
-            <div>
-                <label>Họ tên</label>
-                <input asp-for="HoTen" />
-                <span asp-validation-for="HoTen" class="text-danger"></span>
-            </div>
-            <div>
-                <label>Email</label>
-                <input asp-for="Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div>
-                <label>Số điện thoại</label>
-                <input asp-for="SoDienThoai" />
-                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
-            </div>
-            <div>
-                <label>Mật khẩu</label>
-                <input asp-for="MatKhau" />
-                <span asp-validation-for="MatKhau" class="text-danger"></span>
-            </div>
-            <div>
-                <label>Xác nhận mật khẩu</label>
-                <input asp-for="XacNhanMatKhau" />
-                <span asp-validation-for="XacNhanMatKhau" class="text-danger"></span>
-            </div>
-            <div class="grid-full">
-                <button type="submit">Tạo tài khoản</button>
-            </div>
-        </form>
-        <p class="auth-note">Đã có tài khoản? <a asp-action="Login">Đăng nhập</a></p>
-    </div>
-</section>
-
-=======
     Layout = "_BlankLayout";
     ViewData["Title"] = "Đăng ký";
 }
@@ -93,5 +48,4 @@
         </form>
     </section>
 </div>
->>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

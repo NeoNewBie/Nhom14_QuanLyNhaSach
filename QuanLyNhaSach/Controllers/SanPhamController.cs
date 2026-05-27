@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuanLyNhaSach.Data;
 using QuanLyNhaSach.Models;
 using QuanLyNhaSach.ViewModels;
 
@@ -20,15 +21,15 @@ public class SanPhamController : Controller
     public async Task<IActionResult> Details(int id)
     {
         var sanPham = await _context.SanPhams
-            .Include(x => x.DanhMuc)
-            .Include(x => x.TacGia)
-            .Include(x => x.NhaXuatBan)
+            .Include(x => x.MaDanhMucNavigation)
+            .Include(x => x.MaTacGia)
+            .Include(x => x.MaNhaXuatBanNavigation)
             .FirstOrDefaultAsync(x => x.MaSanPham == id && x.TrangThai);
 
         if (sanPham == null) return NotFound();
 
         ViewBag.SanPhamLienQuan = await _context.SanPhams
-            .Include(x => x.TacGia)
+            .Include(x => x.MaTacGia)
             .Where(x => x.TrangThai && x.MaDanhMuc == sanPham.MaDanhMuc && x.MaSanPham != id)
             .OrderByDescending(x => x.NgayTao)
             .Take(4)
@@ -44,7 +45,7 @@ public class SanPhamController : Controller
             .SumAsync(x => (int?)x.SoLuong) ?? 0;
 
         var reviews = await _context.DanhGias
-            .Include(x => x.NguoiDung)
+            .Include(x => x.MaNguoiDungNavigation)
             .Where(x => x.MaSanPham == id)
             .OrderByDescending(x => x.NgayDanhGia)
             .ToListAsync();

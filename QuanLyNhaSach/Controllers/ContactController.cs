@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using QuanLyNhaSach.Data;
 using QuanLyNhaSach.Models;
 using QuanLyNhaSach.ViewModels;
 

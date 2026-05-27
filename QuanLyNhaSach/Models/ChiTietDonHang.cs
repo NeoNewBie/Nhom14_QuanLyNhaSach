@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
 [Table("CHI_TIET_DON_HANG")]
-public class ChiTietDonHang
+public partial class ChiTietDonHang
 {
     public int MaDonHang { get; set; }
     public int MaSanPham { get; set; }
@@ -15,9 +15,12 @@ public class ChiTietDonHang
     [Column(TypeName = "decimal(18,2)")]
     public decimal ThanhTien { get; set; }
 
-    [ForeignKey(nameof(MaDonHang))]
-    public DonHang? DonHang { get; set; }
+    public virtual DonHang MaDonHangNavigation { get; set; } = null!;
+    public virtual SanPham MaSanPhamNavigation { get; set; } = null!;
 
-    [ForeignKey(nameof(MaSanPham))]
-    public SanPham? SanPham { get; set; }
+    [NotMapped]
+    public DonHang? DonHang { get => MaDonHangNavigation; set { if (value != null) MaDonHangNavigation = value; } }
+
+    [NotMapped]
+    public SanPham? SanPham { get => MaSanPhamNavigation; set { if (value != null) MaSanPhamNavigation = value; } }
 }

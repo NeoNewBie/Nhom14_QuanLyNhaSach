@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
 [Table("THANH_TOAN")]
-public class ThanhToan
+public partial class ThanhToan
 {
     [Key]
     public int MaThanhToan { get; set; }
@@ -24,6 +24,8 @@ public class ThanhToan
 
     public DateTime? NgayThanhToan { get; set; }
 
-    [ForeignKey(nameof(MaDonHang))]
-    public DonHang? DonHang { get; set; }
+    public virtual DonHang MaDonHangNavigation { get; set; } = null!;
+
+    [NotMapped]
+    public DonHang? DonHang { get => MaDonHangNavigation; set { if (value != null) MaDonHangNavigation = value; } }
 }

@@ -1,11 +1,10 @@
-<<<<<<< HEAD
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
 [Table("TAC_GIA")]
-public class TacGia
+public partial class TacGia
 {
     [Key]
     public int MaTacGia { get; set; }
@@ -16,26 +15,11 @@ public class TacGia
     [StringLength(50)]
     public string? QuocTich { get; set; }
 
-    [StringLength(500)]
-    public string? MoTa { get; set; }
-
-    public ICollection<SanPham> SanPhams { get; set; } = new List<SanPham>();
-=======
-﻿using System;
-using System.Collections.Generic;
-
-namespace QuanLyNhaSach.Models;
-
-public partial class TacGia
-{
-    public int MaTacGia { get; set; }
-
-    public string TenTacGia { get; set; } = null!;
-
-    public string? QuocTich { get; set; }
-
+    [StringLength(255)]
     public string? MoTa { get; set; }
 
     public virtual ICollection<SanPham> MaSanPhams { get; set; } = new List<SanPham>();
->>>>>>> origin/main
+
+    [NotMapped]
+    public ICollection<SanPham> SanPhams => MaSanPhams;
 }

@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
 [Table("NHA_XUAT_BAN")]
-public class NhaXuatBan
+public partial class NhaXuatBan
 {
     [Key]
     public int MaNhaXuatBan { get; set; }
@@ -24,5 +24,5 @@ public class NhaXuatBan
     [StringLength(200)]
     public string? Website { get; set; }
 
-    public ICollection<SanPham> SanPhams { get; set; } = new List<SanPham>();
+    public virtual ICollection<SanPham> SanPhams { get; set; } = new List<SanPham>();
 }

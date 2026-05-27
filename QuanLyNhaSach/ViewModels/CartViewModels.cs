@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using QuanLyNhaSach.Models;
 
 namespace QuanLyNhaSach.ViewModels;
@@ -13,9 +13,10 @@ public class CartViewModel
     public string? MoTaGiamGia { get; set; }
 
     public decimal TamTinh => Items.Sum(x => x.SoLuong * x.DonGia);
+    public decimal TongTien => Items.Sum(x => x.SoLuong * x.DonGia);
     public decimal GiamGia { get; set; }
     public decimal PhiShip { get; set; } = 0;
-    public decimal TongTien => Math.Max(0, TamTinh - GiamGia + PhiShip);
+    public decimal ThanhToan => Math.Max(0, TongTien - GiamGia + PhiShip);
 }
 
 public class CheckoutViewModel
@@ -26,12 +27,20 @@ public class CheckoutViewModel
     [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
     public string SoDienThoaiNhan { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Vui lòng nhập địa chỉ giao hàng")]
-    public string DiaChiGiaoHang { get; set; } = string.Empty;
+    public int? MaXaGiao { get; set; }
+    public string? SoNhaGiao { get; set; }
+    public string? DuongGiao { get; set; }
+
+    public string DiaChiGiaoHang
+    {
+        get => string.Join(", ", new[] { SoNhaGiao, DuongGiao }.Where(x => !string.IsNullOrWhiteSpace(x)));
+        set => DuongGiao = value;
+    }
 
     public string? GhiChu { get; set; }
     public string PhuongThucThanhToan { get; set; } = "COD";
     public List<ChiTietGioHang> Items { get; set; } = new();
+    public List<XaPhuong> XaPhuongs { get; set; } = new();
     public string? MaGiamGiaDangApDung { get; set; }
     public decimal GiamGia { get; set; }
     public decimal PhiShip { get; set; } = 0;

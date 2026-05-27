@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
 [Table("GIO_HANG")]
-public class GioHang
+public partial class GioHang
 {
     [Key]
     public int MaGioHang { get; set; }
@@ -12,8 +12,9 @@ public class GioHang
     public DateTime NgayTao { get; set; } = DateTime.Now;
     public bool TrangThai { get; set; } = true;
 
-    [ForeignKey(nameof(MaNguoiDung))]
-    public NguoiDung? NguoiDung { get; set; }
+    public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
+    public virtual NguoiDung MaNguoiDungNavigation { get; set; } = null!;
 
-    public ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
+    [NotMapped]
+    public NguoiDung? NguoiDung { get => MaNguoiDungNavigation; set { if (value != null) MaNguoiDungNavigation = value; } }
 }

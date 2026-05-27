@@ -42,7 +42,9 @@ public class AccountController : Controller
 
         HttpContext.Session.SetInt32("UserId", user.MaNguoiDung);
         HttpContext.Session.SetString("UserName", user.HoTen);
+        HttpContext.Session.SetString("HoTen", user.HoTen);
         HttpContext.Session.SetString("Role", user.MaVaiTroNavigation.TenVaiTro);
+        HttpContext.Session.SetString("VaiTro", user.MaVaiTroNavigation.TenVaiTro);
 
         if (!string.IsNullOrWhiteSpace(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
         {
@@ -112,6 +114,29 @@ public class AccountController : Controller
 
         TempData["Success"] = "Đăng ký thành công. Vui lòng đăng nhập.";
         return RedirectToAction(nameof(Login));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SocialLogin(string provider)
+    {
+        var user = await _context.NguoiDungs
+            .Include(x => x.MaVaiTroNavigation)
+            .FirstOrDefaultAsync(x => x.Email == "customer1@gmail.com" && x.TrangThai);
+
+        if (user == null)
+        {
+            TempData["Error"] = "Chưa có tài khoản demo để đăng nhập nhanh. Vui lòng chạy lại file SQL hoặc đăng ký tài khoản mới.";
+            return RedirectToAction(nameof(Login));
+        }
+
+        HttpContext.Session.SetInt32("UserId", user.MaNguoiDung);
+        HttpContext.Session.SetString("UserName", user.HoTen);
+        HttpContext.Session.SetString("HoTen", user.HoTen);
+        HttpContext.Session.SetString("Role", user.MaVaiTroNavigation.TenVaiTro);
+        HttpContext.Session.SetString("VaiTro", user.MaVaiTroNavigation.TenVaiTro);
+        TempData["Success"] = $"Đăng nhập demo bằng {provider}.";
+        return RedirectToAction("Index", "Home");
     }
 
     public IActionResult Logout()

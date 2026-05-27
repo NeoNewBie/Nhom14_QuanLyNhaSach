@@ -1,58 +1,5 @@
 @model CartViewModel
 @{
-<<<<<<< HEAD
-    ViewData["Title"] = "Giỏ hàng";
-}
-
-<section class="page-title">
-    <p>SHOPPING CART</p>
-    <h1>Giỏ hàng của bạn</h1>
-</section>
-
-@if (!Model.Items.Any())
-{
-    <div class="empty-state">
-        Giỏ hàng đang trống. <a asp-controller="SanPhams" asp-action="Index">Tiếp tục mua sách</a>
-    </div>
-}
-else
-{
-    <div class="cart-layout">
-        <div class="cart-list">
-            @foreach (var item in Model.Items)
-            {
-                var img = string.IsNullOrWhiteSpace(item.MaSanPhamNavigation.AnhBia) ? Url.Content("~/images/books/book-default.jpg") : Url.Content("~/images/books/" + item.MaSanPhamNavigation.AnhBia);
-                <div class="cart-item">
-                    <img src="@img" onerror="this.src='/images/books/book-default.jpg'" alt="@item.MaSanPhamNavigation.TenSanPham" />
-                    <div>
-                        <h3>@item.MaSanPhamNavigation.TenSanPham</h3>
-                        <p>@item.DonGia.ToString("N0") đ</p>
-                    </div>
-                    <form asp-action="Update" method="post" class="qty-form">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
-                        <input type="number" name="soLuong" value="@item.SoLuong" min="1" />
-                        <button>Cập nhật</button>
-                    </form>
-                    <strong>@((item.SoLuong * item.DonGia).ToString("N0")) đ</strong>
-                    <form asp-action="Remove" method="post">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
-                        <button class="link-danger">Xóa</button>
-                    </form>
-                </div>
-            }
-        </div>
-        <aside class="cart-summary">
-            <h2>Tóm tắt đơn hàng</h2>
-            <div><span>Tạm tính</span><strong>@Model.TongTien.ToString("N0") đ</strong></div>
-            <div><span>Phí vận chuyển</span><strong>@Model.PhiShip.ToString("N0") đ</strong></div>
-            <div class="total"><span>Thanh toán</span><strong>@Model.ThanhToan.ToString("N0") đ</strong></div>
-            <a class="hero-button w-100 text-center" asp-action="Checkout">Đặt hàng</a>
-        </aside>
-    </div>
-}
-=======
     Layout = "_BlankLayout";
     ViewData["Title"] = "Giỏ hàng";
     var user = Model.NguoiDung;
@@ -156,4 +103,3 @@ else
         }
     </div>
 </div>
->>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8

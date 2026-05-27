@@ -1,83 +1,5 @@
 @model ProfileViewModel
 @{
-<<<<<<< HEAD
-    ViewData["Title"] = "Thông tin cá nhân";
-}
-
-<section class="page-title">
-    <p>USER PROFILE</p>
-    <h1>Thông tin cá nhân</h1>
-</section>
-
-<div class="profile-stats">
-    <div><strong>@Model.SoDonHang</strong><span>Đơn hàng</span></div>
-    <div><strong>@Model.TongChiTieu.ToString("N0") đ</strong><span>Tổng chi tiêu</span></div>
-</div>
-
-<form asp-action="Profile" method="post" class="form-card two-col-form">
-    @Html.AntiForgeryToken()
-    <div asp-validation-summary="ModelOnly" class="text-danger grid-full"></div>
-    <input asp-for="MaNguoiDung" type="hidden" />
-    <div>
-        <label>Họ tên</label>
-        <input asp-for="HoTen" />
-        <span asp-validation-for="HoTen" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Số điện thoại</label>
-        <input asp-for="SoDienThoai" />
-        <span asp-validation-for="SoDienThoai" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Ngày sinh</label>
-        <input asp-for="NgaySinh" type="date" />
-    </div>
-    <div>
-        <label>Giới tính</label>
-        <select asp-for="GioiTinh">
-            <option value="">Khác</option>
-            <option value="true">Nam</option>
-            <option value="false">Nữ</option>
-        </select>
-    </div>
-    <div>
-        <label>Xã / phường</label>
-        <select asp-for="MaXa">
-            <option value="">-- Chọn xã/phường --</option>
-            @foreach (var xa in Model.XaPhuongs)
-            {
-                <option value="@xa.MaXa">@xa.TenXa - @xa.MaTinhNavigation.TenTinh</option>
-            }
-        </select>
-    </div>
-    <div>
-        <label>Số nhà</label>
-        <input asp-for="SoNha" />
-    </div>
-    <div>
-        <label>Đường</label>
-        <input asp-for="Duong" />
-    </div>
-    <div>
-        <label>Mật khẩu cũ</label>
-        <input asp-for="MatKhauCu" type="password" />
-        <span asp-validation-for="MatKhauCu" class="text-danger"></span>
-    </div>
-    <div>
-        <label>Mật khẩu mới</label>
-        <input asp-for="MatKhauMoi" type="password" />
-    </div>
-    <div class="grid-full">
-        <button type="submit">Cập nhật thông tin</button>
-    </div>
-</form>
-
-=======
     Layout = "_BlankLayout";
     ViewData["Title"] = "Thông tin cá nhân";
 }
@@ -131,5 +53,4 @@
         </section>
     </div>
 </div>
->>>>>>> 833209a619988086c9c9171ff953cbd8a31d66c8
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

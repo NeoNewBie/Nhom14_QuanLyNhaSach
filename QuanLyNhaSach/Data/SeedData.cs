@@ -67,7 +67,7 @@ public static class SeedData
                     SoDienThoai = "0987654321",
                     MatKhau = "Admin@123",
                     GioiTinh = true,
-                    NgaySinh = new DateOnly(1990, 1, 15),
+                    NgaySinh = new DateTime(1990, 1, 15),
                     TrangThai = true,
                     MaVaiTro = vaiTro2.MaVaiTro,
                     NgayTao = DateTime.Now,
@@ -82,7 +82,7 @@ public static class SeedData
                     SoDienThoai = "0976543210",
                     MatKhau = "Staff@123",
                     GioiTinh = false,
-                    NgaySinh = new DateOnly(1995, 5, 20),
+                    NgaySinh = new DateTime(1995, 5, 20),
                     TrangThai = true,
                     MaVaiTro = vaiTro3.MaVaiTro,
                     NgayTao = DateTime.Now
@@ -94,7 +94,7 @@ public static class SeedData
                     SoDienThoai = "0912345678",
                     MatKhau = "Customer@123",
                     GioiTinh = true,
-                    NgaySinh = new DateOnly(1998, 3, 10),
+                    NgaySinh = new DateTime(1998, 3, 10),
                     TrangThai = true,
                     MaVaiTro = vaiTro1.MaVaiTro,
                     NgayTao = DateTime.Now,
@@ -109,7 +109,7 @@ public static class SeedData
                     SoDienThoai = "0901234567",
                     MatKhau = "Customer@456",
                     GioiTinh = false,
-                    NgaySinh = new DateOnly(2000, 7, 25),
+                    NgaySinh = new DateTime(2000, 7, 25),
                     TrangThai = true,
                     MaVaiTro = vaiTro1.MaVaiTro,
                     NgayTao = DateTime.Now,
@@ -501,7 +501,7 @@ public static class SeedData
                 context.SaveChanges();
 
                 // 14. Seed DanhGia (Ratings/Reviews)
-                context.DanhGia.Add(new DanhGium
+                context.DanhGias.Add(new DanhGia
                 {
                     MaNguoiDung = user3.MaNguoiDung,
                     MaSanPham = prod1.MaSanPham,
@@ -509,7 +509,7 @@ public static class SeedData
                     NoiDung = "Tác phẩm kinh điển, rất hay. Chất lượng bản in đẹp lắm!",
                     NgayDanhGia = DateTime.Now.AddDays(-9)
                 });
-                context.DanhGia.Add(new DanhGium
+                context.DanhGias.Add(new DanhGia
                 {
                     MaNguoiDung = user3.MaNguoiDung,
                     MaSanPham = prod2.MaSanPham,
@@ -517,7 +517,7 @@ public static class SeedData
                     NoiDung = "Sách rất dễ yêu, phù hợp cho cả trẻ em và người lớn.",
                     NgayDanhGia = DateTime.Now.AddDays(-9)
                 });
-                context.DanhGia.Add(new DanhGium
+                context.DanhGias.Add(new DanhGia
                 {
                     MaNguoiDung = user4.MaNguoiDung,
                     MaSanPham = prod3.MaSanPham,
@@ -525,7 +525,7 @@ public static class SeedData
                     NoiDung = "Nội dung tốt, giải thích rõ ràng. Một vài phần hơi khó.",
                     NgayDanhGia = DateTime.Now.AddDays(-2)
                 });
-                context.DanhGia.Add(new DanhGium
+                context.DanhGias.Add(new DanhGia
                 {
                     MaNguoiDung = user4.MaNguoiDung,
                     MaSanPham = prod6.MaSanPham,

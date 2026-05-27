@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using QuanLyNhaSach.Data;
 using QuanLyNhaSach.Models;
 using QuanLyNhaSach.ViewModels;
 
@@ -15,7 +16,7 @@ public class AdminController : Controller
         _context = context;
     }
 
-    private bool IsAdmin => HttpContext.Session.GetString("VaiTro") == "Admin";
+    private bool IsAdmin => HttpContext.Session.GetString("Role") == "Admin";
     private IActionResult Deny() => RedirectToAction("Login", "Account", new { returnUrl = Request.Path + Request.QueryString });
 
     private void LoadProductComboboxes()
@@ -43,9 +44,9 @@ public class AdminController : Controller
         {
             TongSoSach = await _context.SanPhams.CountAsync(x => x.TrangThai),
             TongDonHang = await _context.DonHangs.CountAsync(),
-            TongKhachHang = await _context.NguoiDungs.Include(x => x.VaiTro).CountAsync(x => x.VaiTro != null && x.VaiTro.TenVaiTro == "User"),
+            TongKhachHang = await _context.NguoiDungs.Include(x => x.MaVaiTroNavigation).CountAsync(x => x.MaVaiTroNavigation.TenVaiTro == "User"),
             DoanhThu = await _context.DonHangs.Where(x => x.TrangThaiDonHang != "Đã hủy").SumAsync(x => (decimal?)x.TongTien) ?? 0,
-            DonHangGanDay = await _context.DonHangs.Include(x => x.NguoiDung).OrderByDescending(x => x.NgayDat).Take(8).ToListAsync(),
+            DonHangGanDay = await _context.DonHangs.Include(x => x.MaNguoiDungNavigation).OrderByDescending(x => x.NgayDat).Take(8).ToListAsync(),
             SachSapHetHang = await _context.SanPhams.Where(x => x.TrangThai && x.SoLuongTon <= 10).OrderBy(x => x.SoLuongTon).Take(8).ToListAsync(),
             SachBanChay = bestStats.Select(s => new SanPhamThongKeViewModel
             {
@@ -61,7 +62,7 @@ public class AdminController : Controller
     {
         if (!IsAdmin) return Deny();
 
-        var query = _context.DonHangs.Include(x => x.NguoiDung).AsQueryable();
+        var query = _context.DonHangs.Include(x => x.MaNguoiDungNavigation).AsQueryable();
         if (!string.IsNullOrWhiteSpace(trangThai)) query = query.Where(x => x.TrangThaiDonHang == trangThai);
         if (!string.IsNullOrWhiteSpace(q))
         {
@@ -86,11 +87,11 @@ public class AdminController : Controller
         if (!IsAdmin) return Deny();
 
         var order = await _context.DonHangs
-            .Include(x => x.NguoiDung)
+            .Include(x => x.MaNguoiDungNavigation)
             .Include(x => x.ThanhToan)
             .Include(x => x.ChiTietDonHangs)
-                .ThenInclude(x => x.SanPham)
-                    .ThenInclude(x => x!.TacGia)
+                .ThenInclude(x => x.MaSanPhamNavigation)
+                    .ThenInclude(x => x!.MaTacGia)
             .FirstOrDefaultAsync(x => x.MaDonHang == id);
 
         if (order == null) return NotFound();
@@ -122,8 +123,8 @@ public class AdminController : Controller
     {
         if (!IsAdmin) return Deny();
 
-        var query = _context.SanPhams.Include(x => x.DanhMuc).Include(x => x.TacGia).Include(x => x.NhaXuatBan).AsQueryable();
-        if (!string.IsNullOrWhiteSpace(q)) query = query.Where(x => x.TenSanPham.Contains(q) || (x.TacGia != null && x.TacGia.TenTacGia.Contains(q)));
+        var query = _context.SanPhams.Include(x => x.MaDanhMucNavigation).Include(x => x.MaTacGia).Include(x => x.MaNhaXuatBanNavigation).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(q)) query = query.Where(x => x.TenSanPham.Contains(q) || x.MaTacGia.Any(tg => tg.TenTacGia.Contains(q)));
         ViewBag.TuKhoa = q;
         return View(await query.OrderByDescending(x => x.NgayTao).ToListAsync());
     }
@@ -172,7 +173,6 @@ public class AdminController : Controller
             product.AnhBia = model.AnhBia;
             product.LoaiSanPham = model.LoaiSanPham;
             product.MaDanhMuc = model.MaDanhMuc;
-            product.MaTacGia = model.MaTacGia;
             product.MaNhaXuatBan = model.MaNhaXuatBan;
             product.TrangThai = model.TrangThai;
         }
@@ -288,7 +288,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Customers(string? q)
     {
         if (!IsAdmin) return Deny();
-        var query = _context.NguoiDungs.Include(x => x.VaiTro).Where(x => x.VaiTro != null && x.VaiTro.TenVaiTro == "User").AsQueryable();
+        var query = _context.NguoiDungs.Include(x => x.MaVaiTroNavigation).Where(x => x.MaVaiTroNavigation.TenVaiTro == "User").AsQueryable();
         if (!string.IsNullOrWhiteSpace(q)) query = query.Where(x => x.HoTen.Contains(q) || x.Email.Contains(q) || x.SoDienThoai.Contains(q));
         ViewBag.TuKhoa = q;
         return View(await query.OrderByDescending(x => x.NgayTao).ToListAsync());
@@ -328,7 +328,7 @@ public class AdminController : Controller
             DonDaGiao = await _context.DonHangs.CountAsync(x => x.TrangThaiDonHang == "Đã giao"),
             DonDangXuLy = await _context.DonHangs.CountAsync(x => x.TrangThaiDonHang == "Chờ xác nhận" || x.TrangThaiDonHang == "Đã xác nhận" || x.TrangThaiDonHang == "Đang giao"),
             DonDaHuy = await _context.DonHangs.CountAsync(x => x.TrangThaiDonHang == "Đã hủy"),
-            DonHangGanDay = await _context.DonHangs.Include(x => x.NguoiDung).OrderByDescending(x => x.NgayDat).Take(10).ToListAsync(),
+            DonHangGanDay = await _context.DonHangs.Include(x => x.MaNguoiDungNavigation).OrderByDescending(x => x.NgayDat).Take(10).ToListAsync(),
             SachSapHetHang = await _context.SanPhams.Where(x => x.TrangThai && x.SoLuongTon <= 10).OrderBy(x => x.SoLuongTon).Take(10).ToListAsync(),
             SachBanChay = bestStats.Select(s => new SanPhamThongKeViewModel
             {
@@ -342,7 +342,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Invoice(string? q)
     {
         if (!IsAdmin) return Deny();
-        var query = _context.DonHangs.Include(x => x.NguoiDung).Include(x => x.ThanhToan).AsQueryable();
+        var query = _context.DonHangs.Include(x => x.MaNguoiDungNavigation).Include(x => x.ThanhToan).AsQueryable();
         if (!string.IsNullOrWhiteSpace(q))
         {
             q = q.Trim();
@@ -356,7 +356,7 @@ public class AdminController : Controller
     {
         if (!IsAdmin) return Deny();
         var orders = await _context.DonHangs
-            .Include(x => x.NguoiDung)
+            .Include(x => x.MaNguoiDungNavigation)
             .Where(x => x.TrangThaiDonHang == "Chờ xác nhận" || x.TrangThaiDonHang == "Đã xác nhận" || x.TrangThaiDonHang == "Đang giao")
             .OrderBy(x => x.NgayDat)
             .ToListAsync();
@@ -367,7 +367,7 @@ public class AdminController : Controller
     {
         if (!IsAdmin) return Deny();
         var orders = await _context.DonHangs
-            .Include(x => x.NguoiDung)
+            .Include(x => x.MaNguoiDungNavigation)
             .OrderByDescending(x => x.NgayDat)
             .Take(60)
             .ToListAsync();
@@ -400,7 +400,7 @@ public class AdminController : Controller
     {
         if (!IsAdmin) return Deny();
         ViewBag.LowStock = await _context.SanPhams.Where(x => x.TrangThai && x.SoLuongTon <= 10).OrderBy(x => x.SoLuongTon).ToListAsync();
-        ViewBag.NewOrders = await _context.DonHangs.Include(x => x.NguoiDung).Where(x => x.TrangThaiDonHang == "Chờ xác nhận").OrderByDescending(x => x.NgayDat).ToListAsync();
+        ViewBag.NewOrders = await _context.DonHangs.Include(x => x.MaNguoiDungNavigation).Where(x => x.TrangThaiDonHang == "Chờ xác nhận").OrderByDescending(x => x.NgayDat).ToListAsync();
         ViewBag.Messages = await _context.LienHes.Where(x => x.TrangThaiXuLy == "Chưa xử lý").OrderByDescending(x => x.NgayGui).ToListAsync();
         return View();
     }
@@ -446,7 +446,7 @@ public class AdminController : Controller
     public async Task<IActionResult> ExportPerformance()
     {
         if (!IsAdmin) return Deny();
-        var orders = await _context.DonHangs.Include(x => x.NguoiDung).OrderByDescending(x => x.NgayDat).ToListAsync();
+        var orders = await _context.DonHangs.Include(x => x.MaNguoiDungNavigation).OrderByDescending(x => x.NgayDat).ToListAsync();
         var sb = new System.Text.StringBuilder();
         sb.AppendLine("MaDonHang,KhachHang,NgayDat,TrangThai,TongTien");
         foreach (var o in orders)
@@ -463,7 +463,7 @@ public class AdminController : Controller
         if (!IsAdmin) return Deny();
         var order = await _context.DonHangs
             .Include(x => x.ChiTietDonHangs)
-                .ThenInclude(x => x.SanPham)
+                .ThenInclude(x => x.MaSanPhamNavigation)
             .Include(x => x.ThanhToan)
             .FirstOrDefaultAsync(x => x.MaDonHang == id);
         if (order == null) return NotFound();
