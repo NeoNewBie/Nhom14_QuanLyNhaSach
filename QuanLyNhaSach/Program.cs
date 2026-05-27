@@ -1,13 +1,23 @@
+using Microsoft.EntityFrameworkCore;
 using QuanLyNhaSach.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<QuanLyBanSachContext>();
-// Add services to the container.
+
+builder.Services.AddDbContext<QuanLyBanSachContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(2);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Seed the database with sample data
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -18,28 +28,24 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
+        logger.LogError(ex, "Không thể seed dữ liệu mẫu. Hãy kiểm tra database và connection string.");
     }
 }
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment()) {
+if (!app.Environment.IsDevelopment())
+{
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
-
-app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

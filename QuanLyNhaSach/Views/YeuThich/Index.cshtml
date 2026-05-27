@@ -1,0 +1,30 @@
+@model IEnumerable<SanPham>
+@{
+    ViewData["Title"] = "Sách yêu thích";
+}
+
+<section class="page-title">
+    <p>WISHLIST</p>
+    <h1>Danh sách yêu thích</h1>
+</section>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">Bạn chưa thêm sách yêu thích nào.</div>
+}
+else
+{
+    <div class="book-grid list-page">
+        @foreach (var item in Model)
+        {
+            <div>
+                <partial name="_ProductCard" model="item" />
+                <form asp-action="Remove" method="post" class="remove-wish">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="maSanPham" value="@item.MaSanPham" />
+                    <button>Xóa khỏi yêu thích</button>
+                </form>
+            </div>
+        }
+    </div>
+}

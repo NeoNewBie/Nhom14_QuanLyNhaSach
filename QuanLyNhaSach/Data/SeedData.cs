@@ -330,6 +330,16 @@ public static class SeedData
                 context.SanPhams.Add(prod8);
                 context.SaveChanges();
 
+                prod1.MaTacGia.Add(author1);
+                prod2.MaTacGia.Add(author2);
+                prod3.MaTacGia.Add(author3);
+                prod4.MaTacGia.Add(author3);
+                prod5.MaTacGia.Add(author7);
+                prod6.MaTacGia.Add(author7);
+                prod7.MaTacGia.Add(author5);
+                prod8.MaTacGia.Add(author1);
+                context.SaveChanges();
+
                 // 9. Seed KhuyenMai (Promotions)
                 var promo1 = new KhuyenMai
                 {
@@ -537,11 +547,9 @@ public static class SeedData
             }
             catch (Exception ex)
             {
-                var logger = serviceProvider.GetService<ILogger<Program>>();
-                if (logger != null)
-                {
-                    logger.LogError(ex, "An error occurred while seeding the database: {Message}", ex.Message);
-                }
+                var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+                var logger = loggerFactory?.CreateLogger("SeedData");
+                logger?.LogError(ex, "An error occurred while seeding the database: {Message}", ex.Message);
                 throw;
             }
         }

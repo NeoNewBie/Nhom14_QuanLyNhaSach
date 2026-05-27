@@ -1,0 +1,51 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<section class="page-title">
+    <p>CHECKOUT</p>
+    <h1>Thông tin giao hàng</h1>
+</section>
+
+<form asp-action="Checkout" method="post" class="form-card two-col-form">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger grid-full"></div>
+    <div>
+        <label>Họ tên người nhận</label>
+        <input asp-for="HoTenNguoiNhan" />
+        <span asp-validation-for="HoTenNguoiNhan" class="text-danger"></span>
+    </div>
+    <div>
+        <label>Số điện thoại</label>
+        <input asp-for="SoDienThoaiNhan" />
+        <span asp-validation-for="SoDienThoaiNhan" class="text-danger"></span>
+    </div>
+    <div>
+        <label>Xã / phường</label>
+        <select asp-for="MaXaGiao">
+            <option value="">-- Chọn xã/phường --</option>
+            @foreach (var xa in Model.XaPhuongs)
+            {
+                <option value="@xa.MaXa">@xa.TenXa - @xa.MaTinhNavigation.TenTinh</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label>Số nhà</label>
+        <input asp-for="SoNhaGiao" />
+    </div>
+    <div class="grid-full">
+        <label>Đường</label>
+        <input asp-for="DuongGiao" />
+    </div>
+    <div class="grid-full">
+        <label>Ghi chú</label>
+        <textarea asp-for="GhiChu"></textarea>
+    </div>
+    <div class="grid-full">
+        <button type="submit">Xác nhận đặt hàng</button>
+    </div>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,33 @@
+@model SanPham
+@{
+    var img = string.IsNullOrWhiteSpace(Model.AnhBia)
+        ? Url.Content("~/images/books/book-default.jpg")
+        : (Model.AnhBia.StartsWith("http") ? Model.AnhBia : Url.Content("~/images/books/" + Model.AnhBia));
+    var tacGia = Model.MaTacGia.Any() ? string.Join(", ", Model.MaTacGia.Select(x => x.TenTacGia)) : "Đang cập nhật";
+}
+<div class="book-card">
+    <a asp-controller="SanPhams" asp-action="Details" asp-route-id="@Model.MaSanPham" class="book-cover-link">
+        <img src="@img" alt="@Model.TenSanPham" class="book-cover" onerror="this.src='/images/books/book-default.jpg'" />
+    </a>
+    <div class="book-info">
+        <p class="book-genre">@(Model.MaDanhMucNavigation?.TenDanhMuc ?? Model.LoaiSanPham)</p>
+        <h3><a asp-controller="SanPhams" asp-action="Details" asp-route-id="@Model.MaSanPham">@Model.TenSanPham</a></h3>
+        <p class="book-author">@tacGia</p>
+        <div class="book-bottom">
+            <strong>@Model.GiaBan.ToString("N0") đ</strong>
+            <span>Còn @Model.SoLuongTon</span>
+        </div>
+        <div class="book-actions">
+            <form asp-controller="GioHang" asp-action="Add" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                <button type="submit">Thêm giỏ</button>
+            </form>
+            <form asp-controller="YeuThich" asp-action="Add" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                <button type="submit" class="light">♡</button>
+            </form>
+        </div>
+    </div>
+</div>

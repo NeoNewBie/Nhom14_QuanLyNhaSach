@@ -1,47 +1,100 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - QuanLyNhaSach</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - BOOKPORT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/QuanLyNhaSach.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">QuanLyNhaSach</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <header class="bp-header">
+        <div class="bp-header-inner">
+            <a class="bp-logo" asp-controller="Home" asp-action="Index"><span>BOOK</span>PORT</a>
+            <nav class="bp-nav">
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <a asp-controller="SanPhams" asp-action="Index">Sách</a>
+                <a asp-controller="YeuThich" asp-action="Index">Yêu thích</a>
+                <a asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
+                <a asp-controller="DonHang" asp-action="History">Đơn hàng</a>
+            </nav>
+            <div class="bp-user">
+                @if (Context.Session.GetInt32("UserId") != null)
+                {
+                    <a asp-controller="User" asp-action="Profile">@Context.Session.GetString("UserName")</a>
+                    <a class="btn-ghost" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                    <a class="btn-red" asp-controller="Account" asp-action="Register">Đăng ký</a>
+                }
+            </div>
+        </div>
+    </header>
+
+    <main class="bp-main">
+        @if (TempData["Success"] != null)
+        {
+            <div class="bp-alert success">@TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="bp-alert error">@TempData["Error"]</div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="bp-footer">
+        <div class="bp-footer-inner">
+            <div class="footer-brand">
+                <a class="footer-logo" asp-controller="Home" asp-action="Index"><span>BOOK</span>PORT</a>
+                <p>Website quản lý bán sách trực tuyến, hỗ trợ tìm kiếm, yêu thích, giỏ hàng, đặt hàng và theo dõi lịch sử mua sách.</p>
+                <div class="footer-contact">
+                    <span>Hotline: 0901 234 567</span>
+                    <span>Email: bookport@nhom14.vn</span>
+                    <span>Địa chỉ: Trường Đại học - Khoa CNTT</span>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - QuanLyNhaSach - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="footer-col">
+                <h4>Khám phá</h4>
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <a asp-controller="SanPhams" asp-action="Index">Tất cả sách</a>
+                <a asp-controller="YeuThich" asp-action="Index">Sách yêu thích</a>
+                <a asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Tài khoản</h4>
+                @if (Context.Session.GetInt32("UserId") != null)
+                {
+                    <a asp-controller="User" asp-action="Profile">Thông tin cá nhân</a>
+                    <a asp-controller="DonHang" asp-action="History">Lịch sử đơn hàng</a>
+                    <a asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                    <a asp-controller="Account" asp-action="Register">Đăng ký tài khoản</a>
+                }
+            </div>
+
+            <div class="footer-col">
+                <h4>Hỗ trợ</h4>
+                <a asp-controller="Home" asp-action="Privacy">Chính sách bảo mật</a>
+                <a href="mailto:bookport@nhom14.vn">Liên hệ hỗ trợ</a>
+                <span>Giao hàng toàn quốc</span>
+                <span>Thanh toán khi nhận hàng</span>
+            </div>
+        </div>
+
+        <div class="bp-footer-bottom">
+            <span>© @DateTime.Now.Year BOOKPORT - Nhóm 14</span>
+            <span>ASP.NET Core MVC + EF Core + SQL Server</span>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

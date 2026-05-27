@@ -1,0 +1,36 @@
+@model DonHang
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    var diaChi = string.Join(", ", new[] { Model.SoNhaGiao, Model.DuongGiao, Model.MaXaGiaoNavigation?.TenXa, Model.MaXaGiaoNavigation?.MaTinhNavigation?.TenTinh }.Where(x => !string.IsNullOrWhiteSpace(x)));
+}
+
+<section class="page-title">
+    <p>ORDER DETAIL</p>
+    <h1>Đơn hàng #@Model.MaDonHang</h1>
+</section>
+
+<div class="order-detail-grid">
+    <div class="table-card">
+        <h2>Sản phẩm</h2>
+        @foreach (var item in Model.ChiTietDonHangs)
+        {
+            <div class="order-line">
+                <div>
+                    <strong>@item.MaSanPhamNavigation.TenSanPham</strong>
+                    <p>@item.SoLuong x @item.DonGia.ToString("N0") đ</p>
+                </div>
+                <span>@item.ThanhTien.ToString("N0") đ</span>
+            </div>
+        }
+    </div>
+    <aside class="cart-summary">
+        <h2>Thông tin đơn</h2>
+        <div><span>Người nhận</span><strong>@Model.HoTenNguoiNhan</strong></div>
+        <div><span>SĐT</span><strong>@Model.SoDienThoaiNhan</strong></div>
+        <div><span>Địa chỉ</span><strong>@diaChi</strong></div>
+        <div><span>Trạng thái</span><strong>@Model.TrangThaiDonHang</strong></div>
+        <div><span>Thanh toán</span><strong>@(Model.ThanhToan?.TrangThaiThanhToan ?? "Chưa thanh toán")</strong></div>
+        <div class="total"><span>Tổng tiền</span><strong>@Model.TongTien.ToString("N0") đ</strong></div>
+        <a asp-action="History" class="btn-ghost full">Quay lại lịch sử</a>
+    </aside>
+</div>

@@ -1,0 +1,59 @@
+@model IEnumerable<DonHang>
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+}
+
+<section class="page-title">
+    <p>ORDER HISTORY</p>
+    <h1>Lịch sử đơn hàng</h1>
+</section>
+
+@if (!Model.Any())
+{
+    <div class="empty-state">Bạn chưa có đơn hàng nào.</div>
+}
+else
+{
+    <div class="table-card">
+        <table class="bp-table">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Ngày đặt</th>
+                    <th>Số món</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>#@item.MaDonHang</td>
+                        <td>@item.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@item.ChiTietDonHangs.Count</td>
+                        <td>@item.TongTien.ToString("N0") đ</td>
+                        <td><span class="status">@item.TrangThaiDonHang</span></td>
+                        <td class="table-actions">
+                            <a asp-action="Details" asp-route-id="@item.MaDonHang">Chi tiết</a>
+                            <form asp-action="Reorder" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.MaDonHang" />
+                                <button>Đặt lại</button>
+                            </form>
+                            @if (item.TrangThaiDonHang == "Chờ xác nhận")
+                            {
+                                <form asp-action="Cancel" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.MaDonHang" />
+                                    <button class="danger">Hủy</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
