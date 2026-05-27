@@ -1,5 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
+<<<<<<< Updated upstream
 
+=======
+builder.Services.AddDbContext<QuanLyBanSachContext>();
+>>>>>>> Stashed changes
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
