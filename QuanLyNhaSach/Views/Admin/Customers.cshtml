@@ -1,0 +1,34 @@
+@model List<NguoiDung>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý khách hàng";
+}
+<h1 class="admin-title">Quản lý khách hàng</h1>
+<form method="get" class="admin-filter mb-3">
+    <input class="form-control" name="q" value="@ViewBag.TuKhoa" placeholder="Tìm họ tên, email, số điện thoại" />
+    <button class="btn btn-danger" type="submit">Tìm</button>
+</form>
+<div class="admin-card table-responsive">
+    <table class="table align-middle">
+        <thead><tr><th>Họ tên</th><th>Email</th><th>SĐT</th><th>Ngày tạo</th><th>Trạng thái</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.HoTen</td>
+                <td>@user.Email</td>
+                <td>@user.SoDienThoai</td>
+                <td>@user.NgayTao.ToString("dd/MM/yyyy")</td>
+                <td>@(user.TrangThai ? "Hoạt động" : "Đã khóa")</td>
+                <td class="text-end">
+                    <form asp-action="ToggleCustomer" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@user.MaNguoiDung" />
+                        <button class="btn btn-sm btn-outline-danger">@(user.TrangThai ? "Khóa" : "Mở khóa")</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,34 @@
+@model List<LienHe>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Messages";
+}
+<h1 class="admin-title">Messages</h1>
+<form method="get" class="admin-filter mb-3">
+    <select class="form-select" name="trangThai">
+        <option value="">Tất cả</option>
+        @if ((ViewBag.TrangThai as string) == "Chưa xử lý")
+        { <option value="Chưa xử lý" selected>Chưa xử lý</option> }
+        else
+        { <option value="Chưa xử lý">Chưa xử lý</option> }
+        @if ((ViewBag.TrangThai as string) == "Đã xử lý")
+        { <option value="Đã xử lý" selected>Đã xử lý</option> }
+        else
+        { <option value="Đã xử lý">Đã xử lý</option> }
+    </select>
+    <button class="btn btn-danger">Lọc</button>
+</form>
+@foreach (var msg in Model)
+{
+    <div class="admin-card message-card">
+        <div class="d-flex justify-content-between"><h4>@msg.TieuDe</h4><span>@msg.TrangThaiXuLy</span></div>
+        <p><strong>@msg.HoTen</strong> - <a href="mailto:@msg.Email">@msg.Email</a> - @msg.NgayGui.ToString("dd/MM/yyyy HH:mm")</p>
+        <p>@msg.NoiDung</p>
+        <form asp-action="MarkMessage" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@msg.MaLienHe" />
+            <input type="hidden" name="trangThai" value="Đã xử lý" />
+            <button class="btn btn-sm btn-outline-danger">Đánh dấu đã xử lý</button>
+        </form>
+    </div>
+}

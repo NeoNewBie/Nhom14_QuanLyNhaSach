@@ -1,0 +1,22 @@
+@model ContactViewModel
+@{
+    ViewData["Title"] = "Liên hệ";
+}
+<div class="container py-5">
+    <section class="card-soft contact-card">
+        <h1>Liên hệ BookPort</h1>
+        <p class="text-muted">Gửi câu hỏi hoặc góp ý. Tin nhắn sẽ xuất hiện trong trang Admin/Messages.</p>
+        <form asp-action="Index" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+            <div class="row g-3">
+                <div class="col-md-6"><label asp-for="HoTen" class="form-label">Họ tên</label><input asp-for="HoTen" class="form-control" /><span asp-validation-for="HoTen" class="text-danger small"></span></div>
+                <div class="col-md-6"><label asp-for="Email" class="form-label">Email</label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger small"></span></div>
+                <div class="col-12"><label asp-for="TieuDe" class="form-label">Tiêu đề</label><input asp-for="TieuDe" class="form-control" /><span asp-validation-for="TieuDe" class="text-danger small"></span></div>
+                <div class="col-12"><label asp-for="NoiDung" class="form-label">Nội dung</label><textarea asp-for="NoiDung" rows="6" class="form-control"></textarea><span asp-validation-for="NoiDung" class="text-danger small"></span></div>
+            </div>
+            <button class="btn btn-danger mt-3" type="submit">Gửi liên hệ</button>
+        </form>
+    </section>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,39 @@
+@model AnalyticsViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Analytics";
+}
+<h1 class="admin-title">Analytics</h1>
+<section class="admin-stat-grid">
+    <div class="admin-stat-card"><span class="icon blue">▣</span><small>Doanh thu</small><strong>@Model.DoanhThu.ToString("N0") đ</strong></div>
+    <div class="admin-stat-card"><span class="icon red">▤</span><small>Tổng đơn</small><strong>@Model.TongDon</strong></div>
+    <div class="admin-stat-card"><span class="icon gold">✓</span><small>Đã giao</small><strong>@Model.DonDaGiao</strong></div>
+    <div class="admin-stat-card"><span class="icon warning">!</span><small>Đã hủy</small><strong>@Model.DonDaHuy</strong></div>
+</section>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <section class="admin-card">
+            <h4>Sách bán chạy</h4>
+            @foreach (var item in Model.SachBanChay)
+            {
+                var width = item.SoLuongBan <= 0 ? 5 : Math.Min(100, item.SoLuongBan * 20);
+                <div class="seller-bar-row">
+                    <div><strong>@item.SanPham?.TenSanPham</strong><span>@item.SoLuongBan cuốn</span></div>
+                    <div class="seller-bar"><span style="width:@width%"></span></div>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="admin-card">
+            <h4>Tình trạng đơn hàng</h4>
+            <div class="analytics-ring-text">
+                <strong>@(Model.TongDon == 0 ? 0 : Math.Round(Model.DonDaGiao * 100.0 / Model.TongDon))%</strong>
+                <span>tỷ lệ hoàn tất</span>
+            </div>
+            <p>Đang xử lý: <strong>@Model.DonDangXuLy</strong></p>
+            <p>Đã hủy: <strong>@Model.DonDaHuy</strong></p>
+            <a class="btn btn-outline-danger" asp-action="ExportPerformance">Xuất báo cáo CSV</a>
+        </section>
+    </div>
+</div>

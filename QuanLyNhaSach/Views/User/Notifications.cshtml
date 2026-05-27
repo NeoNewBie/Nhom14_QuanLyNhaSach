@@ -1,0 +1,32 @@
+@{
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Thông báo";
+    var orders = ViewBag.Orders as List<DonHang> ?? new List<DonHang>();
+    var wishLowStock = ViewBag.WishLowStock as List<YeuThich> ?? new List<YeuThich>();
+}
+<div class="figma-canvas user-canvas">
+    <a class="figma-back" asp-controller="User" asp-action="Profile">‹</a>
+    <section class="account-main-card single-card">
+        <h1>🔔 Thông báo của bạn</h1>
+        @if (!orders.Any() && !wishLowStock.Any())
+        {
+            <div class="empty-box">Hiện chưa có thông báo mới.</div>
+        }
+        @foreach (var dh in orders)
+        {
+            <div class="notice-row">
+                <strong>Đơn #BP-@dh.MaDonHang.ToString("000000")</strong>
+                <span>@dh.TrangThaiDonHang - @dh.NgayDat.ToString("dd/MM/yyyy HH:mm")</span>
+                <a asp-controller="DonHang" asp-action="Details" asp-route-id="@dh.MaDonHang">Xem đơn</a>
+            </div>
+        }
+        @foreach (var item in wishLowStock)
+        {
+            <div class="notice-row warning">
+                <strong>@item.SanPham?.TenSanPham</strong>
+                <span>Sách yêu thích của bạn sắp hết hàng: còn @(item.SanPham?.SoLuongTon ?? 0) cuốn.</span>
+                <a asp-controller="SanPham" asp-action="Details" asp-route-id="@item.MaSanPham">Xem sách</a>
+            </div>
+        }
+    </section>
+</div>

@@ -1,0 +1,19 @@
+@model List<DonHang>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Calendar";
+    var groups = Model.GroupBy(x => x.NgayDat.Date).OrderByDescending(g => g.Key);
+}
+<h1 class="admin-title">Calendar</h1>
+<div class="calendar-grid-admin">
+@foreach (var g in groups)
+{
+    <section class="admin-card calendar-day-card">
+        <h4>@g.Key.ToString("dd/MM/yyyy")</h4>
+        @foreach (var dh in g)
+        {
+            <a asp-action="OrderDetail" asp-route-id="@dh.MaDonHang"><strong>#BP-@dh.MaDonHang.ToString("000000")</strong><span>@dh.HoTenNguoiNhan - @dh.TrangThaiDonHang</span></a>
+        }
+    </section>
+}
+</div>

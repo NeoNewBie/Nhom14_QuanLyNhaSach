@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<div class="container py-5">
+    <section class="card-soft info-page-card">
+        <h1>@ViewBag.Title</h1>
+        <p>@ViewBag.Content</p>
+        <div class="info-actions">
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Về trang chủ</a>
+            <a class="btn btn-outline-danger" asp-controller="Contact" asp-action="Index">Liên hệ hỗ trợ</a>
+        </div>
+    </section>
+</div>

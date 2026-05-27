@@ -1,0 +1,84 @@
+@model List<YeuThich>
+@{
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Sách yêu thích";
+    var danhMucs = ViewBag.DanhMucs as List<DanhMuc> ?? new List<DanhMuc>();
+    int? maDanhMuc = ViewBag.MaDanhMuc as int?;
+}
+<div class="figma-canvas list-canvas">
+    <a class="figma-back" asp-controller="Home" asp-action="Index">‹</a>
+    <section class="wishlist-panel">
+        <div class="list-panel-head">
+            <h1>▤ Quản lý sách đã lưu</h1>
+            <span>Tổng cộng: <strong>@Model.Count cuốn</strong></span>
+        </div>
+        <form class="wishlist-toolbar" asp-controller="YeuThich" asp-action="Index" method="get">
+            <input name="q" value="@ViewBag.TuKhoa" placeholder="⌕ Tìm theo tên sách, tác giả..." />
+            <select name="maDanhMuc">
+                <option value="">Tất cả thể loại</option>
+                @foreach (var dm in danhMucs)
+                {
+                    if (maDanhMuc == dm.MaDanhMuc)
+                    {
+                        <option value="@dm.MaDanhMuc" selected>@dm.TenDanhMuc</option>
+                    }
+                    else
+                    {
+                        <option value="@dm.MaDanhMuc">@dm.TenDanhMuc</option>
+                    }
+                }
+            </select>
+            <select name="tinhTrang">
+                @if (string.IsNullOrWhiteSpace(ViewBag.TinhTrang as string))
+                { <option value="" selected>Tất cả tình trạng</option> }
+                else
+                { <option value="">Tất cả tình trạng</option> }
+                @if ((ViewBag.TinhTrang as string) == "con-hang")
+                { <option value="con-hang" selected>Còn hàng</option> }
+                else
+                { <option value="con-hang">Còn hàng</option> }
+                @if ((ViewBag.TinhTrang as string) == "het-hang")
+                { <option value="het-hang" selected>Hết hàng</option> }
+                else
+                { <option value="het-hang">Hết hàng</option> }
+            </select>
+            <button type="submit">Tìm kiếm</button>
+            <a asp-controller="YeuThich" asp-action="Index" class="toolbar-reset">Làm mới</a>
+        </form>
+        @if (!Model.Any())
+        {
+            <div class="empty-box">Bạn chưa có sách yêu thích phù hợp.</div>
+        }
+        else
+        {
+            <form asp-action="RemoveSelected" method="post" id="wishlistBulkForm">
+                @Html.AntiForgeryToken()
+                <div class="wishlist-bulk-line">
+                    <label><input type="checkbox" id="checkAllWishlist" /> Chọn tất cả</label>
+                    <button type="submit" onclick="return confirm('Xóa các sách đã chọn khỏi yêu thích?')">🗑 Xóa mục đã chọn</button>
+                </div>
+                <div class="wishlist-table">
+                    <div class="wishlist-table-head"><strong></strong><strong>Sách</strong><strong>Giá</strong><strong>Tình trạng</strong><strong>Thao tác</strong></div>
+                    @foreach (var item in Model)
+                    {
+                        var sp = item.SanPham;
+                        <div class="wishlist-table-row">
+                            <label class="wish-check"><input type="checkbox" name="maSanPhams" value="@item.MaSanPham" class="wishlist-check" /></label>
+                            <div class="wish-book">
+                                <img class="cover-img" src="@(string.IsNullOrWhiteSpace(sp?.AnhBia) ? "/images/books/placeholder.svg" : sp!.AnhBia)" alt="@sp?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                                <div><h5>@sp?.TenSanPham</h5><p>@(sp?.TacGia?.TenTacGia ?? "Đang cập nhật") | @(sp?.DanhMuc?.TenDanhMuc ?? "Sách")</p></div>
+                            </div>
+                            <strong>@((sp?.GiaBan ?? 0).ToString("N0")) đ</strong>
+                            <span class="stock-badge @(sp?.SoLuongTon > 0 ? "in" : "out")">@(sp?.SoLuongTon > 0 ? "Còn hàng" : "Hết hàng")</span>
+                            <div class="wish-actions">
+                                <a asp-controller="SanPham" asp-action="Details" asp-route-id="@item.MaSanPham" title="Xem chi tiết">👁</a>
+                                <button type="submit" formaction="@Url.Action("Add", "GioHang")" formmethod="post" name="maSanPham" value="@item.MaSanPham" title="Thêm vào giỏ">🛒</button>
+                                <button type="submit" formaction="@Url.Action("Remove", "YeuThich")" formmethod="post" name="maSanPham" value="@item.MaSanPham" onclick="return confirm('Xóa sách này khỏi yêu thích?')" title="Xóa">🗑</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </form>
+        }
+    </section>
+</div>

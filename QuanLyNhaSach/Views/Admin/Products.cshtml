@@ -1,0 +1,39 @@
+@model List<SanPham>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý sách";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="admin-title">Quản lý sách</h1>
+    <a class="btn btn-danger" asp-action="ProductForm">Thêm sách</a>
+</div>
+<form method="get" class="admin-filter mb-3">
+    <input class="form-control" name="q" value="@ViewBag.TuKhoa" placeholder="Tìm tên sách hoặc tác giả" />
+    <button class="btn btn-danger" type="submit">Tìm</button>
+</form>
+<div class="admin-card table-responsive">
+    <table class="table align-middle">
+        <thead><tr><th>Sách</th><th>Danh mục</th><th>Tác giả</th><th>Giá bán</th><th>Tồn</th><th>Trạng thái</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var sp in Model)
+        {
+            <tr>
+                <td class="fw-semibold">@sp.TenSanPham</td>
+                <td>@sp.DanhMuc?.TenDanhMuc</td>
+                <td>@sp.TacGia?.TenTacGia</td>
+                <td>@sp.GiaBan.ToString("N0") VNĐ</td>
+                <td>@sp.SoLuongTon</td>
+                <td>@(sp.TrangThai ? "Đang bán" : "Đã ẩn")</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary" asp-action="ProductForm" asp-route-id="@sp.MaSanPham">Sửa</a>
+                    <form asp-action="DeleteProduct" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@sp.MaSanPham" />
+                        <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Ẩn sách này?')">Xóa mềm</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

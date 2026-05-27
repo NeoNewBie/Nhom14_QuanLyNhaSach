@@ -1,0 +1,37 @@
+@model List<TacGia>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý tác giả";
+}
+<h1 class="admin-title">Quản lý tác giả</h1>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <form asp-action="SaveAuthor" method="post" class="admin-card">
+            @Html.AntiForgeryToken()
+            <h4>Thêm tác giả</h4>
+            <input type="hidden" name="MaTacGia" value="0" />
+            <div class="mb-3"><label class="form-label">Tên tác giả</label><input name="TenTacGia" class="form-control" required /></div>
+            <div class="mb-3"><label class="form-label">Quốc tịch</label><input name="QuocTich" class="form-control" /></div>
+            <div class="mb-3"><label class="form-label">Mô tả</label><textarea name="MoTa" class="form-control"></textarea></div>
+            <button class="btn btn-danger" type="submit">Thêm</button>
+        </form>
+    </div>
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <h4 class="mb-3">Danh sách tác giả</h4>
+            <div class="admin-list-edit">
+                @foreach (var tg in Model)
+                {
+                    <form asp-action="SaveAuthor" method="post" class="admin-edit-row author-row">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="MaTacGia" value="@tg.MaTacGia" />
+                        <input name="TenTacGia" class="form-control" value="@tg.TenTacGia" required />
+                        <input name="QuocTich" class="form-control" value="@tg.QuocTich" />
+                        <input name="MoTa" class="form-control" value="@tg.MoTa" />
+                        <button class="btn btn-outline-danger" type="submit">Lưu</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

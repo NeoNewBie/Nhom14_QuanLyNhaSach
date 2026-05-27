@@ -1,0 +1,37 @@
+@model DonHang
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+<div class="container py-4">
+    <h1 class="page-title">Chi tiết đơn hàng #@Model.MaDonHang</h1>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card-soft">
+                <h4>Sản phẩm</h4>
+                @foreach (var item in Model.ChiTietDonHangs)
+                {
+                    <div class="cart-row">
+                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(item.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : item.SanPham!.AnhBia)" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <div class="flex-grow-1">
+                            <h5>@item.SanPham?.TenSanPham</h5>
+                            <div class="small text-muted">Số lượng: @item.SoLuong</div>
+                        </div>
+                        <strong>@item.ThanhTien.ToString("N0") VNĐ</strong>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="summary-card">
+                <h4>Thông tin nhận hàng</h4>
+                <p class="mb-1"><strong>@Model.HoTenNguoiNhan</strong></p>
+                <p class="mb-1">@Model.SoDienThoaiNhan</p>
+                <p>@Model.DiaChiGiaoHang</p>
+                <hr />
+                <div class="d-flex justify-content-between"><span>Trạng thái</span><strong>@Model.TrangThaiDonHang</strong></div>
+                <div class="d-flex justify-content-between"><span>Thanh toán</span><strong>@(Model.ThanhToan?.TrangThaiThanhToan ?? "Chưa có")</strong></div>
+                <div class="d-flex justify-content-between total mt-3"><span>Tổng tiền</span><strong>@Model.TongTien.ToString("N0") VNĐ</strong></div>
+            </div>
+        </div>
+    </div>
+</div>

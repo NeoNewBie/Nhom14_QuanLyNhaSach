@@ -1,25 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyNhaSach.Models;
 
-public partial class KhuyenMai
+[Table("MA_GIAM_GIA")]
+public class KhuyenMai
 {
+    [Key]
     public int MaKhuyenMai { get; set; }
 
-    public string TenKhuyenMai { get; set; } = null!;
+    [Required, StringLength(50)]
+    public string Code { get; set; } = string.Empty;
 
-    public string LoaiGiamGia { get; set; } = null!;
+    [StringLength(255)]
+    public string? MoTa { get; set; }
 
-    public decimal GiaTriGiam { get; set; }
+    [Required, StringLength(20)]
+    public string LoaiGiam { get; set; } = "PhanTram"; // PhanTram hoặc SoTien
 
-    public decimal? DieuKienApDung { get; set; }
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal GiaTri { get; set; }
 
-    public DateTime NgayBatDau { get; set; }
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal DonToiThieu { get; set; }
 
-    public DateTime NgayKetThuc { get; set; }
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal? GiamToiDa { get; set; }
 
-    public bool TrangThai { get; set; }
-
-    public virtual ICollection<DonHang> DonHangs { get; set; } = new List<DonHang>();
+    public DateTime NgayBatDau { get; set; } = DateTime.Now;
+    public DateTime NgayKetThuc { get; set; } = DateTime.Now.AddMonths(1);
+    public int SoLuong { get; set; } = 100;
+    public int DaDung { get; set; } = 0;
+    public bool TrangThai { get; set; } = true;
 }

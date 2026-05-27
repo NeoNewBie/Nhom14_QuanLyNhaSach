@@ -1,0 +1,41 @@
+@model List<NhaXuatBan>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý nhà xuất bản";
+}
+<h1 class="admin-title">Quản lý nhà xuất bản</h1>
+<div class="row g-4">
+    <div class="col-lg-4">
+        <form asp-action="SavePublisher" method="post" class="admin-card">
+            @Html.AntiForgeryToken()
+            <h4>Thêm nhà xuất bản</h4>
+            <input type="hidden" name="MaNhaXuatBan" value="0" />
+            <div class="mb-3"><label class="form-label">Tên NXB</label><input name="TenNhaXuatBan" class="form-control" required /></div>
+            <div class="mb-3"><label class="form-label">Địa chỉ</label><input name="DiaChi" class="form-control" /></div>
+            <div class="mb-3"><label class="form-label">Số điện thoại</label><input name="SoDienThoai" class="form-control" /></div>
+            <div class="mb-3"><label class="form-label">Email</label><input name="Email" class="form-control" /></div>
+            <div class="mb-3"><label class="form-label">Website</label><input name="Website" class="form-control" /></div>
+            <button class="btn btn-danger" type="submit">Thêm</button>
+        </form>
+    </div>
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <h4 class="mb-3">Danh sách nhà xuất bản</h4>
+            <div class="admin-list-edit">
+                @foreach (var nxb in Model)
+                {
+                    <form asp-action="SavePublisher" method="post" class="admin-edit-row publisher-row">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="MaNhaXuatBan" value="@nxb.MaNhaXuatBan" />
+                        <input name="TenNhaXuatBan" class="form-control" value="@nxb.TenNhaXuatBan" required />
+                        <input name="DiaChi" class="form-control" value="@nxb.DiaChi" />
+                        <input name="SoDienThoai" class="form-control" value="@nxb.SoDienThoai" />
+                        <input name="Email" class="form-control" value="@nxb.Email" />
+                        <input name="Website" class="form-control" value="@nxb.Website" />
+                        <button class="btn btn-outline-danger" type="submit">Lưu</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

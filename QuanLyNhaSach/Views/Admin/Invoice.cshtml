@@ -1,0 +1,28 @@
+@model List<DonHang>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Invoice";
+}
+<h1 class="admin-title">Invoice</h1>
+<form method="get" class="admin-filter mb-3">
+    <input class="form-control" name="q" value="@ViewBag.TuKhoa" placeholder="Tìm tên hoặc số điện thoại khách hàng" />
+    <button class="btn btn-danger" type="submit">Tìm</button>
+</form>
+<div class="admin-card table-responsive">
+    <table class="table align-middle">
+        <thead><tr><th>Mã hóa đơn</th><th>Khách hàng</th><th>Ngày</th><th>Thanh toán</th><th>Tổng</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var dh in Model)
+        {
+            <tr>
+                <td>#BP-@dh.MaDonHang.ToString("000000")</td>
+                <td>@dh.HoTenNguoiNhan</td>
+                <td>@dh.NgayDat.ToString("dd/MM/yyyy")</td>
+                <td>@(dh.ThanhToan?.TrangThaiThanhToan ?? "Chưa có")</td>
+                <td><strong>@dh.TongTien.ToString("N0") đ</strong></td>
+                <td class="text-end"><a class="btn btn-sm btn-outline-danger" asp-action="OrderDetail" asp-route-id="@dh.MaDonHang">Xem/In hóa đơn</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

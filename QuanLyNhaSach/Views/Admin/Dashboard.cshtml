@@ -1,0 +1,106 @@
+@model DashboardViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Dashboard";
+}
+<div class="admin-date-filter real-date-filter">
+    <strong>Dashboard quản trị</strong>
+    <span>Dữ liệu lấy trực tiếp từ database QuanLyBanSach</span>
+    <em>@DateTime.Now.ToString("dd/MM/yyyy HH:mm")</em>
+</div>
+
+<section class="admin-stat-grid">
+    <div class="admin-stat-card"><span class="icon blue">▣</span><small>Tổng doanh thu</small><strong>@Model.DoanhThu.ToString("N0") đ</strong><em>Không tính đơn đã hủy</em></div>
+    <div class="admin-stat-card"><span class="icon red">▤</span><small>Tổng đơn hàng</small><strong>@Model.TongDonHang</strong><em>Toàn bộ đơn trong hệ thống</em></div>
+    <div class="admin-stat-card"><span class="icon gold">♙</span><small>Khách hàng</small><strong>@Model.TongKhachHang</strong><em>Tài khoản vai trò User</em></div>
+    <div class="admin-stat-card"><span class="icon warning">⚠</span><small>Sách sắp hết</small><strong>@Model.SachSapHetHang.Count</strong><em>Tồn kho ≤ 10</em></div>
+</section>
+
+<div class="row g-4 admin-middle-row">
+    <div class="col-lg-7">
+        <section class="report-card real-report-card">
+            <div class="report-head"><h3>Sách bán chạy</h3><a asp-action="Products">Quản lý sách</a></div>
+            @if (!Model.SachBanChay.Any())
+            {
+                <div class="empty-box">Chưa có dữ liệu bán hàng.</div>
+            }
+            else
+            {
+                <div class="best-seller-bars">
+                    @foreach (var item in Model.SachBanChay)
+                    {
+                        var width = item.SoLuongBan <= 0 ? 5 : Math.Min(100, item.SoLuongBan * 20);
+                        <div class="seller-bar-row">
+                            <div><strong>@item.SanPham?.TenSanPham</strong><span>@item.SoLuongBan cuốn đã bán</span></div>
+                            <div class="seller-bar"><span style="width:@width%"></span></div>
+                        </div>
+                    }
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="quick-action-card real-actions-card">
+            <h3>Thao tác nhanh</h3>
+            <a asp-action="ProductForm">▥ Thêm sách mới <span>›</span></a>
+            <a asp-action="Orders">▧ Xem đơn hàng <span>›</span></a>
+            <a asp-action="ExportPerformance">▤ Export Performance <span>›</span></a>
+            <a asp-action="Categories">▣ Quản lý danh mục <span>›</span></a>
+            <a asp-action="Authors">▤ Quản lý tác giả <span>›</span></a>
+            <a asp-action="Publishers">▨ Quản lý NXB <span>›</span></a>
+            <a asp-controller="Home" asp-action="Index">↗ Xem website khách hàng <span>›</span></a>
+            <a asp-action="Settings">⚙ System Preferences <span>›</span></a>
+        </section>
+    </div>
+</div>
+
+<div class="row g-4 admin-middle-row">
+    <div class="col-lg-5">
+        <section class="recent-order-card h-100">
+            <div class="section-head-row"><h3>Sách sắp hết hàng</h3><a asp-action="Products">Xem kho</a></div>
+            @if (!Model.SachSapHetHang.Any())
+            {
+                <div class="empty-box">Chưa có sách nào sắp hết hàng.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table admin-recent-table align-middle">
+                        <thead><tr><th>Sách</th><th>Tồn</th></tr></thead>
+                        <tbody>
+                        @foreach (var sp in Model.SachSapHetHang)
+                        {
+                            <tr><td>@sp.TenSanPham</td><td><strong>@sp.SoLuongTon</strong></td></tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-lg-7">
+        <section class="recent-order-card h-100">
+            <div class="section-head-row">
+                <h3>Đơn hàng gần đây</h3>
+                <a asp-action="Orders">Xem tất cả</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table admin-recent-table align-middle">
+                    <thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Ngày</th><th>Trạng thái</th><th>Tổng tiền</th></tr></thead>
+                    <tbody>
+                    @foreach (var dh in Model.DonHangGanDay)
+                    {
+                        <tr>
+                            <td><a asp-action="OrderDetail" asp-route-id="@dh.MaDonHang">#BP-@dh.MaDonHang.ToString("000000")</a></td>
+                            <td><span class="avatar-mini">@(dh.HoTenNguoiNhan.Length > 0 ? dh.HoTenNguoiNhan.Substring(0,1).ToUpper() : "U")</span> @dh.HoTenNguoiNhan</td>
+                            <td>@dh.NgayDat.ToString("dd/MM/yyyy")</td>
+                            <td><span class="status-badge admin-status">@dh.TrangThaiDonHang</span></td>
+                            <td><strong>@dh.TongTien.ToString("N0") đ</strong></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>

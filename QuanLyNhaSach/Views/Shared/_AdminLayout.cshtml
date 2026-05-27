@@ -1,0 +1,76 @@
+@using Microsoft.AspNetCore.Http
+@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    string Active(params string[] names) => names.Contains(action) ? "active" : "";
+    var adminName = Context.Session.GetString("HoTen") ?? "Admin";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin BookPort</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+    <header class="admin-topbar">
+        <div>
+            <a class="admin-brand" asp-controller="Admin" asp-action="Dashboard">BOOKPORT</a>
+            <small>YOUR NEXT GREAT ADVENTURE AWAITS</small>
+        </div>
+        <nav class="admin-topnav">
+            <a class='@Active("Dashboard")' asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+            <a class='@Active("Products", "ProductForm")' asp-controller="Admin" asp-action="Products">Inventory</a>
+            <a class='@Active("Customers")' asp-controller="Admin" asp-action="Customers">Customers</a>
+            <a class='@Active("Analytics")' asp-controller="Admin" asp-action="Analytics">Analytics</a>
+        </nav>
+        <div class="admin-user-icons">
+            <a asp-controller="Admin" asp-action="Settings" title="Tài khoản">◎</a>
+            <a asp-controller="Admin" asp-action="Notifications" title="Thông báo">🔔</a>
+            <a asp-controller="Account" asp-action="Logout" title="Đăng xuất">↪</a>
+        </div>
+    </header>
+    <div class="admin-shell">
+        <aside class="admin-sidebar">
+            <h5>LIBRARY ACCESS</h5>
+            <p>Welcome, @adminName</p>
+            <nav>
+                <a class='@Active("Dashboard")' asp-controller="Admin" asp-action="Dashboard"><span>▦</span>Dashboard</a>
+                <a class='@Active("Analytics")' asp-controller="Admin" asp-action="Analytics"><span>▥</span>Analytics</a>
+                <a class='@Active("Invoice")' asp-controller="Admin" asp-action="Invoice"><span>▧</span>Invoice</a>
+                <a class='@Active("Schedule")' asp-controller="Admin" asp-action="Schedule"><span>▤</span>Schedule</a>
+                <a class='@Active("Calendar")' asp-controller="Admin" asp-action="Calendar"><span>▣</span>Calendar</a>
+                <a class='@Active("Messages")' asp-controller="Admin" asp-action="Messages"><span>✉</span>Messages</a>
+                <a class='@Active("Notifications")' asp-controller="Admin" asp-action="Notifications"><span>🔔</span>Notification</a>
+                <a class='@Active("Settings")' asp-controller="Admin" asp-action="Settings"><span>⚙</span>Settings</a>
+                <hr />
+                <a class='@Active("Products", "ProductForm")' asp-controller="Admin" asp-action="Products"><span>▥</span>Inventory</a>
+                <a class='@Active("Orders", "OrderDetail")' asp-controller="Admin" asp-action="Orders"><span>▧</span>Orders</a>
+                <a class='@Active("Authors")' asp-controller="Admin" asp-action="Authors"><span>▤</span>Authors</a>
+                <a class='@Active("Publishers")' asp-controller="Admin" asp-action="Publishers"><span>▨</span>Publishers</a>
+                <a class='@Active("Categories")' asp-controller="Admin" asp-action="Categories"><span>▣</span>Categories</a>
+                <a class='@Active("Customers")' asp-controller="Admin" asp-action="Customers"><span>●</span>Customers</a>
+                <a asp-controller="Home" asp-action="Index"><span>↗</span>View site</a>
+                <a asp-controller="Account" asp-action="Logout"><span>↪</span>Logout</a>
+            </nav>
+        </aside>
+        <main class="admin-content">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="admin-footer"><strong>BookPort</strong><span>© 2026 Book Port. Powered by ASP.NET Core MVC.</span></footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
