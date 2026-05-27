@@ -13,5 +13,9 @@ public partial class XaPhuong
 
     public bool TrangThai { get; set; }
 
+    public virtual ICollection<DonHang> DonHangs { get; set; } = new List<DonHang>();
+
     public virtual TinhThanh MaTinhNavigation { get; set; } = null!;
+
+    public virtual ICollection<NguoiDung> NguoiDungs { get; set; } = new List<NguoiDung>();
 }

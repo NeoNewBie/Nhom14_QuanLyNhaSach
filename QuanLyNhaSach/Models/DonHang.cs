@@ -37,7 +37,7 @@ public partial class DonHang
 
     public virtual NguoiDung MaNguoiDungNavigation { get; set; } = null!;
 
-    public virtual XaPhuongCuBackup? MaXaGiaoNavigation { get; set; }
+    public virtual XaPhuong? MaXaGiaoNavigation { get; set; }
 
     public virtual ThanhToan? ThanhToan { get; set; }
 }

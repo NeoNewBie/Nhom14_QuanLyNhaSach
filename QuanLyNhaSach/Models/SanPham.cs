@@ -43,5 +43,5 @@ public partial class SanPham
 
     public virtual NhaXuatBan? MaNhaXuatBanNavigation { get; set; }
 
-    public virtual ICollection<TacGium> MaTacGia { get; set; } = new List<TacGium>();
+    public virtual ICollection<TacGia> MaTacGia { get; set; } = new List<TacGia>();
 }

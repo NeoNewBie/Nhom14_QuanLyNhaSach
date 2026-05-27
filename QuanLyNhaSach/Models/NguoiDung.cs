@@ -39,7 +39,7 @@ public partial class NguoiDung
 
     public virtual VaiTro MaVaiTroNavigation { get; set; } = null!;
 
-    public virtual XaPhuongCuBackup? MaXaNavigation { get; set; }
+    public virtual XaPhuong? MaXaNavigation { get; set; }
 
     public virtual ICollection<PhieuNhap> PhieuNhaps { get; set; } = new List<PhieuNhap>();
 }
