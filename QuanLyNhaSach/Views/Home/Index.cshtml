@@ -1,8 +1,153 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@model HomeIndexViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
+    var coLoc = !string.IsNullOrWhiteSpace(Model.TuKhoa) || Model.MaDanhMuc.HasValue;
+    var tenDanhMucDangLoc = Model.DanhMucs.FirstOrDefault(x => x.MaDanhMuc == Model.MaDanhMuc)?.TenDanhMuc;
+    var thongBaoBoLocParts = new List<string>();
+    if (!string.IsNullOrWhiteSpace(Model.TuKhoa))
+    {
+        thongBaoBoLocParts.Add($"cho từ khóa '{Model.TuKhoa}'");
+    }
+    if (!string.IsNullOrWhiteSpace(tenDanhMucDangLoc))
+    {
+        thongBaoBoLocParts.Add($"trong thể loại {tenDanhMucDangLoc}");
+    }
+    var thongBaoBoLoc = string.Join(" ", thongBaoBoLocParts);
+    var sanPhamTheoDanhMuc = Model.DanhMucs
+        .Select(dm => new { DanhMuc = dm, SanPhams = Model.TatCaSanPham.Where(sp => sp.MaDanhMuc == dm.MaDanhMuc).Take(8).ToList() })
+        .Where(x => x.SanPhams.Any())
+        .ToList();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-figma-wrap">
+    <aside class="home-left-menu">
+        <a class="active" asp-controller="Home" asp-action="Index"><span>⌂</span>Trang chủ</a>
+        <a href="#top-sellers"><span>⌁</span>Sách bán chạy</a>
+        <a href="#new-releases"><span>✦</span>Sách mới</a>
+        <a href="#catalog"><span>ϟ</span>Danh mục</a>
+        <a asp-controller="User" asp-action="Profile"><span>♙</span>Tài khoản</a>
+        <a asp-controller="DonHang" asp-action="History"><span>▣</span>Đơn hàng</a>
+        <a asp-controller="Information" asp-action="Page" asp-route-slug="gift"><span>▤</span>Voucher</a>
+            <a class="download-app-link" asp-controller="Information" asp-action="AppDownload">Download App Here!</a>
+    </aside>
+
+    <div class="home-main-content">
+        <section class="home-hero">
+            <div class="home-hero-content">
+                <span>LITERARY SELECTION</span>
+                <h1><span class="hero-red-word">Discover</span><br />the future<br />of reading.</h1>
+                <p>Hàng trăm đầu sách chất lượng, nhiều thể loại rõ ràng, đặt hàng nhanh và theo dõi đơn hàng dễ dàng.</p>
+                <a href="#catalog" class="hero-red-btn">EXPLORE BOOKS →</a>
+            </div>
+        </section>
+
+        <section class="figma-section" id="top-sellers">
+            <div class="section-head-row">
+                <h2><span>▥</span> Sách bán chạy</h2>
+                <a asp-controller="Home" asp-action="Index">Xem thêm</a>
+            </div>
+            <div class="top-seller-grid">
+                @for (int i = 0; i < Model.SachBanChay.Count; i++)
+                {
+                    var sp = Model.SachBanChay[i];
+                    <a class="figma-top-card" asp-controller="SanPham" asp-action="Details" asp-route-id="@sp.MaSanPham">
+                        <div class="seller-number">@((i + 1).ToString("00"))</div>
+                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(sp.AnhBia) ? "/images/books/placeholder.svg" : sp.AnhBia)" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <div>
+                            <h5>@sp.TenSanPham</h5>
+                            <p>@(sp.TacGia?.TenTacGia ?? "Đang cập nhật")</p>
+                            <small>★ 4.@(8 - (i % 3))</small>
+                        </div>
+                    </a>
+                }
+            </div>
+        </section>
+
+        <section class="figma-section" id="new-releases">
+            <div class="section-head-row release-head">
+                <div>
+                    <h2><span>✦</span> Sách mới</h2>
+                    <p>Những cuốn sách vừa cập nhật trong hệ thống</p>
+                </div>
+            </div>
+            <div class="figma-product-row">
+                @foreach (var sp in Model.SachMoi.Take(4))
+                {
+                    <partial name="~/Views/Shared/_ProductCard.cshtml" model="sp" />
+                }
+            </div>
+        </section>
+
+        <section class="figma-section" id="catalog">
+            <div class="section-head-row">
+                <h2><span>▥</span> Sách theo thể loại</h2>
+                <div class="catalog-filter-bar">
+                    <span>@Model.TatCaSanPham.Count sản phẩm</span>
+                    <form asp-controller="Home" asp-action="Index" method="get">
+                        <input name="q" value="@Model.TuKhoa" placeholder="Tìm sách, tác giả, thể loại..." />
+                        <button type="submit">Tìm</button>
+                    </form>
+                </div>
+            </div>
+
+            @if (coLoc)
+            {
+                <div class="genre-filter-note">
+                    Đang hiển thị kết quả @thongBaoBoLoc.
+                    <a asp-controller="Home" asp-action="Index">Xóa bộ lọc</a>
+                </div>
+                @if (Model.TatCaSanPham.Any())
+                {
+                    <div class="product-grid figma-catalog-grid">
+                        @foreach (var sp in Model.TatCaSanPham)
+                        {
+                            <partial name="~/Views/Shared/_ProductCard.cshtml" model="sp" />
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-box">Không tìm thấy sách phù hợp.</div>
+                }
+            }
+            else if (sanPhamTheoDanhMuc.Any())
+            {
+                @foreach (var group in sanPhamTheoDanhMuc)
+                {
+                    <div class="genre-book-block" id="genre-@group.DanhMuc.MaDanhMuc">
+                        <div class="genre-book-heading">
+                            <div>
+                                <h3>@group.DanhMuc.TenDanhMuc</h3>
+                                <p>@group.DanhMuc.MoTa</p>
+                            </div>
+                            <a asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@group.DanhMuc.MaDanhMuc">Xem tất cả ›</a>
+                        </div>
+                        <div class="product-grid figma-catalog-grid">
+                            @foreach (var sp in group.SanPhams)
+                            {
+                                <partial name="~/Views/Shared/_ProductCard.cshtml" model="sp" />
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-box">Chưa có sách trong hệ thống.</div>
+            }
+        </section>
+
+        <section class="figma-section genre-section">
+            <h2>Duyệt theo thể loại</h2>
+            <div class="genre-grid">
+                @foreach (var dm in Model.DanhMucs)
+                {
+                    <a class="genre-tile @(Model.MaDanhMuc == dm.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@dm.MaDanhMuc">
+                        <span>▧</span>
+                        <strong>@dm.TenDanhMuc</strong>
+                    </a>
+                }
+            </div>
+        </section>
+    </div>
 </div>

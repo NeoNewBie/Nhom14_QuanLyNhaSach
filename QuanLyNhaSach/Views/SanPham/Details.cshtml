@@ -1,0 +1,148 @@
+@model SanPham
+@{
+    ViewData["Title"] = Model.TenSanPham;
+    var related = ViewBag.SanPhamLienQuan as List<SanPham> ?? new List<SanPham>();
+    var categories = ViewBag.DanhMucs as List<DanhMuc> ?? new List<DanhMuc>();
+    var reviews = ViewBag.DanhGias as List<DanhGia> ?? new List<DanhGia>();
+    var soLuongDaBan = (int)(ViewBag.SoLuongDaBan ?? 0);
+    var avg = (double)(ViewBag.DiemTrungBinh ?? 0d);
+}
+
+<div class="detail-figma-page">
+    <aside class="detail-category-sidebar">
+        <div class="side-title">ALL CATEGORIES</div>
+        <a asp-controller="Home" asp-action="Index">Tất cả sách</a>
+        <a asp-controller="Home" asp-action="Index" asp-fragment="new-releases">Sách mới</a>
+        <a asp-controller="Home" asp-action="Index" asp-fragment="top-sellers">Sách bán chạy</a>
+        @foreach (var dm in categories)
+        {
+            <a class="@(Model.MaDanhMuc == dm.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@dm.MaDanhMuc">@dm.TenDanhMuc</a>
+        }
+    </aside>
+
+    <main class="detail-figma-main">
+        <div class="breadcrumb-line"><a asp-controller="Home" asp-action="Index">Trang chủ</a> <span>›</span> @(Model.DanhMuc?.TenDanhMuc ?? "Sách") <span>›</span> <strong>@Model.TenSanPham</strong></div>
+        <section class="detail-product-grid">
+            <div class="detail-gallery">
+                <div class="detail-main-cover">
+                    <img id="mainBookCover" class="cover-img" src="@(string.IsNullOrWhiteSpace(Model.AnhBia) ? "/images/books/placeholder.svg" : Model.AnhBia)" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                </div>
+                <div class="cover-thumb-row">
+                    <button type="button" class="cover-thumb active" data-cover="@(string.IsNullOrWhiteSpace(Model.AnhBia) ? "/images/books/placeholder.svg" : Model.AnhBia)">Ảnh bìa</button>
+                    <button type="button" class="cover-thumb" data-cover="/images/books/placeholder.svg">Mẫu</button>
+                    <button type="button" class="cover-thumb" data-cover="/images/books/hero.svg">BookPort</button>
+                </div>
+                <form asp-controller="GioHang" asp-action="Add" method="post" class="d-grid gap-2 mt-4">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                    <input type="hidden" name="soLuong" value="1" />
+                    <button class="btn btn-outline-danger detail-wide-btn" type="submit">🛒 Add to Cart</button>
+                </form>
+                <form asp-controller="GioHang" asp-action="Add" method="post" class="d-grid mt-2">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                    <input type="hidden" name="soLuong" value="1" />
+                    <input type="hidden" name="muaNgay" value="true" />
+                    <button class="btn btn-danger detail-wide-btn" type="submit">🛒 Buy Now</button>
+                </form>
+            </div>
+
+            <div class="detail-info-panel">
+                <span class="pill-red">@(Model.DanhMuc?.TenDanhMuc ?? "SÁCH")</span>
+                <h1>@Model.TenSanPham</h1>
+                <div class="author-line">Bởi <strong>@(Model.TacGia?.TenTacGia ?? "Đang cập nhật")</strong></div>
+                <div class="rating-line"><strong>★ @(avg > 0 ? avg.ToString("0.0") : "Chưa có")</strong> <span>| @reviews.Count đánh giá | Đã bán @soLuongDaBan</span> <em>@(Model.SoLuongTon > 0 ? "Còn hàng" : "Hết hàng")</em></div>
+                <div class="price-line">
+                    <div><small>Price</small><strong>@Model.GiaBan.ToString("N0") đ</strong></div>
+                    @if (Model.GiaBia > Model.GiaBan)
+                    {
+                        <div><small>Original</small><del>@Model.GiaBia.ToString("N0") đ</del></div>
+                        <span class="discount-badge">-@(((Model.GiaBia - Model.GiaBan) / Model.GiaBia * 100).ToString("0"))%</span>
+                    }
+                </div>
+                <div class="stock-line"><span></span> @(Model.SoLuongTon > 0 ? "In stock - Ready to ship" : "Sản phẩm đang hết hàng")</div>
+                <div class="meta-grid">
+                    <div><span>▣</span><small>PUBLISHER</small><strong>@(Model.NhaXuatBan?.TenNhaXuatBan ?? "Đang cập nhật")</strong></div>
+                    <div><span>T</span><small>FORMAT</small><strong>@Model.LoaiSanPham</strong></div>
+                    <div><span>◎</span><small>LANGUAGE</small><strong>Tiếng Việt</strong></div>
+                    <div><span>▥</span><small>MÃ SÁCH</small><strong>BP-@Model.MaSanPham.ToString("0000")</strong></div>
+                    <div><span>▣</span><small>CATEGORY</small><strong>@(Model.DanhMuc?.TenDanhMuc ?? "Đang cập nhật")</strong></div>
+                    <div><span>▣</span><small>PUBLISHED</small><strong>@Model.NgayTao.ToString("dd/MM/yyyy")</strong></div>
+                </div>
+                <div class="detail-actions-line">
+                    <form asp-controller="GioHang" asp-action="Add" method="post" class="qty-form qty-js">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                        <button type="button" class="qty-minus">−</button>
+                        <input type="number" min="1" max="@Math.Max(1, Model.SoLuongTon)" name="soLuong" value="1" />
+                        <button type="button" class="qty-plus">＋</button>
+                        <button class="btn btn-danger ms-2" type="submit">Thêm</button>
+                    </form>
+                    <form asp-controller="YeuThich" asp-action="Add" method="post" class="wishlist-wide-form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                        <button type="submit">♡ Add to Wishlist</button>
+                    </form>
+                </div>
+                <div class="benefit-list">
+                    <div class="green">✓ <strong>100% Original</strong><span>Sách được kiểm tra trước khi giao.</span></div>
+                    <div class="blue">▣ <strong>Free Shipping</strong><span>Miễn phí vận chuyển trong dữ liệu demo.</span></div>
+                    <div class="purple">○ <strong>7-Day Return</strong><span>Đổi trả khi sản phẩm lỗi hoặc giao sai.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="description-tabs">
+            <nav class="detail-tabs" role="tablist">
+                <button type="button" class="active" data-tab-target="desc">Description</button>
+                <button type="button" data-tab-target="details">Details</button>
+                <button type="button" data-tab-target="reviews">Reviews (@reviews.Count)</button>
+                <button type="button" data-tab-target="shipping">Shipping & Returns</button>
+            </nav>
+            <div class="tab-panel active" id="desc"><p>@(string.IsNullOrWhiteSpace(Model.MoTa) ? "Thông tin mô tả sách đang được cập nhật." : Model.MoTa)</p></div>
+            <div class="tab-panel" id="details">
+                <p><strong>Danh mục:</strong> @(Model.DanhMuc?.TenDanhMuc ?? "Đang cập nhật")</p>
+                <p><strong>Tác giả:</strong> @(Model.TacGia?.TenTacGia ?? "Đang cập nhật")</p>
+                <p><strong>Nhà xuất bản:</strong> @(Model.NhaXuatBan?.TenNhaXuatBan ?? "Đang cập nhật")</p>
+                <p><strong>Tồn kho:</strong> @Model.SoLuongTon cuốn</p>
+            </div>
+            <div class="tab-panel" id="reviews">
+                @if (!reviews.Any())
+                {
+                    <p>Chưa có đánh giá. Sau khi đơn hàng được giao, khách hàng có thể đánh giá sách trong lịch sử đơn hàng.</p>
+                }
+                else
+                {
+                    @foreach (var dg in reviews)
+                    {
+                        <div class="review-row"><strong>@(dg.NguoiDung?.HoTen ?? "Khách hàng")</strong><span>@(new string('★', dg.SoSao))</span><p>@dg.NoiDung</p><small>@dg.NgayDanhGia.ToString("dd/MM/yyyy")</small></div>
+                    }
+                }
+            </div>
+            <div class="tab-panel" id="shipping"><p>BookPort hỗ trợ thanh toán COD hoặc chuyển khoản. Đơn hàng có thể theo dõi tại trang lịch sử đơn hàng. Đổi trả trong 7 ngày nếu sản phẩm lỗi hoặc giao sai.</p></div>
+        </section>
+
+        <section class="related-section">
+            <div class="section-head-row">
+                <div>
+                    <h2>You may also like</h2>
+                    <p>Những cuốn sách cùng thể loại hoặc được mua nhiều</p>
+                </div>
+                <a asp-controller="Home" asp-action="Index">View all ›</a>
+            </div>
+            @if (related.Any())
+            {
+                <div class="figma-product-row related-row">
+                    @foreach (var sp in related.Take(4))
+                    {
+                        <partial name="~/Views/Shared/_ProductCard.cshtml" model="sp" />
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-box">Chưa có sách liên quan.</div>
+            }
+        </section>
+    </main>
+</div>

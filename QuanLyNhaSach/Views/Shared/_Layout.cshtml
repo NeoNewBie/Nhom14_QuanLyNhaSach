@@ -1,47 +1,101 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@using Microsoft.AspNetCore.Http
+@{
+    var hoTen = Context.Session.GetString("UserName") ?? Context.Session.GetString("HoTen");
+    var vaiTro = Context.Session.GetString("Role") ?? Context.Session.GetString("VaiTro");
+}
+<!DOCTYPE html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - QuanLyNhaSach</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - BOOKPORT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/QuanLyNhaSach.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">QuanLyNhaSach</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<body class="store-body">
+    <header class="bookport-header">
+        <div class="bookport-logo-wrap">
+            <a class="bookport-logo" asp-controller="Home" asp-action="Index">BOOKPORT</a>
+            <div class="bookport-tagline">YOUR NEXT GREAT ADVENTURE AWAITS</div>
+        </div>
+        <form class="bookport-search" asp-controller="Home" asp-action="Index" method="get">
+            <span>⌕</span>
+            <input name="q" value="@Context.Request.Query["q"]" placeholder="Tìm sách, tác giả, thể loại..." />
+        </form>
+        <nav class="bookport-topnav">
+            <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+            <a asp-controller="SanPhams" asp-action="Index">Sách</a>
+            <a asp-controller="YeuThich" asp-action="Index">Yêu thích</a>
+            <a asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
+            <a asp-controller="DonHang" asp-action="History">Đơn hàng</a>
         </nav>
+        <div class="bookport-actions">
+            @if (string.IsNullOrEmpty(hoTen))
+            {
+                <a class="header-icon" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                <a class="cart-button" asp-controller="Account" asp-action="Register">Đăng ký</a>
+            }
+            else
+            {
+                <a class="header-icon" asp-controller="User" asp-action="Profile">@hoTen</a>
+                @if (vaiTro == "Admin")
+                {
+                    <a class="header-icon text-danger" asp-controller="Admin" asp-action="Dashboard">Admin</a>
+                }
+                <a class="cart-button" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+            }
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - QuanLyNhaSach - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main>
+        <div class="container pt-3">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-bookport">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-bookport">@TempData["Error"]</div>
+            }
+        </div>
+        @RenderBody()
+    </main>
+
+    <footer class="bookport-footer">
+        <div class="bookport-footer-inner">
+            <div>
+                <h3>BOOKPORT</h3>
+                <p>Website quản lý bán sách trực tuyến: tìm kiếm sách, thêm giỏ hàng, đặt hàng và theo dõi đơn hàng.</p>
+                <p><strong>Hotline:</strong> 0901 234 567<br /><strong>Email:</strong> bookport@nhom14.vn</p>
+            </div>
+            <div>
+                <h6>Khám phá</h6>
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <a asp-controller="SanPhams" asp-action="Index">Tất cả sách</a>
+                <a asp-controller="YeuThich" asp-action="Index">Sách yêu thích</a>
+                <a asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
+            </div>
+            <div>
+                <h6>Tài khoản</h6>
+                <a asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                <a asp-controller="Account" asp-action="Register">Đăng ký</a>
+                <a asp-controller="User" asp-action="Profile">Thông tin cá nhân</a>
+                <a asp-controller="DonHang" asp-action="History">Lịch sử đơn hàng</a>
+            </div>
+            <div>
+                <h6>Hỗ trợ</h6>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="shipping">Vận chuyển</a>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="returns">Đổi trả</a>
+                <a asp-controller="Information" asp-action="Page" asp-route-slug="privacy">Bảo mật</a>
+                <a asp-controller="Contact" asp-action="Index">Liên hệ</a>
+            </div>
+        </div>
+        <div class="bookport-copyright">
+            <span>© 2026 BOOKPORT - Nhóm 14</span>
+            <span><a asp-controller="Information" asp-action="Page" asp-route-slug="privacy">Privacy</a> <a asp-controller="Information" asp-action="Page" asp-route-slug="terms">Terms</a></span>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

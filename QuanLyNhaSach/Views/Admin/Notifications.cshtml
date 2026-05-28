@@ -1,0 +1,13 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Notifications";
+    var lowStock = ViewBag.LowStock as List<SanPham> ?? new List<SanPham>();
+    var newOrders = ViewBag.NewOrders as List<DonHang> ?? new List<DonHang>();
+    var messages = ViewBag.Messages as List<LienHe> ?? new List<LienHe>();
+}
+<h1 class="admin-title">Notifications</h1>
+<div class="row g-4">
+    <div class="col-lg-4"><section class="admin-card"><h4>Đơn chờ xác nhận</h4>@foreach(var dh in newOrders){<p><a asp-action="OrderDetail" asp-route-id="@dh.MaDonHang">#BP-@dh.MaDonHang.ToString("000000")</a> - @dh.HoTenNguoiNhan</p>}</section></div>
+    <div class="col-lg-4"><section class="admin-card"><h4>Sách sắp hết</h4>@foreach(var sp in lowStock){<p>@sp.TenSanPham - còn <strong>@sp.SoLuongTon</strong></p>}</section></div>
+    <div class="col-lg-4"><section class="admin-card"><h4>Tin nhắn mới</h4>@foreach(var m in messages){<p><a asp-action="Messages">@m.TieuDe</a> - @m.HoTen</p>}</section></div>
+</div>

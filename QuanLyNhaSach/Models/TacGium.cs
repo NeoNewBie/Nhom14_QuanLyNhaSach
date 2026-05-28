@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace QuanLyNhaSach.Models;
 
-namespace QuanLyNhaSach.Models;
-
-public partial class TacGium
+// Giữ file để tránh lỗi tham chiếu cũ sau khi merge. Code mới dùng TacGia.
+public partial class TacGium : TacGia
 {
-    public int MaTacGia { get; set; }
-
-    public string TenTacGia { get; set; } = null!;
-
-    public string? QuocTich { get; set; }
-
-    public string? MoTa { get; set; }
-
-    public virtual ICollection<SanPham> MaSanPhams { get; set; } = new List<SanPham>();
 }

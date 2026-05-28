@@ -1,0 +1,56 @@
+@model ProfileViewModel
+@{
+    Layout = "_BlankLayout";
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+<div class="figma-canvas user-canvas">
+    <a class="figma-back" asp-controller="Home" asp-action="Index">‹</a>
+    <div class="account-layout">
+        <aside class="account-side-card">
+            <div class="avatar-ring"><span>@(string.IsNullOrWhiteSpace(Model.HoTen) ? "U" : Model.HoTen.Substring(0,1).ToUpper())</span></div>
+            <h3>@Model.HoTen</h3>
+            <p>Khách hàng BookPort</p>
+            <nav>
+                <a class="active" asp-controller="User" asp-action="Profile">☑ Thông tin cá nhân</a>
+                <a asp-controller="DonHang" asp-action="History">▰ Đơn hàng của tôi</a>
+                <a asp-controller="YeuThich" asp-action="Index">♥ Sách yêu thích</a>
+                <a asp-controller="User" asp-action="Notifications">🔔 Thông báo</a>
+                <a asp-controller="User" asp-action="Security">🛡 Bảo mật tài khoản</a>
+                <a asp-controller="GioHang" asp-action="Index">🛒 Giỏ hàng</a>
+                <a class="logout" asp-controller="Account" asp-action="Logout">↪ Đăng xuất</a>
+            </nav>
+        </aside>
+        <section class="account-main-card">
+            <h1>▣ Cài đặt tài khoản</h1>
+            <form asp-action="Profile" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+                <div class="row g-3">
+                    <div class="col-md-6 form-block"><label asp-for="HoTen">Họ và tên</label><input asp-for="HoTen" /><span asp-validation-for="HoTen" class="text-danger small"></span></div>
+                    <div class="col-md-6 form-block"><label asp-for="SoDienThoai">Số điện thoại</label><input asp-for="SoDienThoai" placeholder="Nhập số điện thoại" /><span asp-validation-for="SoDienThoai" class="text-danger small"></span></div>
+                    <div class="col-md-6 form-block"><label asp-for="Email">Email</label><input asp-for="Email" readonly /></div>
+                    <div class="col-md-6 form-block"><label asp-for="NgaySinh">Ngày sinh</label><input asp-for="NgaySinh" type="date" /></div>
+                    <div class="col-md-6 form-block">
+                        <label asp-for="GioiTinh">Giới tính</label>
+                        <select asp-for="GioiTinh">
+                            <option value="">Chưa cập nhật</option>
+                            <option value="true">Nam</option>
+                            <option value="false">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-block"><label asp-for="DiaChi">Địa chỉ giao hàng</label><input asp-for="DiaChi" placeholder="Ví dụ: 123 Đường Lê Lợi, Đà Nẵng" /></div>
+                </div>
+                <button class="save-red-btn" type="submit">Lưu thay đổi</button>
+            </form>
+            <div class="activity-block">
+                <h2>▰ Hoạt động của bạn</h2>
+                <div class="activity-grid">
+                    <div><span>▣</span><strong>@Model.SoDonHang</strong><small>Đơn hàng đã tạo</small></div>
+                    <div><span>♥</span><strong>@Model.SoSachYeuThich</strong><small>Sách yêu thích</small></div>
+                    <div><span>●</span><strong>@Model.TongChiTieu.ToString("N0") đ</strong><small>Tổng chi tiêu</small></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

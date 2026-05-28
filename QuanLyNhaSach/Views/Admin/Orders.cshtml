@@ -1,0 +1,45 @@
+@model List<DonHang>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý đơn hàng";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="admin-title">Quản lý đơn hàng</h1>
+</div>
+<form method="get" class="admin-filter mb-3">
+    <input class="form-control" name="q" value="@ViewBag.TuKhoa" placeholder="Tìm mã đơn, tên, số điện thoại" />
+    <select class="form-select" name="trangThai">
+        <option value="">Tất cả trạng thái</option>
+        @foreach (var st in new[] { "Chờ xác nhận", "Đã xác nhận", "Đang giao", "Đã giao", "Đã hủy" })
+        {
+            if (ViewBag.TrangThai == st)
+            {
+                <option value="@st" selected>@st</option>
+            }
+            else
+            {
+                <option value="@st">@st</option>
+            }
+        }
+    </select>
+    <button class="btn btn-danger" type="submit">Lọc</button>
+</form>
+<div class="admin-card table-responsive">
+    <table class="table align-middle">
+        <thead><tr><th>Mã</th><th>Khách</th><th>SĐT</th><th>Ngày</th><th>Trạng thái</th><th class="text-end">Tổng tiền</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var dh in Model)
+        {
+            <tr>
+                <td>#@dh.MaDonHang</td>
+                <td>@dh.HoTenNguoiNhan</td>
+                <td>@dh.SoDienThoaiNhan</td>
+                <td>@dh.NgayDat.ToString("dd/MM/yyyy")</td>
+                <td><span class="status-badge">@dh.TrangThaiDonHang</span></td>
+                <td class="text-end">@dh.TongTien.ToString("N0") VNĐ</td>
+                <td class="text-end"><a class="btn btn-sm btn-outline-danger" asp-action="OrderDetail" asp-route-id="@dh.MaDonHang">Chi tiết</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

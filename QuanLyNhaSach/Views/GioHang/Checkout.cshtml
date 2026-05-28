@@ -1,0 +1,63 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Đặt hàng";
+}
+<div class="container py-4">
+    <h1 class="page-title">Thông tin đặt hàng</h1>
+    <form asp-action="Checkout" method="post">
+        @Html.AntiForgeryToken()
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card-soft">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+                    <div class="mb-3">
+                        <label asp-for="HoTenNguoiNhan" class="form-label">Họ tên người nhận</label>
+                        <input asp-for="HoTenNguoiNhan" class="form-control" />
+                        <span asp-validation-for="HoTenNguoiNhan" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="SoDienThoaiNhan" class="form-label">Số điện thoại</label>
+                        <input asp-for="SoDienThoaiNhan" class="form-control" />
+                        <span asp-validation-for="SoDienThoaiNhan" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DiaChiGiaoHang" class="form-label">Địa chỉ giao hàng</label>
+                        <input asp-for="DiaChiGiaoHang" class="form-control" />
+                        <span asp-validation-for="DiaChiGiaoHang" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PhuongThucThanhToan" class="form-label">Phương thức thanh toán</label>
+                        <select asp-for="PhuongThucThanhToan" class="form-select">
+                            <option value="COD">Thanh toán khi nhận hàng</option>
+                            <option value="Chuyển khoản">Chuyển khoản ngân hàng</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="GhiChu" class="form-label">Ghi chú</label>
+                        <textarea asp-for="GhiChu" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="summary-card">
+                    <h4>Đơn hàng</h4>
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="d-flex justify-content-between small mb-2">
+                            <span>@item.SanPham?.TenSanPham x @item.SoLuong</span>
+                            <strong>@((item.SoLuong * item.DonGia).ToString("N0")) VNĐ</strong>
+                        </div>
+                    }
+                    <hr />
+                    <div class="d-flex justify-content-between"><span>Tạm tính</span><strong>@Model.TamTinh.ToString("N0") VNĐ</strong></div>
+                    <div class="d-flex justify-content-between"><span>Phí ship</span><strong>@Model.PhiShip.ToString("N0") VNĐ</strong></div>
+                    <div class="d-flex justify-content-between text-success"><span>Giảm giá @(string.IsNullOrWhiteSpace(Model.MaGiamGiaDangApDung) ? "" : $"({Model.MaGiamGiaDangApDung})")</span><strong>-@Model.GiamGia.ToString("N0") VNĐ</strong></div>
+                    <hr />
+                    <div class="d-flex justify-content-between total"><span>Tổng cộng</span><strong>@Model.TongTien.ToString("N0") VNĐ</strong></div>
+                    <button class="btn btn-danger w-100 mt-3" type="submit">Xác nhận đặt hàng</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

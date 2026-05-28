@@ -1,130 +1,70 @@
-@model QuanLyNhaSach.Models.SanPham
-
+@model SanPham
 @{
-	ViewData["Title"] = "Chi tiết sản phẩm";
+    ViewData["Title"] = Model.TenSanPham;
+    var img = string.IsNullOrWhiteSpace(Model.AnhBia)
+        ? Url.Content("~/images/books/book-default.jpg")
+        : (Model.AnhBia.StartsWith("http") ? Model.AnhBia : Url.Content("~/images/books/" + Model.AnhBia));
+    var tacGia = Model.MaTacGia.Any() ? string.Join(", ", Model.MaTacGia.Select(x => x.TenTacGia)) : "Đang cập nhật";
+    var avg = Model.DanhGia.Any() ? Model.DanhGia.Average(x => x.SoSao) : 0;
 }
 
-<div class="container mt-4">
-	<div class="row">
-		<div class="col-md-8 offset-md-2">
-			<h1>@ViewData["Title"]</h1>
-			<hr />
+<section class="details-wrap">
+    <div class="details-cover">
+        <img src="@img" alt="@Model.TenSanPham" onerror="this.src='/images/books/book-default.jpg'" />
+    </div>
+    <div class="details-info">
+        <p class="eyebrow">@(Model.MaDanhMucNavigation?.TenDanhMuc ?? Model.LoaiSanPham)</p>
+        <h1>@Model.TenSanPham</h1>
+        <p class="muted">Tác giả: @tacGia</p>
+        <p class="muted">Nhà xuất bản: @(Model.MaNhaXuatBanNavigation?.TenNhaXuatBan ?? "Đang cập nhật")</p>
+        <div class="rating">★ @avg.ToString("0.0") / 5 (@Model.DanhGia.Count đánh giá)</div>
+        <div class="price-line">
+            <strong>@Model.GiaBan.ToString("N0") đ</strong>
+            <del>@Model.GiaBia.ToString("N0") đ</del>
+        </div>
+        <p class="stock">Số lượng còn: @Model.SoLuongTon</p>
+        <div class="details-actions">
+            <form asp-controller="GioHang" asp-action="Add" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                <input type="number" name="soLuong" value="1" min="1" max="@Model.SoLuongTon" />
+                <button type="submit">Thêm vào giỏ hàng</button>
+            </form>
+            <form asp-controller="YeuThich" asp-action="Add" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+                <button type="submit" class="secondary">Thêm yêu thích</button>
+            </form>
+        </div>
+    </div>
+</section>
 
-			<div class="card">
-				<div class="card-body">
-					<dl class="row">
-						<dt class="col-sm-3">
-							<label asp-for="MaSanPham"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.MaSanPham)
-						</dd>
+<section class="details-tabs">
+    <h2>Mô tả sách</h2>
+    <p>@Model.MoTa</p>
+    <div class="info-table">
+        <div><span>Mã sách</span><strong>#@Model.MaSanPham</strong></div>
+        <div><span>Thể loại</span><strong>@(Model.MaDanhMucNavigation?.TenDanhMuc ?? "Đang cập nhật")</strong></div>
+        <div><span>Loại sản phẩm</span><strong>@Model.LoaiSanPham</strong></div>
+        <div><span>Ngày nhập</span><strong>@Model.NgayTao.ToString("dd/MM/yyyy")</strong></div>
+    </div>
+</section>
 
-						<dt class="col-sm-3">
-							<label asp-for="TenSanPham"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.TenSanPham)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="MoTa"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.MoTa)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="GiaBia"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.GiaBia)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="GiaNhap"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.GiaNhap)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="GiaBan"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.GiaBan)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="SoLuongTon"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.SoLuongTon)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="AnhBia"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.AnhBia)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="LoaiSanPham"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.LoaiSanPham)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="MaDanhMuc"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.MaDanhMuc)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="MaNhaXuatBan"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.MaNhaXuatBan)
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="TrangThai"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@if (Model.TrangThai)
-							{
-								<span class="badge bg-success">Hoạt động</span>
-							}
-							else
-							{
-								<span class="badge bg-danger">Không hoạt động</span>
-							}
-						</dd>
-
-						<dt class="col-sm-3">
-							<label asp-for="NgayTao"></label>
-						</dt>
-						<dd class="col-sm-9">
-							@Html.DisplayFor(model => model.NgayTao)
-						</dd>
-					</dl>
-				</div>
-			</div>
-
-			<div class="mt-4">
-				<a asp-action="Edit" asp-route-id="@Model.MaSanPham" class="btn btn-warning">
-					<i class="bi bi-pencil"></i> Chỉnh sửa
-				</a>
-				<a asp-action="Delete" asp-route-id="@Model.MaSanPham" class="btn btn-danger">
-					<i class="bi bi-trash"></i> Xóa
-				</a>
-				<a asp-action="Index" class="btn btn-secondary">
-					<i class="bi bi-arrow-left"></i> Quay lại
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
+<section class="bp-section">
+    <div class="section-heading"><div><span>REVIEWS</span><h2>Đánh giá của khách hàng</h2></div></div>
+    @if (!Model.DanhGia.Any())
+    {
+        <div class="empty-state">Chưa có đánh giá.</div>
+    }
+    else
+    {
+        @foreach (var review in Model.DanhGia.OrderByDescending(x => x.NgayDanhGia))
+        {
+            <div class="review-card">
+                <strong>@review.MaNguoiDungNavigation.HoTen</strong>
+                <span>★ @review.SoSao</span>
+                <p>@review.NoiDung</p>
+            </div>
+        }
+    }
+</section>
