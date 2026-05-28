@@ -15,7 +15,7 @@ public class SanPhamController : Controller
         _context = context;
     }
 
-    private int? CurrentUserId => HttpContext.Session.GetInt32("MaNguoiDung");
+    private int? CurrentUserId => HttpContext.Session.GetInt32("UserId") ?? HttpContext.Session.GetInt32("MaNguoiDung");
     private IActionResult RedirectToLogin() => RedirectToAction("Login", "Account", new { returnUrl = Request.Path + Request.QueryString });
 
     public async Task<IActionResult> Details(int id)

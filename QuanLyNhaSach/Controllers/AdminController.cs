@@ -16,7 +16,7 @@ public class AdminController : Controller
         _context = context;
     }
 
-    private bool IsAdmin => HttpContext.Session.GetString("Role") == "Admin";
+    private bool IsAdmin => (HttpContext.Session.GetString("Role") ?? HttpContext.Session.GetString("VaiTro")) == "Admin";
     private IActionResult Deny() => RedirectToAction("Login", "Account", new { returnUrl = Request.Path + Request.QueryString });
 
     private void LoadProductComboboxes()
@@ -409,7 +409,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Settings()
     {
         if (!IsAdmin) return Deny();
-        var userId = HttpContext.Session.GetInt32("MaNguoiDung");
+        var userId = (HttpContext.Session.GetInt32("UserId") ?? HttpContext.Session.GetInt32("MaNguoiDung"));
         var admin = userId == null ? null : await _context.NguoiDungs.FindAsync(userId.Value);
         return View(admin);
     }
@@ -419,7 +419,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Settings(string hoTen, string soDienThoai, string? matKhauMoi)
     {
         if (!IsAdmin) return Deny();
-        var userId = HttpContext.Session.GetInt32("MaNguoiDung");
+        var userId = (HttpContext.Session.GetInt32("UserId") ?? HttpContext.Session.GetInt32("MaNguoiDung"));
         if (userId == null) return Deny();
         var admin = await _context.NguoiDungs.FindAsync(userId.Value);
         if (admin == null) return Deny();

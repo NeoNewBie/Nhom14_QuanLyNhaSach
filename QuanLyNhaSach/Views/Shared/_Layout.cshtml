@@ -13,41 +13,46 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body class="store-body">
-    <header class="bookport-header">
-        <div class="bookport-logo-wrap">
-            <a class="bookport-logo" asp-controller="Home" asp-action="Index">BOOKPORT</a>
-            <div class="bookport-tagline">YOUR NEXT GREAT ADVENTURE AWAITS</div>
-        </div>
-        <form class="bookport-search" asp-controller="Home" asp-action="Index" method="get">
-            <span>⌕</span>
-            <input name="q" value="@Context.Request.Query["q"]" placeholder="Tìm sách, tác giả, thể loại..." />
-        </form>
-        <nav class="bookport-topnav">
-            <a asp-controller="Home" asp-action="Index">Trang chủ</a>
-            <a asp-controller="SanPhams" asp-action="Index">Sách</a>
-            <a asp-controller="YeuThich" asp-action="Index">Yêu thích</a>
-            <a asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
-            <a asp-controller="DonHang" asp-action="History">Đơn hàng</a>
-        </nav>
-        <div class="bookport-actions">
-            @if (string.IsNullOrEmpty(hoTen))
-            {
-                <a class="header-icon" asp-controller="Account" asp-action="Login">Đăng nhập</a>
-                <a class="cart-button" asp-controller="Account" asp-action="Register">Đăng ký</a>
-            }
-            else
-            {
-                <a class="header-icon" asp-controller="User" asp-action="Profile">@hoTen</a>
-                @if (vaiTro == "Admin")
+    <header class="bookport-header desktop-header">
+        <div class="bookport-header-inner">
+            <div class="bookport-logo-wrap">
+                <a class="bookport-logo" asp-controller="Home" asp-action="Index">BOOKPORT</a>
+                <div class="bookport-tagline">YOUR NEXT GREAT ADVENTURE AWAITS</div>
+            </div>
+
+            <form class="bookport-search" asp-controller="Home" asp-action="Index" method="get">
+                <span aria-hidden="true">⌕</span>
+                <input name="q" value="@Context.Request.Query["q"]" placeholder="Tìm sách, tác giả, thể loại..." />
+            </form>
+
+            <nav class="bookport-topnav">
+                <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                <a asp-controller="SanPhams" asp-action="Index">Sách</a>
+                <a asp-controller="YeuThich" asp-action="Index">Yêu thích</a>
+                <a asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
+                <a asp-controller="DonHang" asp-action="History">Đơn hàng</a>
+            </nav>
+
+            <div class="bookport-actions">
+                @if (string.IsNullOrEmpty(hoTen))
                 {
-                    <a class="header-icon text-danger" asp-controller="Admin" asp-action="Dashboard">Admin</a>
+                    <a class="bookport-auth-link" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                    <a class="bookport-auth-primary" asp-controller="Account" asp-action="Register">Đăng ký</a>
                 }
-                <a class="cart-button" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
-            }
+                else
+                {
+                    <a class="bookport-user-name" asp-controller="User" asp-action="Profile">@hoTen</a>
+                    @if (vaiTro == "Admin")
+                    {
+                        <a class="bookport-auth-link text-danger" asp-controller="Admin" asp-action="Dashboard">Admin</a>
+                    }
+                    <a class="bookport-auth-primary" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                }
+            </div>
         </div>
     </header>
 
-    <main>
+    <main class="site-main">
         <div class="container pt-3">
             @if (TempData["Success"] != null)
             {
@@ -61,12 +66,16 @@
         @RenderBody()
     </main>
 
-    <footer class="bookport-footer">
+    <footer class="bookport-footer desktop-footer">
         <div class="bookport-footer-inner">
-            <div>
+            <div class="footer-brand-col">
                 <h3>BOOKPORT</h3>
-                <p>Website quản lý bán sách trực tuyến: tìm kiếm sách, thêm giỏ hàng, đặt hàng và theo dõi đơn hàng.</p>
-                <p><strong>Hotline:</strong> 0901 234 567<br /><strong>Email:</strong> bookport@nhom14.vn</p>
+                <p>Website quản lý bán sách trực tuyến: tìm sách, xem chi tiết, thêm giỏ hàng, đặt hàng và theo dõi đơn hàng rõ ràng.</p>
+                <div class="footer-contact-line"><strong>Hotline:</strong> 0901 234 567</div>
+                <div class="footer-contact-line"><strong>Email:</strong> bookport@nhom14.vn</div>
+                <div class="footer-social">
+                    <span>f</span><span>in</span><span>yt</span>
+                </div>
             </div>
             <div>
                 <h6>Khám phá</h6>
@@ -92,7 +101,7 @@
         </div>
         <div class="bookport-copyright">
             <span>© 2026 BOOKPORT - Nhóm 14</span>
-            <span><a asp-controller="Information" asp-action="Page" asp-route-slug="privacy">Privacy</a> <a asp-controller="Information" asp-action="Page" asp-route-slug="terms">Terms</a></span>
+            <span><a asp-controller="Information" asp-action="Page" asp-route-slug="privacy">Privacy</a><a asp-controller="Information" asp-action="Page" asp-route-slug="terms">Terms</a></span>
         </div>
     </footer>
 

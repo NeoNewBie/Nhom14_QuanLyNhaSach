@@ -41,6 +41,7 @@ public class AccountController : Controller
         }
 
         HttpContext.Session.SetInt32("UserId", user.MaNguoiDung);
+        HttpContext.Session.SetInt32("MaNguoiDung", user.MaNguoiDung);
         HttpContext.Session.SetString("UserName", user.HoTen);
         HttpContext.Session.SetString("HoTen", user.HoTen);
         HttpContext.Session.SetString("Role", user.MaVaiTroNavigation.TenVaiTro);
@@ -53,7 +54,7 @@ public class AccountController : Controller
 
         if (user.MaVaiTroNavigation.TenVaiTro.Equals("Admin", StringComparison.OrdinalIgnoreCase))
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "Admin");
         }
 
         return RedirectToAction("Index", "Home");
@@ -131,6 +132,7 @@ public class AccountController : Controller
         }
 
         HttpContext.Session.SetInt32("UserId", user.MaNguoiDung);
+        HttpContext.Session.SetInt32("MaNguoiDung", user.MaNguoiDung);
         HttpContext.Session.SetString("UserName", user.HoTen);
         HttpContext.Session.SetString("HoTen", user.HoTen);
         HttpContext.Session.SetString("Role", user.MaVaiTroNavigation.TenVaiTro);

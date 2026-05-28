@@ -14,30 +14,60 @@
     }
     var thongBaoBoLoc = string.Join(" ", thongBaoBoLocParts);
     var sanPhamTheoDanhMuc = Model.DanhMucs
-        .Select(dm => new { DanhMuc = dm, SanPhams = Model.TatCaSanPham.Where(sp => sp.MaDanhMuc == dm.MaDanhMuc).Take(8).ToList() })
+        .Select(dm => new { DanhMuc = dm, SanPhams = Model.TatCaSanPham.Where(sp => sp.MaDanhMuc == dm.MaDanhMuc).Take(8).ToList(), Count = Model.TatCaSanPham.Count(sp => sp.MaDanhMuc == dm.MaDanhMuc) })
         .Where(x => x.SanPhams.Any())
         .ToList();
+    string CategoryIcon(string? ten)
+    {
+        ten = (ten ?? string.Empty).ToLowerInvariant();
+        if (ten.Contains("văn")) return "/images/categories/literature.svg";
+        if (ten.Contains("khoa") || ten.Contains("công") || ten.Contains("lập")) return "/images/categories/technology.svg";
+        if (ten.Contains("kinh") || ten.Contains("quản")) return "/images/categories/business.svg";
+        if (ten.Contains("tâm") || ten.Contains("kỹ")) return "/images/categories/selfhelp.svg";
+        if (ten.Contains("lịch") || ten.Contains("địa")) return "/images/categories/history.svg";
+        return "/images/categories/default.svg";
+    }
 }
 
 <div class="home-figma-wrap">
-    <aside class="home-left-menu">
+    <aside class="home-left-menu desktop-side-menu">
         <a class="active" asp-controller="Home" asp-action="Index"><span>⌂</span>Trang chủ</a>
-        <a href="#top-sellers"><span>⌁</span>Sách bán chạy</a>
+        <a href="#top-sellers"><span>★</span>Sách bán chạy</a>
         <a href="#new-releases"><span>✦</span>Sách mới</a>
-        <a href="#catalog"><span>ϟ</span>Danh mục</a>
+        <a href="#genre-browser"><span>▦</span>Danh mục</a>
         <a asp-controller="User" asp-action="Profile"><span>♙</span>Tài khoản</a>
         <a asp-controller="DonHang" asp-action="History"><span>▣</span>Đơn hàng</a>
         <a asp-controller="Information" asp-action="Page" asp-route-slug="gift"><span>▤</span>Voucher</a>
-            <a class="download-app-link" asp-controller="Information" asp-action="AppDownload">Download App Here!</a>
+        <a asp-controller="Contact" asp-action="Index"><span>✉</span>Liên hệ</a>
     </aside>
 
     <div class="home-main-content">
         <section class="home-hero">
             <div class="home-hero-content">
-                <span>LITERARY SELECTION</span>
-                <h1><span class="hero-red-word">Discover</span><br />the future<br />of reading.</h1>
+                <div class="hero-eyebrow">LITERARY SELECTION</div>
+                <h1><strong>Discover</strong><br />the future<br />of reading.</h1>
                 <p>Hàng trăm đầu sách chất lượng, nhiều thể loại rõ ràng, đặt hàng nhanh và theo dõi đơn hàng dễ dàng.</p>
                 <a href="#catalog" class="hero-red-btn">EXPLORE BOOKS →</a>
+            </div>
+        </section>
+
+        <section class="category-showcase" id="genre-browser">
+            <div class="section-head-row">
+                <div>
+                    <h2><span>▦</span> Duyệt nhanh thể loại</h2>
+                    <p>Icon và số lượng sách được lấy từ dữ liệu thật trong hệ thống</p>
+                </div>
+            </div>
+            <div class="category-card-grid">
+                @foreach (var dm in Model.DanhMucs)
+                {
+                    var count = Model.TatCaSanPham.Count(sp => sp.MaDanhMuc == dm.MaDanhMuc);
+                    <a class="category-card @(Model.MaDanhMuc == dm.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@dm.MaDanhMuc">
+                        <img src="@CategoryIcon(dm.TenDanhMuc)" alt="@dm.TenDanhMuc" />
+                        <strong>@dm.TenDanhMuc</strong>
+                        <span>@count cuốn sách</span>
+                    </a>
+                }
             </div>
         </section>
 
@@ -52,7 +82,7 @@
                     var sp = Model.SachBanChay[i];
                     <a class="figma-top-card" asp-controller="SanPham" asp-action="Details" asp-route-id="@sp.MaSanPham">
                         <div class="seller-number">@((i + 1).ToString("00"))</div>
-                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(sp.AnhBia) ? "/images/books/placeholder.svg" : sp.AnhBia)" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <img class="cover-img" src="@sp.AnhBiaUrl" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                         <div>
                             <h5>@sp.TenSanPham</h5>
                             <p>@(sp.TacGia?.TenTacGia ?? "Đang cập nhật")</p>
@@ -117,7 +147,7 @@
                     <div class="genre-book-block" id="genre-@group.DanhMuc.MaDanhMuc">
                         <div class="genre-book-heading">
                             <div>
-                                <h3>@group.DanhMuc.TenDanhMuc</h3>
+                                <h3><img class="genre-heading-icon" src="@CategoryIcon(group.DanhMuc.TenDanhMuc)" alt="" /> @group.DanhMuc.TenDanhMuc</h3>
                                 <p>@group.DanhMuc.MoTa</p>
                             </div>
                             <a asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@group.DanhMuc.MaDanhMuc">Xem tất cả ›</a>
@@ -137,13 +167,13 @@
             }
         </section>
 
-        <section class="figma-section genre-section">
+        <section class="figma-section genre-section" id="genre-browser-bottom">
             <h2>Duyệt theo thể loại</h2>
             <div class="genre-grid">
                 @foreach (var dm in Model.DanhMucs)
                 {
                     <a class="genre-tile @(Model.MaDanhMuc == dm.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@dm.MaDanhMuc">
-                        <span>▧</span>
+                        <img src="@CategoryIcon(dm.TenDanhMuc)" alt="@dm.TenDanhMuc" />
                         <strong>@dm.TenDanhMuc</strong>
                     </a>
                 }

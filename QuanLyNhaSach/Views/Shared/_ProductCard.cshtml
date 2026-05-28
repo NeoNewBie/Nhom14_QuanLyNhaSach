@@ -1,7 +1,7 @@
 @model SanPham
 <div class="product-card figma-product-card">
     <a asp-controller="SanPham" asp-action="Details" asp-route-id="@Model.MaSanPham" class="product-image-wrap">
-        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(Model.AnhBia) ? "/images/books/placeholder.svg" : Model.AnhBia)" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+        <img class="cover-img" src="@Model.AnhBiaUrl" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
         @if (Model.NgayTao >= DateTime.Now.AddDays(-30))
         {
             <span class="badge-new">NEW</span>

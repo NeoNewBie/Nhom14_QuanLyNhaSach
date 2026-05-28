@@ -201,7 +201,7 @@ public static class SeedData
                     GiaBan = 72250,
                     GiaNhap = 60000,
                     SoLuongTon = 50,
-                    AnhBia = "truyenkieu.jpg",
+                    AnhBia = "https://books.google.com/books/content?id=95isiQ3ZhN4C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat1.MaDanhMuc,
                     MaNhaXuatBan = pub3.MaNhaXuatBan,
@@ -218,7 +218,7 @@ public static class SeedData
                     GiaBan = 80750,
                     GiaNhap = 70000,
                     SoLuongTon = 35,
-                    AnhBia = "demenphieuluuky.jpg",
+                    AnhBia = "https://books.google.com/books/content?id=Jces0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat1.MaDanhMuc,
                     MaNhaXuatBan = pub2.MaNhaXuatBan,
@@ -235,7 +235,7 @@ public static class SeedData
                     GiaBan = 272000,
                     GiaNhap = 240000,
                     SoLuongTon = 25,
-                    AnhBia = "csharp_guide.jpg",
+                    AnhBia = "https://covers.openlibrary.org/b/isbn/9781617291340-L.jpg",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat2.MaDanhMuc,
                     MaNhaXuatBan = pub1.MaNhaXuatBan,
@@ -252,7 +252,7 @@ public static class SeedData
                     GiaBan = 326750,
                     GiaNhap = 300000,
                     SoLuongTon = 20,
-                    AnhBia = "datascience_python.jpg",
+                    AnhBia = "https://covers.openlibrary.org/b/isbn/9781492041139-L.jpg",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat2.MaDanhMuc,
                     MaNhaXuatBan = pub1.MaNhaXuatBan,
@@ -269,7 +269,7 @@ public static class SeedData
                     GiaBan = 168300,
                     GiaNhap = 150000,
                     SoLuongTon = 45,
-                    AnhBia = "7_principles_success.jpg",
+                    AnhBia = "https://covers.openlibrary.org/b/isbn/9780743269513-L.jpg",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat3.MaDanhMuc,
                     MaNhaXuatBan = pub4.MaNhaXuatBan,
@@ -286,7 +286,7 @@ public static class SeedData
                     GiaBan = 153000,
                     GiaNhap = 140000,
                     SoLuongTon = 60,
-                    AnhBia = "atomic_habits.jpg",
+                    AnhBia = "https://books.google.com/books/content?id=lFhbDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat4.MaDanhMuc,
                     MaNhaXuatBan = pub3.MaNhaXuatBan,
@@ -303,7 +303,7 @@ public static class SeedData
                     GiaBan = 148750,
                     GiaNhap = 130000,
                     SoLuongTon = 30,
-                    AnhBia = "1984.jpg",
+                    AnhBia = "https://books.google.com/books/content?id=kotPYEqx7kMC&printsec=frontcover&img=1&zoom=1&source=gbs_api",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat1.MaDanhMuc,
                     MaNhaXuatBan = pub2.MaNhaXuatBan,
@@ -320,7 +320,7 @@ public static class SeedData
                     GiaBan = 238000,
                     GiaNhap = 210000,
                     SoLuongTon = 40,
-                    AnhBia = "lich_su_vn.jpg",
+                    AnhBia = "https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg",
                     LoaiSanPham = "Sách",
                     MaDanhMuc = cat5.MaDanhMuc,
                     MaNhaXuatBan = pub4.MaNhaXuatBan,
@@ -328,6 +328,63 @@ public static class SeedData
                     NgayTao = DateTime.Now.AddMonths(-2)
                 };
                 context.SanPhams.Add(prod8);
+
+                var extraProducts = new[]
+                {
+                    new { Ten = "Norwegian Wood", MoTa = "Tiểu thuyết tình yêu nổi tiếng của Haruki Murakami", GiaBia = 210000m, GiaBan = 178000m, GiaNhap = 145000m, Ton = 38, Anh = "https://books.google.com/books/content?id=M37o0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat1, Nxb = pub3, TacGia = author4, Ngay = -18 },
+                    new { Ten = "Harry Potter và Hòn Đá Phù Thủy", MoTa = "Tác phẩm fantasy được yêu thích trên toàn thế giới", GiaBia = 250000m, GiaBan = 219000m, GiaNhap = 170000m, Ton = 44, Anh = "https://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat1, Nxb = pub2, TacGia = author6, Ngay = -10 },
+                    new { Ten = "Clean Code C#", MoTa = "Kỹ thuật viết mã sạch, dễ bảo trì trong C#", GiaBia = 360000m, GiaBan = 306000m, GiaNhap = 250000m, Ton = 22, Anh = "https://books.google.com/books/content?id=hjEFCAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat2, Nxb = pub1, TacGia = author3, Ngay = -8 },
+                    new { Ten = "ASP.NET Core MVC thực chiến", MoTa = "Xây dựng website bán hàng bằng ASP.NET Core MVC và SQL Server", GiaBia = 390000m, GiaBan = 331500m, GiaNhap = 280000m, Ton = 28, Anh = "https://covers.openlibrary.org/b/isbn/9781617294617-L.jpg", DanhMuc = cat2, Nxb = pub1, TacGia = author3, Ngay = -5 },
+                    new { Ten = "Trí tuệ nhân tạo nhập môn", MoTa = "Nền tảng về AI, machine learning và ứng dụng thực tế", GiaBia = 295000m, GiaBan = 250000m, GiaNhap = 210000m, Ton = 31, Anh = "https://covers.openlibrary.org/b/isbn/9780136042594-L.jpg", DanhMuc = cat2, Nxb = pub1, TacGia = author3, Ngay = -14 },
+                    new { Ten = "Tư duy nhanh và chậm", MoTa = "Sách tâm lý học về cách con người ra quyết định", GiaBia = 230000m, GiaBan = 195000m, GiaNhap = 160000m, Ton = 37, Anh = "https://books.google.com/books/content?id=XQuhEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat4, Nxb = pub4, TacGia = author7, Ngay = -21 },
+                    new { Ten = "Đắc nhân tâm", MoTa = "Nghệ thuật giao tiếp và xây dựng quan hệ bền vững", GiaBia = 160000m, GiaBan = 136000m, GiaNhap = 105000m, Ton = 55, Anh = "https://books.google.com/books/content?id=eqjvDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat4, Nxb = pub4, TacGia = author7, Ngay = -7 },
+                    new { Ten = "Nhà giả kim", MoTa = "Câu chuyện truyền cảm hứng về hành trình đi tìm ước mơ", GiaBia = 145000m, GiaBan = 123000m, GiaNhap = 98000m, Ton = 48, Anh = "https://books.google.com/books/content?id=1onn0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat1, Nxb = pub3, TacGia = author4, Ngay = -16 },
+                    new { Ten = "Khởi nghiệp tinh gọn", MoTa = "Phương pháp xây dựng sản phẩm và kiểm chứng mô hình kinh doanh", GiaBia = 260000m, GiaBan = 221000m, GiaNhap = 180000m, Ton = 30, Anh = "https://books.google.com/books/content?id=-KsjEQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat3, Nxb = pub4, TacGia = author7, Ngay = -12 },
+                    new { Ten = "Quản trị học căn bản", MoTa = "Kiến thức nền tảng về quản trị doanh nghiệp", GiaBia = 240000m, GiaBan = 204000m, GiaNhap = 170000m, Ton = 34, Anh = "https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg", DanhMuc = cat3, Nxb = pub4, TacGia = author7, Ngay = -25 },
+                    new { Ten = "Marketing 5.0", MoTa = "Marketing trong thời đại công nghệ và dữ liệu", GiaBia = 280000m, GiaBan = 238000m, GiaNhap = 195000m, Ton = 26, Anh = "https://books.google.com/books/content?id=ANfzyQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat3, Nxb = pub4, TacGia = author7, Ngay = -11 },
+                    new { Ten = "Sapiens - Lược sử loài người", MoTa = "Hành trình phát triển của nhân loại qua các thời kỳ", GiaBia = 320000m, GiaBan = 272000m, GiaNhap = 230000m, Ton = 29, Anh = "https://books.google.com/books/content?id=hN0vEQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat5, Nxb = pub1, TacGia = author5, Ngay = -13 },
+                    new { Ten = "Địa lý Việt Nam hiện đại", MoTa = "Tổng quan lãnh thổ, vùng miền và đặc điểm tự nhiên Việt Nam", GiaBia = 210000m, GiaBan = 178500m, GiaNhap = 145000m, Ton = 33, Anh = "https://covers.openlibrary.org/b/isbn/9780393317558-L.jpg", DanhMuc = cat5, Nxb = pub4, TacGia = author1, Ngay = -17 },
+                    new { Ten = "Lịch sử thế giới giản lược", MoTa = "Các nền văn minh và sự kiện nổi bật của thế giới", GiaBia = 300000m, GiaBan = 255000m, GiaNhap = 210000m, Ton = 27, Anh = "https://covers.openlibrary.org/b/isbn/9780393317558-L.jpg", DanhMuc = cat5, Nxb = pub4, TacGia = author5, Ngay = -20 },
+                    new { Ten = "Tôi thấy hoa vàng trên cỏ xanh", MoTa = "Truyện dài giàu cảm xúc về tuổi thơ và gia đình", GiaBia = 125000m, GiaBan = 106000m, GiaNhap = 82000m, Ton = 51, Anh = "https://books.google.com/books/content?id=xQMhyAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat1, Nxb = pub2, TacGia = author2, Ngay = -9 },
+                    new { Ten = "Rừng Na Uy", MoTa = "Bản dịch tiếng Việt của Norwegian Wood", GiaBia = 220000m, GiaBan = 187000m, GiaNhap = 150000m, Ton = 24, Anh = "https://books.google.com/books/content?id=M37o0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api", DanhMuc = cat1, Nxb = pub3, TacGia = author4, Ngay = -6 },
+                    new { Ten = "The Pragmatic Programmer", MoTa = "Tư duy thực dụng giúp lập trình viên viết phần mềm tốt hơn.", GiaBia = 320000m, GiaBan = 272000m, GiaNhap = 230000m, Ton = 32, Anh = "https://covers.openlibrary.org/b/isbn/9780201616224-L.jpg", DanhMuc = cat2, Nxb = pub1, TacGia = author3, Ngay = -18 },
+                    new { Ten = "Design Patterns", MoTa = "Các mẫu thiết kế kinh điển trong lập trình hướng đối tượng.", GiaBia = 420000m, GiaBan = 357000m, GiaNhap = 310000m, Ton = 18, Anh = "https://covers.openlibrary.org/b/isbn/9780201633610-L.jpg", DanhMuc = cat2, Nxb = pub1, TacGia = author3, Ngay = -19 },
+                    new { Ten = "Python Crash Course", MoTa = "Sách nhập môn Python dễ học, nhiều ví dụ thực hành.", GiaBia = 360000m, GiaBan = 306000m, GiaNhap = 250000m, Ton = 36, Anh = "https://covers.openlibrary.org/b/isbn/9781593279288-L.jpg", DanhMuc = cat2, Nxb = pub1, TacGia = author3, Ngay = -20 },
+                    new { Ten = "Deep Work", MoTa = "Làm việc sâu trong thời đại nhiều xao nhãng.", GiaBia = 210000m, GiaBan = 178500m, GiaNhap = 145000m, Ton = 42, Anh = "https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg", DanhMuc = cat4, Nxb = pub4, TacGia = author7, Ngay = -22 },
+                    new { Ten = "Start With Why", MoTa = "Tìm lý do cốt lõi để dẫn dắt bản thân và tổ chức.", GiaBia = 225000m, GiaBan = 191000m, GiaNhap = 150000m, Ton = 40, Anh = "https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg", DanhMuc = cat4, Nxb = pub4, TacGia = author7, Ngay = -23 },
+                    new { Ten = "Good to Great", MoTa = "Từ công ty tốt đến công ty vĩ đại.", GiaBia = 280000m, GiaBan = 238000m, GiaNhap = 190000m, Ton = 24, Anh = "https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg", DanhMuc = cat3, Nxb = pub4, TacGia = author7, Ngay = -24 },
+                    new { Ten = "Blue Ocean Strategy", MoTa = "Chiến lược đại dương xanh trong kinh doanh.", GiaBia = 295000m, GiaBan = 250000m, GiaNhap = 205000m, Ton = 26, Anh = "https://covers.openlibrary.org/b/isbn/9781591396192-L.jpg", DanhMuc = cat3, Nxb = pub4, TacGia = author7, Ngay = -26 },
+                    new { Ten = "Rich Dad Poor Dad", MoTa = "Bài học tài chính cá nhân nổi tiếng.", GiaBia = 180000m, GiaBan = 153000m, GiaNhap = 120000m, Ton = 50, Anh = "https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg", DanhMuc = cat3, Nxb = pub4, TacGia = author7, Ngay = -27 },
+                    new { Ten = "Homo Deus", MoTa = "Lược sử tương lai của nhân loại.", GiaBia = 340000m, GiaBan = 289000m, GiaNhap = 240000m, Ton = 28, Anh = "https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg", DanhMuc = cat5, Nxb = pub1, TacGia = author5, Ngay = -28 },
+                    new { Ten = "Guns, Germs, and Steel", MoTa = "Phân tích lịch sử phát triển các nền văn minh.", GiaBia = 360000m, GiaBan = 306000m, GiaNhap = 250000m, Ton = 22, Anh = "https://covers.openlibrary.org/b/isbn/9780393317558-L.jpg", DanhMuc = cat5, Nxb = pub1, TacGia = author5, Ngay = -29 },
+                    new { Ten = "A Brief History of Time", MoTa = "Lược sử thời gian và các ý tưởng vật lý hiện đại.", GiaBia = 260000m, GiaBan = 221000m, GiaNhap = 175000m, Ton = 30, Anh = "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg", DanhMuc = cat5, Nxb = pub1, TacGia = author5, Ngay = -30 },
+                    new { Ten = "Dune", MoTa = "Tiểu thuyết khoa học viễn tưởng kinh điển.", GiaBia = 310000m, GiaBan = 263500m, GiaNhap = 220000m, Ton = 21, Anh = "https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg", DanhMuc = cat1, Nxb = pub3, TacGia = author4, Ngay = -31 },
+                    new { Ten = "Hoàng tử bé", MoTa = "Tác phẩm văn học thiếu nhi giàu triết lý.", GiaBia = 120000m, GiaBan = 102000m, GiaNhap = 82000m, Ton = 47, Anh = "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg", DanhMuc = cat1, Nxb = pub3, TacGia = author4, Ngay = -32 },
+                    new { Ten = "The Great Gatsby", MoTa = "Tác phẩm kinh điển của văn học Mỹ.", GiaBia = 160000m, GiaBan = 136000m, GiaNhap = 105000m, Ton = 34, Anh = "https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg", DanhMuc = cat1, Nxb = pub3, TacGia = author4, Ngay = -33 }
+                };
+
+                var extraSanPhams = new List<(SanPham SanPham, TacGia TacGia)>();
+                foreach (var item in extraProducts)
+                {
+                    var spExtra = new SanPham
+                    {
+                        TenSanPham = item.Ten,
+                        MoTa = item.MoTa,
+                        GiaBia = item.GiaBia,
+                        GiaBan = item.GiaBan,
+                        GiaNhap = item.GiaNhap,
+                        SoLuongTon = item.Ton,
+                        AnhBia = item.Anh,
+                        LoaiSanPham = "Sách",
+                        MaDanhMuc = item.DanhMuc.MaDanhMuc,
+                        MaNhaXuatBan = item.Nxb.MaNhaXuatBan,
+                        TrangThai = true,
+                        NgayTao = DateTime.Now.AddDays(item.Ngay)
+                    };
+                    context.SanPhams.Add(spExtra);
+                    extraSanPhams.Add((spExtra, item.TacGia));
+                }
+
                 context.SaveChanges();
 
                 prod1.MaTacGia.Add(author1);
@@ -338,6 +395,10 @@ public static class SeedData
                 prod6.MaTacGia.Add(author7);
                 prod7.MaTacGia.Add(author5);
                 prod8.MaTacGia.Add(author1);
+                foreach (var item in extraSanPhams)
+                {
+                    item.SanPham.MaTacGia.Add(item.TacGia);
+                }
                 context.SaveChanges();
 
                 // 9. Seed KhuyenMai (Promotions)

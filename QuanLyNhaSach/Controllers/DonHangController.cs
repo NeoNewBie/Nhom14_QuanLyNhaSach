@@ -14,29 +14,56 @@ public class DonHangController : Controller
         _context = context;
     }
 
-    public async Task<IActionResult> History()
+    private int? CurrentUserId => HttpContext.Session.GetInt32("UserId") ?? HttpContext.Session.GetInt32("MaNguoiDung");
+    private IActionResult LoginRedirect() => RedirectToAction("Login", "Account", new { returnUrl = Request.Path.ToString() });
+
+    public async Task<IActionResult> History(string? q)
     {
-        var userId = HttpContext.Session.GetInt32("UserId");
-        if (userId == null) return RedirectToAction("Login", "Account", new { returnUrl = Request.Path.ToString() });
+        var userId = CurrentUserId;
+        if (userId == null) return LoginRedirect();
 
-        var orders = await _context.DonHangs
+        var query = _context.DonHangs
             .Include(x => x.ChiTietDonHangs)
+                .ThenInclude(x => x.MaSanPhamNavigation)
+                    .ThenInclude(x => x.MaTacGia)
+            .Include(x => x.ChiTietDonHangs)
+                .ThenInclude(x => x.MaSanPhamNavigation)
+                    .ThenInclude(x => x.MaNhaXuatBanNavigation)
             .Where(x => x.MaNguoiDung == userId.Value)
-            .OrderByDescending(x => x.NgayDat)
-            .ToListAsync();
+            .AsQueryable();
 
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            q = q.Trim();
+            ViewBag.TuKhoa = q;
+            if (int.TryParse(q.Replace("BP-", string.Empty).Replace("#", string.Empty), out var maDon))
+            {
+                query = query.Where(x => x.MaDonHang == maDon || x.TrangThaiDonHang.Contains(q) || x.ChiTietDonHangs.Any(ct => ct.MaSanPhamNavigation.TenSanPham.Contains(q)));
+            }
+            else
+            {
+                query = query.Where(x => x.TrangThaiDonHang.Contains(q) || x.ChiTietDonHangs.Any(ct => ct.MaSanPhamNavigation.TenSanPham.Contains(q)));
+            }
+        }
+
+        var orders = await query.OrderByDescending(x => x.NgayDat).ToListAsync();
         return View(orders);
     }
 
     public async Task<IActionResult> Details(int id)
     {
-        var userId = HttpContext.Session.GetInt32("UserId");
-        if (userId == null) return RedirectToAction("Login", "Account", new { returnUrl = Request.Path.ToString() });
+        var userId = CurrentUserId;
+        if (userId == null) return LoginRedirect();
 
         var order = await _context.DonHangs
             .Include(x => x.MaNguoiDungNavigation)
             .Include(x => x.MaXaGiaoNavigation).ThenInclude(x => x!.MaTinhNavigation)
-            .Include(x => x.ChiTietDonHangs).ThenInclude(x => x.MaSanPhamNavigation)
+            .Include(x => x.ChiTietDonHangs)
+                .ThenInclude(x => x.MaSanPhamNavigation)
+                    .ThenInclude(x => x.MaTacGia)
+            .Include(x => x.ChiTietDonHangs)
+                .ThenInclude(x => x.MaSanPhamNavigation)
+                    .ThenInclude(x => x.MaNhaXuatBanNavigation)
             .Include(x => x.ThanhToan)
             .FirstOrDefaultAsync(x => x.MaDonHang == id && x.MaNguoiDung == userId.Value);
 
@@ -48,13 +75,22 @@ public class DonHangController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)
     {
-        var userId = HttpContext.Session.GetInt32("UserId");
+        var userId = CurrentUserId;
         if (userId == null) return RedirectToAction("Login", "Account");
 
-        var order = await _context.DonHangs.FirstOrDefaultAsync(x => x.MaDonHang == id && x.MaNguoiDung == userId.Value);
-        if (order != null && order.TrangThaiDonHang == "Chờ xác nhận")
+        var order = await _context.DonHangs
+            .Include(x => x.ChiTietDonHangs)
+                .ThenInclude(x => x.MaSanPhamNavigation)
+            .Include(x => x.ThanhToan)
+            .FirstOrDefaultAsync(x => x.MaDonHang == id && x.MaNguoiDung == userId.Value);
+        if (order != null && order.TrangThaiDonHang != "Đã giao" && order.TrangThaiDonHang != "Đã hủy")
         {
+            foreach (var detail in order.ChiTietDonHangs)
+            {
+                detail.MaSanPhamNavigation.SoLuongTon += detail.SoLuong;
+            }
             order.TrangThaiDonHang = "Đã hủy";
+            if (order.ThanhToan != null) order.ThanhToan.TrangThaiThanhToan = "Đã hủy";
             await _context.SaveChangesAsync();
             TempData["Success"] = "Đã hủy đơn hàng.";
         }
@@ -65,7 +101,7 @@ public class DonHangController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reorder(int id)
     {
-        var userId = HttpContext.Session.GetInt32("UserId");
+        var userId = CurrentUserId;
         if (userId == null) return RedirectToAction("Login", "Account");
 
         var order = await _context.DonHangs
