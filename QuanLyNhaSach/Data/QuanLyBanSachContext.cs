@@ -413,9 +413,7 @@ public partial class QuanLyBanSachContext : DbContext
 
             entity.HasIndex(e => e.MaDonHang, "UQ_THANH_TOAN_MaDonHang").IsUnique();
 
-            entity.HasIndex(e => e.MaGiaoDich, "UQ__THANH_TO__0A2A24EA95D752CF")
-                .IsUnique()
-                .HasFilter("[MaGiaoDich] IS NOT NULL");
+            entity.HasIndex(e => e.MaGiaoDich, "UQ__THANH_TO__0A2A24EA95D752CF").IsUnique();
 
             entity.Property(e => e.MaGiaoDich)
                 .HasMaxLength(100)

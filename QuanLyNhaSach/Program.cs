@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using QuanLyNhaSach.Data;
-using QuanLyNhaSach.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +7,6 @@ builder.Services.AddDbContext<QuanLyBanSachContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddScoped<ISanPhamService, SanPhamService>();
-
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

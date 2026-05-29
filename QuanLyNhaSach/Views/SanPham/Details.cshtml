@@ -35,11 +35,11 @@
         <section class="detail-product-grid">
             <div class="detail-gallery">
                 <div class="detail-main-cover">
-                    <img id="mainBookCover" class="cover-img" src="@Model.AnhBiaUrl" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                    <img id="mainBookCover" class="cover-img" src="@Model.AnhBiaUrl" data-fallback="@Model.LocalCoverUrl" alt="@Model.TenSanPham" onerror="this.onerror=function(){this.src='https://books.google.com/googlebooks/images/no_cover_thumb.gif';};this.src=this.dataset.fallback;" />
                 </div>
                 <div class="cover-thumb-row">
                     <button type="button" class="cover-thumb active" data-cover="@Model.AnhBiaUrl">Ảnh bìa</button>
-                    <button type="button" class="cover-thumb" data-cover="/images/books/placeholder.svg">Mẫu</button>
+                    <button type="button" class="cover-thumb" data-cover="https://books.google.com/googlebooks/images/no_cover_thumb.gif">Mẫu</button>
                     <button type="button" class="cover-thumb" data-cover="/images/books/hero.svg">BookPort</button>
                 </div>
                 <form asp-controller="GioHang" asp-action="Add" method="post" class="d-grid gap-2 mt-4">

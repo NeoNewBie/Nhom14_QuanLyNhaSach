@@ -65,7 +65,7 @@
                         <div class="wishlist-table-row">
                             <label class="wish-check"><input type="checkbox" name="maSanPhams" value="@item.MaSanPham" class="wishlist-check" /></label>
                             <div class="wish-book">
-                                <img class="cover-img" src="@(sp?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@sp?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                                <img class="cover-img" src="@(sp?.AnhBiaUrl ?? "https://books.google.com/googlebooks/images/no_cover_thumb.gif")" data-fallback="@(sp?.LocalCoverUrl ?? "https://books.google.com/googlebooks/images/no_cover_thumb.gif")" alt="@sp?.TenSanPham" onerror="this.onerror=function(){this.src='https://books.google.com/googlebooks/images/no_cover_thumb.gif';};this.src=this.dataset.fallback;" />
                                 <div><h5>@sp?.TenSanPham</h5><p>@(sp?.TacGia?.TenTacGia ?? "Đang cập nhật") | @(sp?.DanhMuc?.TenDanhMuc ?? "Sách")</p></div>
                             </div>
                             <strong>@((sp?.GiaBan ?? 0).ToString("N0")) đ</strong>

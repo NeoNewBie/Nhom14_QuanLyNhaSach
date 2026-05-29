@@ -12,20 +12,13 @@ public partial class NguoiDung
     [Required, StringLength(100)]
     public string HoTen { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Email không được để trống")]
-    [StringLength(100)]
-    [EmailAddress(ErrorMessage = "Email không đúng định dạng")]
+    [Required, StringLength(100)]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Số điện thoại không được để trống")]
-    [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
-    [StringLength(15)]
+    [Required, StringLength(15)]
     public string SoDienThoai { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "Mật khẩu không được để trống")]
-    [StringLength(255, MinimumLength = 6,
-        ErrorMessage = "Mật khẩu phải từ 6 ký tự trở lên")]
-    [DataType(DataType.Password)]
+    [Required, StringLength(255)]
     public string MatKhau { get; set; } = string.Empty;
 
     public bool? GioiTinh { get; set; }

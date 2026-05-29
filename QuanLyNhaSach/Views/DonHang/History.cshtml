@@ -3,17 +3,6 @@
     Layout = "_BlankLayout";
     ViewData["Title"] = "Lịch sử đơn hàng";
 }
-<style>
-    .figma-canvas.history-canvas {
-        overflow: hidden;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100%;
-        justify-content: center; /* Căn giữa theo chiều ngang */
-        align-items: center; /* Căn giữa theo chiều dọc */
-       
-    }
-    </style>
 <div class="figma-canvas history-canvas">
     <a class="figma-back history-back" asp-controller="Home" asp-action="Index">‹</a>
     <section class="history-panel">
@@ -35,21 +24,19 @@
                 var first = dh.ChiTietDonHangs.FirstOrDefault();
                 <article class="history-order-card">
                     <div class="order-top-line">
-                        <strong>
-                            @(first?.SanPham?.TenSanPham ?? "Đơn hàng sách")
-                            @if (dh.ChiTietDonHangs.Count > 1)
-                            {
-                                <span>(+ @(dh.ChiTietDonHangs.Count - 1) sản phẩm khác)</span>
-                            }
-                        </strong>
+                        <strong>Mã đơn: #BP-@dh.MaDonHang.ToString("000000")</strong>
                         <span class="history-status">@dh.TrangThaiDonHang.ToUpper()</span>
                     </div>
                     <div class="order-body-line">
-                        <img class="cover-img" src="@(first?.SanPham?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@first?.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <img class="cover-img" src="@(first?.SanPham?.AnhBiaUrl ?? "https://books.google.com/googlebooks/images/no_cover_thumb.gif")" data-fallback="@(first?.SanPham?.LocalCoverUrl ?? "https://books.google.com/googlebooks/images/no_cover_thumb.gif")" alt="@first?.SanPham?.TenSanPham" onerror="this.onerror=function(){this.src='https://books.google.com/googlebooks/images/no_cover_thumb.gif';};this.src=this.dataset.fallback;" />
                         <div class="order-book-detail">
-                            <h3>Mã đơn: #BP-@dh.MaDonHang.ToString("000000")</h3>
+                            <h3>@(first?.SanPham?.TenSanPham ?? "Đơn hàng sách")</h3>
                             <p>Nhà xuất bản: @(first?.SanPham?.NhaXuatBan?.TenNhaXuatBan ?? "Đang cập nhật")</p>
                             <div><span>Đơn giá: @((first?.DonGia ?? 0).ToString("N0")) đ</span><strong>x @(first?.SoLuong ?? dh.ChiTietDonHangs.Count)</strong></div>
+                            @if (dh.ChiTietDonHangs.Count > 1)
+                            {
+                                <small>+ @(dh.ChiTietDonHangs.Count - 1) sản phẩm khác</small>
+                            }
                         </div>
                     </div>
                     <div class="history-bottom-line">
