@@ -81,7 +81,14 @@ public class GioHangController : Controller
             item.DonGia = product.GiaBan;
         }
 
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            TempData["Error"] = "Thao tác giỏ hàng không thành công do có sự thay đổi đồng thời. Vui lòng thử lại.";
+        }
         TempData["Success"] = "Đã thêm sách vào giỏ hàng.";
         return RedirectToAction(nameof(Index));
     }
@@ -108,7 +115,14 @@ public class GioHangController : Controller
                 item.SoLuong = Math.Min(soLuong, Math.Max(1, item.MaSanPhamNavigation.SoLuongTon));
                 item.DonGia = item.MaSanPhamNavigation.GiaBan;
             }
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Bỏ qua hoặc log lại vì bản ghi đã bị thay đổi/xóa bởi yêu cầu khác
+            }
         }
         return RedirectToAction(nameof(Index));
     }
@@ -125,7 +139,14 @@ public class GioHangController : Controller
         if (item != null)
         {
             _context.ChiTietGioHangs.Remove(item);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Đã bị xóa bởi yêu cầu khác
+            }
         }
         return RedirectToAction(nameof(Index));
     }
@@ -219,6 +240,7 @@ public class GioHangController : Controller
         if (!items.Any())
         {
             TempData["Error"] = "Giỏ hàng đang trống.";
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return Json(new { success = false, message = "Giỏ hàng đang trống." });
             return RedirectToAction(nameof(Index));
         }
 
@@ -239,9 +261,11 @@ public class GioHangController : Controller
             if (item.MaSanPhamNavigation.SoLuongTon < item.SoLuong)
             {
                 TempData["Error"] = $"Sách {item.MaSanPhamNavigation.TenSanPham} chỉ còn {item.MaSanPhamNavigation.SoLuongTon} cuốn.";
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") return Json(new { success = false, message = $"Sách {item.MaSanPhamNavigation.TenSanPham} chỉ còn {item.MaSanPhamNavigation.SoLuongTon} cuốn." });
                 return RedirectToAction(nameof(Index));
             }
         }
+
 
         var tamTinh = items.Sum(x => x.SoLuong * x.DonGia);
         var voucher = await GetCurrentVoucher(tamTinh);
@@ -267,19 +291,16 @@ public class GioHangController : Controller
         _context.DonHangs.Add(order);
         await _context.SaveChangesAsync();
 
+        // Sử dụng Raw SQL để Insert ChiTietDonHang nhằm tránh lỗi DbUpdateConcurrencyException
+        // do Trigger TRG_CapNhatKho_KhiBanHang thay đổi @@ROWCOUNT trả về cho EF Core.
         foreach (var item in items)
         {
-            _context.ChiTietDonHangs.Add(new ChiTietDonHang
-            {
-                MaDonHang = order.MaDonHang,
-                MaSanPham = item.MaSanPham,
-                SoLuong = item.SoLuong,
-                DonGia = item.DonGia,
-                ThanhTien = item.SoLuong * item.DonGia
-            });
-            item.MaSanPhamNavigation.SoLuongTon -= item.SoLuong;
+            await _context.Database.ExecuteSqlRawAsync(
+                "INSERT INTO CHI_TIET_DON_HANG (MaDonHang, MaSanPham, SoLuong, DonGia, ThanhTien) VALUES ({0}, {1}, {2}, {3}, {4})",
+                order.MaDonHang, item.MaSanPham, item.SoLuong, item.DonGia, item.SoLuong * item.DonGia);
         }
 
+        // Vẫn dùng EF Core cho ThanhToan vì bảng này không có Trigger gây lỗi
         _context.ThanhToans.Add(new ThanhToan
         {
             MaDonHang = order.MaDonHang,
@@ -287,13 +308,19 @@ public class GioHangController : Controller
             SoTienThanhToan = order.TongTien,
             TrangThaiThanhToan = "Chưa thanh toán"
         });
-
-        _context.ChiTietGioHangs.RemoveRange(items);
-        HttpContext.Session.Remove(VoucherSessionKey);
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Đặt hàng thành công.";
-        return RedirectToAction("Details", "DonHang", new { id = order.MaDonHang });
+        // Sử dụng Raw SQL để xóa giỏ hàng để đảm bảo không bị dính tracking state cũ
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM CHI_TIET_GIO_HANG WHERE MaGioHang = {0}", cart.MaGioHang);
+        
+        HttpContext.Session.Remove(VoucherSessionKey);
+
+        TempData["Success"] = "Đặt hàng thành công! Cảm ơn bạn đã mua hàng.";
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            return Json(new { success = true, message = "Đặt hàng thành công! Cảm ơn bạn đã mua hàng.", redirectUrl = Url.Action("History", "DonHang") });
+        }
+        return RedirectToAction("History", "DonHang");
     }
 
     private int? RequireLogin() => HttpContext.Session.GetInt32("UserId") ?? HttpContext.Session.GetInt32("MaNguoiDung");
@@ -306,8 +333,17 @@ public class GioHangController : Controller
 
         cart = new GioHang { MaNguoiDung = userId, NgayTao = DateTime.Now, TrangThai = true };
         _context.GioHangs.Add(cart);
-        await _context.SaveChangesAsync();
-        return cart;
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            // Tránh lỗi khóa ngoại / trùng lặp khi tạo đồng thời
+            _context.Entry(cart).State = EntityState.Detached;
+            cart = await _context.GioHangs.FirstOrDefaultAsync(x => x.MaNguoiDung == userId && x.TrangThai);
+        }
+        return cart!;
     }
 
     private async Task<List<ChiTietGioHang>> LoadCartItems(int maGioHang)

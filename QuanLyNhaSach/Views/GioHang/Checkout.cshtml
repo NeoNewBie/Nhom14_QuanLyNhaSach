@@ -4,7 +4,7 @@
 }
 <div class="container py-4">
     <h1 class="page-title">Thông tin đặt hàng</h1>
-    <form asp-action="Checkout" method="post">
+    <form id="checkoutForm" asp-action="Checkout" method="post">
         @Html.AntiForgeryToken()
         <div class="row g-4">
             <div class="col-lg-8">
@@ -54,10 +54,76 @@
                     <div class="d-flex justify-content-between text-success"><span>Giảm giá @(string.IsNullOrWhiteSpace(Model.MaGiamGiaDangApDung) ? "" : $"({Model.MaGiamGiaDangApDung})")</span><strong>-@Model.GiamGia.ToString("N0") VNĐ</strong></div>
                     <hr />
                     <div class="d-flex justify-content-between total"><span>Tổng cộng</span><strong>@Model.TongTien.ToString("N0") VNĐ</strong></div>
-                    <button class="btn btn-danger w-100 mt-3" type="submit">Xác nhận đặt hàng</button>
+                    <button class="btn btn-danger w-100 mt-3" type="submit" id="btnSubmit">Xác nhận đặt hàng</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
-@section Scripts { <partial name="_ValidationScriptsPartial" /> }
+@section Scripts { 
+    <partial name="_ValidationScriptsPartial" /> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            if (btn.disabled) return;
+            
+            // Check HTML5 validation
+            if (!this.checkValidity()) {
+                this.reportValidity();
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...';
+
+            try {
+                const formData = new FormData(this);
+                formData.append('isAjax', 'true'); // Flag to let controller know
+
+                const response = await fetch(this.action, {
+                    method: this.method,
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (response.ok) {
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        const data = await response.json();
+                        if (data.success) {
+                            await Swal.fire({
+                                title: 'Thành công!',
+                                text: data.message || 'Đặt hàng thành công!',
+                                icon: 'success',
+                                confirmButtonText: 'Xem lịch sử đơn hàng',
+                                allowOutsideClick: false
+                            });
+                            window.location.href = data.redirectUrl || '@Url.Action("History", "DonHang")';
+                        } else {
+                            Swal.fire('Lỗi', data.message || 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
+                            btn.disabled = false;
+                            btn.innerHTML = 'Xác nhận đặt hàng';
+                        }
+                    } else {
+                        // Nếu server trả về HTML (lỗi validation binding lại view)
+                        // Ta sẽ submit form theo cách truyền thống để hiện lỗi validation
+                        this.submit();
+                    }
+                } else {
+                    Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Xác nhận đặt hàng';
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire('Lỗi', 'Đã xảy ra lỗi không mong muốn.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Xác nhận đặt hàng';
+            }
+        });
+    </script>
+}

@@ -1,5 +1,5 @@
 @model SanPham
-<div class="product-card figma-product-card">
+<div class="product-card figma-product-card" onclick="window.location.href='@Url.Action("Details", "SanPham", new { id = Model.MaSanPham })'">
     <a asp-controller="SanPham" asp-action="Details" asp-route-id="@Model.MaSanPham" class="product-image-wrap">
         <img class="cover-img" src="@Model.AnhBiaUrl" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
         @if (Model.NgayTao >= DateTime.Now.AddDays(-30))
@@ -12,7 +12,7 @@
         <div class="product-author">@(Model.TacGia?.TenTacGia ?? "Đang cập nhật")</div>
         <div class="product-bottom-row">
             <strong class="price">@Model.GiaBan.ToString("N0") đ</strong>
-            <form asp-controller="GioHang" asp-action="Add" method="post" class="m-0">
+            <form asp-controller="GioHang" asp-action="Add" method="post" class="m-0" onclick="event.stopPropagation();">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
                 <input type="hidden" name="soLuong" value="1" />

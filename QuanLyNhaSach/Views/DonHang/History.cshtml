@@ -24,19 +24,21 @@
                 var first = dh.ChiTietDonHangs.FirstOrDefault();
                 <article class="history-order-card">
                     <div class="order-top-line">
-                        <strong>Mã đơn: #BP-@dh.MaDonHang.ToString("000000")</strong>
+                        <strong>
+                            @(first?.SanPham?.TenSanPham ?? "Đơn hàng sách")
+                            @if (dh.ChiTietDonHangs.Count > 1)
+                            {
+                                <span>(+ @(dh.ChiTietDonHangs.Count - 1) sản phẩm khác)</span>
+                            }
+                        </strong>
                         <span class="history-status">@dh.TrangThaiDonHang.ToUpper()</span>
                     </div>
                     <div class="order-body-line">
                         <img class="cover-img" src="@(first?.SanPham?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@first?.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                         <div class="order-book-detail">
-                            <h3>@(first?.SanPham?.TenSanPham ?? "Đơn hàng sách")</h3>
+                            <h3>Mã đơn: #BP-@dh.MaDonHang.ToString("000000")</h3>
                             <p>Nhà xuất bản: @(first?.SanPham?.NhaXuatBan?.TenNhaXuatBan ?? "Đang cập nhật")</p>
                             <div><span>Đơn giá: @((first?.DonGia ?? 0).ToString("N0")) đ</span><strong>x @(first?.SoLuong ?? dh.ChiTietDonHangs.Count)</strong></div>
-                            @if (dh.ChiTietDonHangs.Count > 1)
-                            {
-                                <small>+ @(dh.ChiTietDonHangs.Count - 1) sản phẩm khác</small>
-                            }
                         </div>
                     </div>
                     <div class="history-bottom-line">
