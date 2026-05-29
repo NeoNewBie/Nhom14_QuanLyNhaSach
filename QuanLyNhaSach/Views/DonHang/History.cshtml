@@ -3,6 +3,17 @@
     Layout = "_BlankLayout";
     ViewData["Title"] = "Lịch sử đơn hàng";
 }
+<style>
+    .figma-canvas.history-canvas {
+        overflow: hidden;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        justify-content: center; /* Căn giữa theo chiều ngang */
+        align-items: center; /* Căn giữa theo chiều dọc */
+       
+    }
+    </style>
 <div class="figma-canvas history-canvas">
     <a class="figma-back history-back" asp-controller="Home" asp-action="Index">‹</a>
     <section class="history-panel">
