@@ -82,7 +82,7 @@
                     var sp = Model.SachBanChay[i];
                     <a class="figma-top-card" asp-controller="SanPham" asp-action="Details" asp-route-id="@sp.MaSanPham">
                         <div class="seller-number">@((i + 1).ToString("00"))</div>
-                        <img class="cover-img" src="@sp.AnhBiaUrl" alt="@sp.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <img class="cover-img" src="@sp.AnhBiaUrl" data-fallback="@sp.LocalCoverUrl" alt="@sp.TenSanPham" onerror="this.onerror=function(){this.src='https://books.google.com/googlebooks/images/no_cover_thumb.gif';};this.src=this.dataset.fallback;" />
                         <div>
                             <h5>@sp.TenSanPham</h5>
                             <p>@(sp.TacGia?.TenTacGia ?? "Đang cập nhật")</p>

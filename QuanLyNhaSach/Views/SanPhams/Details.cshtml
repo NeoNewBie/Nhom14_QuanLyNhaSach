@@ -8,7 +8,7 @@
 
 <section class="details-wrap">
     <div class="details-cover">
-        <img src="@img" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+        <img src="@img" data-fallback="@Model.LocalCoverUrl" alt="@Model.TenSanPham" onerror="this.onerror=function(){this.src='https://books.google.com/googlebooks/images/no_cover_thumb.gif';};this.src=this.dataset.fallback;" />
     </div>
     <div class="details-info">
         <p class="eyebrow">@(Model.MaDanhMucNavigation?.TenDanhMuc ?? Model.LoaiSanPham)</p>

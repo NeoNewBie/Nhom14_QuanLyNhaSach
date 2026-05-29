@@ -32,7 +32,7 @@
             <tr>
                 <td>
                     <div class="admin-product-cell">
-                        <img class="cover-img" src="@(item.SanPham?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@item.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <img class="cover-img" src="@(item.SanPham?.AnhBiaUrl ?? "https://books.google.com/googlebooks/images/no_cover_thumb.gif")" data-fallback="@(item.SanPham?.LocalCoverUrl ?? "https://books.google.com/googlebooks/images/no_cover_thumb.gif")" alt="@item.SanPham?.TenSanPham" onerror="this.onerror=function(){this.src='https://books.google.com/googlebooks/images/no_cover_thumb.gif';};this.src=this.dataset.fallback;" />
                         <div><strong>@item.SanPham?.TenSanPham</strong><span>@(item.SanPham?.TacGia?.TenTacGia ?? "Đang cập nhật")</span></div>
                     </div>
                 </td>

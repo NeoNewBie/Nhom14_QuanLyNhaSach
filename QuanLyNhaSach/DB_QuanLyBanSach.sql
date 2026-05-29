@@ -291,30 +291,30 @@ INSERT INTO TAC_GIA (TenTacGia, QuocTich, MoTa) VALUES
 (N'Stephen Covey', N'Mỹ', N'Tác giả sách phát triển bản thân');
 
 INSERT INTO SAN_PHAM (TenSanPham, MoTa, GiaBia, GiaBan, GiaNhap, SoLuongTon, AnhBia, LoaiSanPham, MaDanhMuc, MaNhaXuatBan, TrangThai, NgayTao) VALUES
-(N'Truyện Kiều', N'Tác phẩm kinh điển của Nguyễn Du, một trong những tác phẩm văn học vĩ đại nhất của dân tộc Việt Nam', 85000, 72250, 60000, 50, 'https://books.google.com/books/content?id=95isiQ3ZhN4C&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-60,GETDATE())),
-(N'Dế Mèn Phiêu Lưu Ký', N'Cuộc phiêu lưu kỳ thú của chú dế mèn qua thế giới tuổi thơ', 95000, 80750, 70000, 35, 'https://books.google.com/books/content?id=Jces0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-30,GETDATE())),
-(N'Lập trình C# cơ bản đến nâng cao', N'Hướng dẫn lập trình C# từ cơ bản đến nâng cao', 320000, 272000, 240000, 25, '/images/books/csharp_guide.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-90,GETDATE())),
-(N'Data Science với Python', N'Tìm hiểu data science, machine learning sử dụng Python', 385000, 326750, 300000, 20, '/images/books/datascience_python.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-60,GETDATE())),
-(N'Những nguyên tắc để thành công', N'Các nguyên tắc để đạt được thành công trong kinh doanh và cuộc sống', 198000, 168300, 150000, 45, '/images/books/7_principles_success.jpg', N'Sách', 3, 4, 1, GETDATE()),
-(N'Thói quen nguyên tử', N'Cách thay đổi thói quen nhỏ để tạo kết quả lớn', 180000, 153000, 140000, 60, 'https://books.google.com/books/content?id=lFhbDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 4, 3, 1, DATEADD(DAY,-30,GETDATE())),
-(N'1984', N'Tiểu thuyết dystopian kinh điển của George Orwell', 175000, 148750, 130000, 30, 'https://books.google.com/books/content?id=kotPYEqx7kMC&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-120,GETDATE())),
-(N'Lịch sử Việt Nam', N'Tổng quan về lịch sử phát triển của dân tộc Việt Nam', 280000, 238000, 210000, 40, '/images/books/lich_su_vn.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-60,GETDATE())),
-(N'Norwegian Wood', N'Tiểu thuyết tình yêu nổi tiếng của Haruki Murakami', 210000, 178000, 145000, 38, 'https://books.google.com/books/content?id=M37o0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-18,GETDATE())),
-(N'Harry Potter và Hòn Đá Phù Thủy', N'Tác phẩm fantasy được yêu thích trên toàn thế giới', 250000, 219000, 170000, 44, 'https://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-10,GETDATE())),
-(N'Clean Code C#', N'Kỹ thuật viết mã sạch, dễ bảo trì trong C#', 360000, 306000, 250000, 22, 'https://books.google.com/books/content?id=hjEFCAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 2, 1, 1, DATEADD(DAY,-8,GETDATE())),
-(N'ASP.NET Core MVC thực chiến', N'Xây dựng website bán hàng bằng ASP.NET Core MVC và SQL Server', 390000, 331500, 280000, 28, '/images/books/aspnet_core_mvc.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-5,GETDATE())),
-(N'Trí tuệ nhân tạo nhập môn', N'Nền tảng về AI, machine learning và ứng dụng thực tế', 295000, 250000, 210000, 31, '/images/books/ai_nhap_mon.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-14,GETDATE())),
-(N'Tư duy nhanh và chậm', N'Sách tâm lý học về cách con người ra quyết định', 230000, 195000, 160000, 37, 'https://books.google.com/books/content?id=XQuhEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 4, 4, 1, DATEADD(DAY,-21,GETDATE())),
-(N'Đắc nhân tâm', N'Nghệ thuật giao tiếp và xây dựng quan hệ bền vững', 160000, 136000, 105000, 55, 'https://books.google.com/books/content?id=eqjvDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 4, 4, 1, DATEADD(DAY,-7,GETDATE())),
-(N'Nhà giả kim', N'Câu chuyện truyền cảm hứng về hành trình đi tìm ước mơ', 145000, 123000, 98000, 48, 'https://books.google.com/books/content?id=1onn0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-16,GETDATE())),
-(N'Khởi nghiệp tinh gọn', N'Phương pháp xây dựng sản phẩm và kiểm chứng mô hình kinh doanh', 260000, 221000, 180000, 30, 'https://books.google.com/books/content?id=-KsjEQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 3, 4, 1, DATEADD(DAY,-12,GETDATE())),
-(N'Quản trị học căn bản', N'Kiến thức nền tảng về quản trị doanh nghiệp', 240000, 204000, 170000, 34, '/images/books/quan_tri_hoc.jpg', N'Sách', 3, 4, 1, DATEADD(DAY,-25,GETDATE())),
-(N'Marketing 5.0', N'Marketing trong thời đại công nghệ và dữ liệu', 280000, 238000, 195000, 26, 'https://books.google.com/books/content?id=ANfzyQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 3, 4, 1, DATEADD(DAY,-11,GETDATE())),
-(N'Sapiens - Lược sử loài người', N'Hành trình phát triển của nhân loại qua các thời kỳ', 320000, 272000, 230000, 29, 'https://books.google.com/books/content?id=hN0vEQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 5, 1, 1, DATEADD(DAY,-13,GETDATE())),
-(N'Địa lý Việt Nam hiện đại', N'Tổng quan lãnh thổ, vùng miền và đặc điểm tự nhiên Việt Nam', 210000, 178500, 145000, 33, '/images/books/dia_ly_vn.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-17,GETDATE())),
-(N'Lịch sử thế giới giản lược', N'Các nền văn minh và sự kiện nổi bật của thế giới', 300000, 255000, 210000, 27, '/images/books/lich_su_the_gioi.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-20,GETDATE())),
+(N'Truyện Kiều', N'Tác phẩm kinh điển của Nguyễn Du, một trong những tác phẩm văn học vĩ đại nhất của dân tộc Việt Nam', 85000, 72250, 60000, 50, 'https://www.netabooks.vn/Data/Sites/1/Product/78700/thumbs/truyen-kieu-bia-cung.jpg', N'Sách', 1, 3, 1, DATEADD(DAY,-60,GETDATE())),
+(N'Dế Mèn Phiêu Lưu Ký', N'Cuộc phiêu lưu kỳ thú của chú dế mèn qua thế giới tuổi thơ', 95000, 80750, 70000, 35, 'https://www.netabooks.vn/Data/Sites/1/Product/38406/thumbs/de-men-phieu-luu-ky-bia-cung.jpg', N'Sách', 1, 2, 1, DATEADD(DAY,-30,GETDATE())),
+(N'Lập trình C# cơ bản đến nâng cao', N'Hướng dẫn lập trình C# từ cơ bản đến nâng cao', 320000, 272000, 240000, 25, 'https://covers.openlibrary.org/b/isbn/9781617294532-L.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-90,GETDATE())),
+(N'Data Science với Python', N'Tìm hiểu data science, machine learning sử dụng Python', 385000, 326750, 300000, 20, 'https://covers.openlibrary.org/b/isbn/9781098104030-L.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-60,GETDATE())),
+(N'Những nguyên tắc để thành công', N'Các nguyên tắc để đạt được thành công trong kinh doanh và cuộc sống', 198000, 168300, 150000, 45, 'https://covers.openlibrary.org/b/isbn/9781982137274-L.jpg', N'Sách', 3, 4, 1, GETDATE()),
+(N'Thói quen nguyên tử', N'Cách thay đổi thói quen nhỏ để tạo kết quả lớn', 180000, 153000, 140000, 60, 'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg', N'Sách', 4, 3, 1, DATEADD(DAY,-30,GETDATE())),
+(N'1984', N'Tiểu thuyết dystopian kinh điển của George Orwell', 175000, 148750, 130000, 30, 'https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg', N'Sách', 1, 2, 1, DATEADD(DAY,-120,GETDATE())),
+(N'Lịch sử Việt Nam', N'Tổng quan về lịch sử phát triển của dân tộc Việt Nam', 280000, 238000, 210000, 40, 'https://minhkhai.com.vn/hinhlon/8935075937673.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-60,GETDATE())),
+(N'Norwegian Wood', N'Tiểu thuyết tình yêu nổi tiếng của Haruki Murakami', 210000, 178000, 145000, 38, 'https://covers.openlibrary.org/b/isbn/9780375704024-L.jpg', N'Sách', 1, 3, 1, DATEADD(DAY,-18,GETDATE())),
+(N'Harry Potter và Hòn Đá Phù Thủy', N'Tác phẩm fantasy được yêu thích trên toàn thế giới', 250000, 219000, 170000, 44, 'https://covers.openlibrary.org/b/isbn/9780747532743-L.jpg', N'Sách', 1, 2, 1, DATEADD(DAY,-10,GETDATE())),
+(N'Clean Code C#', N'Kỹ thuật viết mã sạch, dễ bảo trì trong C#', 360000, 306000, 250000, 22, 'https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-8,GETDATE())),
+(N'ASP.NET Core MVC thực chiến', N'Xây dựng website bán hàng bằng ASP.NET Core MVC và SQL Server', 390000, 331500, 280000, 28, 'https://covers.openlibrary.org/b/isbn/9781617298301-L.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-5,GETDATE())),
+(N'Trí tuệ nhân tạo nhập môn', N'Nền tảng về AI, machine learning và ứng dụng thực tế', 295000, 250000, 210000, 31, 'https://covers.openlibrary.org/b/isbn/9780134610993-L.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-14,GETDATE())),
+(N'Tư duy nhanh và chậm', N'Sách tâm lý học về cách con người ra quyết định', 230000, 195000, 160000, 37, 'https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg', N'Sách', 4, 4, 1, DATEADD(DAY,-21,GETDATE())),
+(N'Đắc nhân tâm', N'Nghệ thuật giao tiếp và xây dựng quan hệ bền vững', 160000, 136000, 105000, 55, 'https://covers.openlibrary.org/b/isbn/9780671027032-L.jpg', N'Sách', 4, 4, 1, DATEADD(DAY,-7,GETDATE())),
+(N'Nhà giả kim', N'Câu chuyện truyền cảm hứng về hành trình đi tìm ước mơ', 145000, 123000, 98000, 48, 'https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg', N'Sách', 1, 3, 1, DATEADD(DAY,-16,GETDATE())),
+(N'Khởi nghiệp tinh gọn', N'Phương pháp xây dựng sản phẩm và kiểm chứng mô hình kinh doanh', 260000, 221000, 180000, 30, 'https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg', N'Sách', 3, 4, 1, DATEADD(DAY,-12,GETDATE())),
+(N'Quản trị học căn bản', N'Kiến thức nền tảng về quản trị doanh nghiệp', 240000, 204000, 170000, 34, 'https://covers.openlibrary.org/b/isbn/9780134237473-L.jpg', N'Sách', 3, 4, 1, DATEADD(DAY,-25,GETDATE())),
+(N'Marketing 5.0', N'Marketing trong thời đại công nghệ và dữ liệu', 280000, 238000, 195000, 26, 'https://covers.openlibrary.org/b/isbn/9781119668510-L.jpg', N'Sách', 3, 4, 1, DATEADD(DAY,-11,GETDATE())),
+(N'Sapiens - Lược sử loài người', N'Hành trình phát triển của nhân loại qua các thời kỳ', 320000, 272000, 230000, 29, 'https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg', N'Sách', 5, 1, 1, DATEADD(DAY,-13,GETDATE())),
+(N'Địa lý Việt Nam hiện đại', N'Tổng quan lãnh thổ, vùng miền và đặc điểm tự nhiên Việt Nam', 210000, 178500, 145000, 33, 'https://books.google.com/books/content?id=sCDt0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 5, 4, 1, DATEADD(DAY,-17,GETDATE())),
+(N'Lịch sử thế giới giản lược', N'Các nền văn minh và sự kiện nổi bật của thế giới', 300000, 255000, 210000, 27, 'https://books.google.com/books/content?id=RqoV0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 5, 4, 1, DATEADD(DAY,-20,GETDATE())),
 (N'Tôi thấy hoa vàng trên cỏ xanh', N'Truyện dài giàu cảm xúc về tuổi thơ và gia đình', 125000, 106000, 82000, 51, 'https://books.google.com/books/content?id=xQMhyAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-9,GETDATE())),
-(N'Rừng Na Uy', N'Bản dịch tiếng Việt của Norwegian Wood', 220000, 187000, 150000, 24, 'https://books.google.com/books/content?id=M37o0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-6,GETDATE()));
+(N'Rừng Na Uy', N'Bản dịch tiếng Việt của Norwegian Wood', 220000, 187000, 150000, 24, 'https://covers.openlibrary.org/b/isbn/9780375704024-L.jpg', N'Sách', 1, 3, 1, DATEADD(DAY,-6,GETDATE()));
 
 INSERT INTO SAN_PHAM_TAC_GIA (MaSanPham, MaTacGia) VALUES (1,1),(2,2),(3,3),(4,3),(5,7),(6,7),(7,5),(8,1),(9,4),(10,6),(11,3),(12,3),(13,3),(14,7),(15,7),(16,4),(17,7),(18,7),(19,7),(20,5),(21,1),(22,5),(23,2),(24,4);
 
@@ -349,6 +349,48 @@ INSERT INTO NHA_CUNG_CAP (TenNhaCungCap, DiaChi, SoDienThoai, Email, NguoiLienHe
 
 PRINT N'Tạo database QuanLyBanSach thành công.';
 PRINT N'Admin: admin@quanlynhasach.vn / Admin@123';
+
+
+-- Cập nhật ảnh bìa local để khi chạy offline vẫn hiển thị đủ ảnh sách
+UPDATE SAN_PHAM SET AnhBia = N'https://www.netabooks.vn/Data/Sites/1/Product/78700/thumbs/truyen-kieu-bia-cung.jpg' WHERE TenSanPham = N'Truyện Kiều';
+UPDATE SAN_PHAM SET AnhBia = N'https://www.netabooks.vn/Data/Sites/1/Product/38406/thumbs/de-men-phieu-luu-ky-bia-cung.jpg' WHERE TenSanPham = N'Dế Mèn Phiêu Lưu Ký';
+UPDATE SAN_PHAM SET AnhBia = N'lap-trinh-c-co-ban-den-nang-cao.jpg' WHERE TenSanPham = N'Lập trình C# cơ bản đến nâng cao';
+UPDATE SAN_PHAM SET AnhBia = N'data-science-voi-python.jpg' WHERE TenSanPham = N'Data Science với Python';
+UPDATE SAN_PHAM SET AnhBia = N'nhung-nguyen-tac-de-thanh-cong.jpg' WHERE TenSanPham = N'Những nguyên tắc để thành công';
+UPDATE SAN_PHAM SET AnhBia = N'thoi-quen-nguyen-tu.jpg' WHERE TenSanPham = N'Thói quen nguyên tử';
+UPDATE SAN_PHAM SET AnhBia = N'1984.jpg' WHERE TenSanPham = N'1984';
+UPDATE SAN_PHAM SET AnhBia = N'https://minhkhai.com.vn/hinhlon/8935075937673.jpg' WHERE TenSanPham = N'Lịch sử Việt Nam';
+UPDATE SAN_PHAM SET AnhBia = N'norwegian-wood.jpg' WHERE TenSanPham = N'Norwegian Wood';
+UPDATE SAN_PHAM SET AnhBia = N'harry-potter-va-hon-da-phu-thuy.jpg' WHERE TenSanPham = N'Harry Potter và Hòn Đá Phù Thủy';
+UPDATE SAN_PHAM SET AnhBia = N'clean-code-c.jpg' WHERE TenSanPham = N'Clean Code C#';
+UPDATE SAN_PHAM SET AnhBia = N'asp-net-core-mvc-thuc-chien.jpg' WHERE TenSanPham = N'ASP.NET Core MVC thực chiến';
+UPDATE SAN_PHAM SET AnhBia = N'tri-tue-nhan-tao-nhap-mon.jpg' WHERE TenSanPham = N'Trí tuệ nhân tạo nhập môn';
+UPDATE SAN_PHAM SET AnhBia = N'tu-duy-nhanh-va-cham.jpg' WHERE TenSanPham = N'Tư duy nhanh và chậm';
+UPDATE SAN_PHAM SET AnhBia = N'dac-nhan-tam.jpg' WHERE TenSanPham = N'Đắc nhân tâm';
+UPDATE SAN_PHAM SET AnhBia = N'nha-gia-kim.jpg' WHERE TenSanPham = N'Nhà giả kim';
+UPDATE SAN_PHAM SET AnhBia = N'khoi-nghiep-tinh-gon.jpg' WHERE TenSanPham = N'Khởi nghiệp tinh gọn';
+UPDATE SAN_PHAM SET AnhBia = N'quan-tri-hoc-can-ban.jpg' WHERE TenSanPham = N'Quản trị học căn bản';
+UPDATE SAN_PHAM SET AnhBia = N'marketing-5-0.jpg' WHERE TenSanPham = N'Marketing 5.0';
+UPDATE SAN_PHAM SET AnhBia = N'sapiens-luoc-su-loai-nguoi.jpg' WHERE TenSanPham = N'Sapiens - Lược sử loài người';
+UPDATE SAN_PHAM SET AnhBia = N'dia-ly-viet-nam-hien-dai.jpg' WHERE TenSanPham = N'Địa lý Việt Nam hiện đại';
+UPDATE SAN_PHAM SET AnhBia = N'lich-su-the-gioi-gian-luoc.jpg' WHERE TenSanPham = N'Lịch sử thế giới giản lược';
+UPDATE SAN_PHAM SET AnhBia = N'toi-thay-hoa-vang-tren-co-xanh.jpg' WHERE TenSanPham = N'Tôi thấy hoa vàng trên cỏ xanh';
+UPDATE SAN_PHAM SET AnhBia = N'rung-na-uy.jpg' WHERE TenSanPham = N'Rừng Na Uy';
+UPDATE SAN_PHAM SET AnhBia = N'the-pragmatic-programmer.jpg' WHERE TenSanPham = N'The Pragmatic Programmer';
+UPDATE SAN_PHAM SET AnhBia = N'design-patterns.jpg' WHERE TenSanPham = N'Design Patterns';
+UPDATE SAN_PHAM SET AnhBia = N'python-crash-course.jpg' WHERE TenSanPham = N'Python Crash Course';
+UPDATE SAN_PHAM SET AnhBia = N'deep-work.jpg' WHERE TenSanPham = N'Deep Work';
+UPDATE SAN_PHAM SET AnhBia = N'start-with-why.jpg' WHERE TenSanPham = N'Start With Why';
+UPDATE SAN_PHAM SET AnhBia = N'good-to-great.jpg' WHERE TenSanPham = N'Good to Great';
+UPDATE SAN_PHAM SET AnhBia = N'blue-ocean-strategy.jpg' WHERE TenSanPham = N'Blue Ocean Strategy';
+UPDATE SAN_PHAM SET AnhBia = N'rich-dad-poor-dad.jpg' WHERE TenSanPham = N'Rich Dad Poor Dad';
+UPDATE SAN_PHAM SET AnhBia = N'homo-deus.jpg' WHERE TenSanPham = N'Homo Deus';
+UPDATE SAN_PHAM SET AnhBia = N'guns-germs-and-steel.jpg' WHERE TenSanPham = N'Guns, Germs, and Steel';
+UPDATE SAN_PHAM SET AnhBia = N'a-brief-history-of-time.jpg' WHERE TenSanPham = N'A Brief History of Time';
+UPDATE SAN_PHAM SET AnhBia = N'dune.jpg' WHERE TenSanPham = N'Dune';
+UPDATE SAN_PHAM SET AnhBia = N'hoang-tu-be.jpg' WHERE TenSanPham = N'Hoàng tử bé';
+UPDATE SAN_PHAM SET AnhBia = N'the-great-gatsby.jpg' WHERE TenSanPham = N'The Great Gatsby';
+
 PRINT N'User : customer1@gmail.com / Customer@123';
 GO
 
@@ -441,5 +483,49 @@ UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9781617294617-
 UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780136042594-L.jpg' WHERE TenSanPham LIKE N'Trí tuệ nhân tạo%';
 UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg' WHERE TenSanPham LIKE N'Lịch sử Việt Nam';
 
-ALTER TABLE THANH_TOAN
-DROP CONSTRAINT UQ__THANH_TO__0A2A24EAE2D9F5E1;
+
+-- CẬP NHẬT ẢNH BÌA ONLINE CHÍNH XÁC
+-- Nguồn ảnh: Google Books / Open Library Covers API theo ISBN hoặc Google Books Volume ID.
+USE QuanLyBanSach;
+GO
+
+UPDATE SAN_PHAM SET AnhBia = N'https://www.netabooks.vn/Data/Sites/1/Product/78700/thumbs/truyen-kieu-bia-cung.jpg' WHERE TenSanPham = N'Truyện Kiều';
+UPDATE SAN_PHAM SET AnhBia = N'https://www.netabooks.vn/Data/Sites/1/Product/38406/thumbs/de-men-phieu-luu-ky-bia-cung.jpg' WHERE TenSanPham = N'Dế Mèn Phiêu Lưu Ký';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781617294532-L.jpg' WHERE TenSanPham = N'Lập trình C# cơ bản đến nâng cao';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781098104030-L.jpg' WHERE TenSanPham = N'Data Science với Python';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781982137274-L.jpg' WHERE TenSanPham = N'Những nguyên tắc để thành công';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg' WHERE TenSanPham = N'Thói quen nguyên tử';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg' WHERE TenSanPham = N'1984';
+UPDATE SAN_PHAM SET AnhBia = N'https://minhkhai.com.vn/hinhlon/8935075937673.jpg' WHERE TenSanPham = N'Lịch sử Việt Nam';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780375704024-L.jpg' WHERE TenSanPham = N'Norwegian Wood';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780747532743-L.jpg' WHERE TenSanPham = N'Harry Potter và Hòn Đá Phù Thủy';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg' WHERE TenSanPham = N'Clean Code C#';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781617298301-L.jpg' WHERE TenSanPham = N'ASP.NET Core MVC thực chiến';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780134610993-L.jpg' WHERE TenSanPham = N'Trí tuệ nhân tạo nhập môn';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg' WHERE TenSanPham = N'Tư duy nhanh và chậm';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780671027032-L.jpg' WHERE TenSanPham = N'Đắc nhân tâm';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg' WHERE TenSanPham = N'Nhà giả kim';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg' WHERE TenSanPham = N'Khởi nghiệp tinh gọn';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780134237473-L.jpg' WHERE TenSanPham = N'Quản trị học căn bản';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781119668510-L.jpg' WHERE TenSanPham = N'Marketing 5.0';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg' WHERE TenSanPham = N'Sapiens - Lược sử loài người';
+UPDATE SAN_PHAM SET AnhBia = N'https://books.google.com/books/content?id=sCDt0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api' WHERE TenSanPham = N'Địa lý Việt Nam hiện đại';
+UPDATE SAN_PHAM SET AnhBia = N'https://books.google.com/books/content?id=RqoV0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api' WHERE TenSanPham = N'Lịch sử thế giới giản lược';
+UPDATE SAN_PHAM SET AnhBia = N'https://books.google.com/books/content?id=xQMhyAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api' WHERE TenSanPham = N'Tôi thấy hoa vàng trên cỏ xanh';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780375704024-L.jpg' WHERE TenSanPham = N'Rừng Na Uy';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg' WHERE TenSanPham = N'The Pragmatic Programmer';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780201633610-L.jpg' WHERE TenSanPham = N'Design Patterns';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781718502703-L.jpg' WHERE TenSanPham = N'Python Crash Course';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781492056355-L.jpg' WHERE TenSanPham = N'Fluent Python';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg' WHERE TenSanPham = N'Deep Work';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg' WHERE TenSanPham = N'Start With Why';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg' WHERE TenSanPham = N'Good to Great';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781625274496-L.jpg' WHERE TenSanPham = N'Blue Ocean Strategy';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg' WHERE TenSanPham = N'Rich Dad Poor Dad';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg' WHERE TenSanPham = N'Homo Deus';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780393317558-L.jpg' WHERE TenSanPham = N'Guns, Germs, and Steel';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg' WHERE TenSanPham = N'A Brief History of Time';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg' WHERE TenSanPham = N'Dune';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg' WHERE TenSanPham = N'Hoàng tử bé';
+UPDATE SAN_PHAM SET AnhBia = N'https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg' WHERE TenSanPham = N'The Great Gatsby';
+GO
