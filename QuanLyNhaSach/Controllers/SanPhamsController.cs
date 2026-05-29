@@ -2,17 +2,35 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyNhaSach.Data;
 using QuanLyNhaSach.Models;
+using QuanLyNhaSach.Services;
 using QuanLyNhaSach.ViewModels;
 
 namespace QuanLyNhaSach.Controllers;
 
 public class SanPhamsController : Controller
 {
+    // Inject cả Service và Context (Context dùng tạm cho hàm Create nếu chưa chuyển logic vào Service)
+    private readonly ISanPhamService _sanPhamService;
     private readonly QuanLyBanSachContext _context;
 
-    public SanPhamsController(QuanLyBanSachContext context)
+    public SanPhamsController(ISanPhamService sanPhamService, QuanLyBanSachContext context)
     {
+        _sanPhamService = sanPhamService;
         _context = context;
+    }
+
+    // Ví dụ hàm Details sau khi dùng DI Service:
+    public async Task<IActionResult> Details(int id)
+    {
+        // Gọi qua Service thay vì tự Linq truy vấn DB
+        var sanPham = await _sanPhamService.LaySanPhamTheoIdAsync(id);
+
+        if (sanPham == null)
+        {
+            return NotFound();
+        }
+
+        return View(sanPham);
     }
 
     public async Task<IActionResult> Index(string? keyword, int? maDanhMuc)
@@ -44,24 +62,6 @@ public class SanPhamsController : Controller
 
         return View(vm);
     }
-
-    public async Task<IActionResult> Details(int id)
-    {
-        var sanPham = await _context.SanPhams
-            .Include(x => x.MaDanhMucNavigation)
-            .Include(x => x.MaNhaXuatBanNavigation)
-            .Include(x => x.MaTacGia)
-            .Include(x => x.DanhGia).ThenInclude(x => x.MaNguoiDungNavigation)
-            .FirstOrDefaultAsync(x => x.MaSanPham == id && x.TrangThai);
-
-        if (sanPham == null)
-        {
-            return NotFound();
-        }
-
-        return View(sanPham);
-    }
-
     public async Task<IActionResult> Create()
     {
         if (!IsAdmin()) return RedirectToAction("Login", "Account");
