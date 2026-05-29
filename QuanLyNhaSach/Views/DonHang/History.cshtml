@@ -28,7 +28,7 @@
                         <span class="history-status">@dh.TrangThaiDonHang.ToUpper()</span>
                     </div>
                     <div class="order-body-line">
-                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(first?.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : first!.SanPham!.AnhBia)" alt="@first?.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <img class="cover-img" src="@(first?.SanPham?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@first?.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                         <div class="order-book-detail">
                             <h3>@(first?.SanPham?.TenSanPham ?? "Đơn hàng sách")</h3>
                             <p>Nhà xuất bản: @(first?.SanPham?.NhaXuatBan?.TenNhaXuatBan ?? "Đang cập nhật")</p>

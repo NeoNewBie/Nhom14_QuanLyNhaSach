@@ -291,16 +291,32 @@ INSERT INTO TAC_GIA (TenTacGia, QuocTich, MoTa) VALUES
 (N'Stephen Covey', N'Mỹ', N'Tác giả sách phát triển bản thân');
 
 INSERT INTO SAN_PHAM (TenSanPham, MoTa, GiaBia, GiaBan, GiaNhap, SoLuongTon, AnhBia, LoaiSanPham, MaDanhMuc, MaNhaXuatBan, TrangThai, NgayTao) VALUES
-(N'Truyện Kiều', N'Tác phẩm kinh điển của Nguyễn Du, một trong những tác phẩm văn học vĩ đại nhất của dân tộc Việt Nam', 85000, 72250, 60000, 50, 'truyenkieu.jpg', N'Sách', 1, 3, 1, DATEADD(MONTH,-2,GETDATE())),
-(N'Dế Mèn Phiêu Lưu Ký', N'Cuộc phiêu lưu kỳ thú của chú dế mèn qua thế giới tuổi thơ', 95000, 80750, 70000, 35, 'demenphieuluuky.jpg', N'Sách', 1, 2, 1, DATEADD(MONTH,-1,GETDATE())),
-(N'Lập trình C# cơ bản đến nâng cao', N'Hướng dẫn lập trình C# từ cơ bản đến nâng cao', 320000, 272000, 240000, 25, 'csharp_guide.jpg', N'Sách', 2, 1, 1, DATEADD(MONTH,-3,GETDATE())),
-(N'Data Science với Python', N'Tìm hiểu data science, machine learning sử dụng Python', 385000, 326750, 300000, 20, 'datascience_python.jpg', N'Sách', 2, 1, 1, DATEADD(MONTH,-2,GETDATE())),
-(N'Những nguyên tắc để thành công', N'Các nguyên tắc để đạt được thành công trong kinh doanh và cuộc sống', 198000, 168300, 150000, 45, '7_principles_success.jpg', N'Sách', 3, 4, 1, GETDATE()),
-(N'Thói quen nguyên tử', N'Cách thay đổi thói quen nhỏ để tạo kết quả lớn', 180000, 153000, 140000, 60, 'atomic_habits.jpg', N'Sách', 4, 3, 1, DATEADD(MONTH,-1,GETDATE())),
-(N'1984', N'Tiểu thuyết dystopian kinh điển của George Orwell', 175000, 148750, 130000, 30, '1984.jpg', N'Sách', 1, 2, 1, DATEADD(MONTH,-4,GETDATE())),
-(N'Lịch sử Việt Nam', N'Tổng quan về lịch sử phát triển của dân tộc Việt Nam', 280000, 238000, 210000, 40, 'lich_su_vn.jpg', N'Sách', 5, 4, 1, DATEADD(MONTH,-2,GETDATE()));
+(N'Truyện Kiều', N'Tác phẩm kinh điển của Nguyễn Du, một trong những tác phẩm văn học vĩ đại nhất của dân tộc Việt Nam', 85000, 72250, 60000, 50, 'https://books.google.com/books/content?id=95isiQ3ZhN4C&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-60,GETDATE())),
+(N'Dế Mèn Phiêu Lưu Ký', N'Cuộc phiêu lưu kỳ thú của chú dế mèn qua thế giới tuổi thơ', 95000, 80750, 70000, 35, 'https://books.google.com/books/content?id=Jces0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-30,GETDATE())),
+(N'Lập trình C# cơ bản đến nâng cao', N'Hướng dẫn lập trình C# từ cơ bản đến nâng cao', 320000, 272000, 240000, 25, '/images/books/csharp_guide.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-90,GETDATE())),
+(N'Data Science với Python', N'Tìm hiểu data science, machine learning sử dụng Python', 385000, 326750, 300000, 20, '/images/books/datascience_python.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-60,GETDATE())),
+(N'Những nguyên tắc để thành công', N'Các nguyên tắc để đạt được thành công trong kinh doanh và cuộc sống', 198000, 168300, 150000, 45, '/images/books/7_principles_success.jpg', N'Sách', 3, 4, 1, GETDATE()),
+(N'Thói quen nguyên tử', N'Cách thay đổi thói quen nhỏ để tạo kết quả lớn', 180000, 153000, 140000, 60, 'https://books.google.com/books/content?id=lFhbDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 4, 3, 1, DATEADD(DAY,-30,GETDATE())),
+(N'1984', N'Tiểu thuyết dystopian kinh điển của George Orwell', 175000, 148750, 130000, 30, 'https://books.google.com/books/content?id=kotPYEqx7kMC&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-120,GETDATE())),
+(N'Lịch sử Việt Nam', N'Tổng quan về lịch sử phát triển của dân tộc Việt Nam', 280000, 238000, 210000, 40, '/images/books/lich_su_vn.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-60,GETDATE())),
+(N'Norwegian Wood', N'Tiểu thuyết tình yêu nổi tiếng của Haruki Murakami', 210000, 178000, 145000, 38, 'https://books.google.com/books/content?id=M37o0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-18,GETDATE())),
+(N'Harry Potter và Hòn Đá Phù Thủy', N'Tác phẩm fantasy được yêu thích trên toàn thế giới', 250000, 219000, 170000, 44, 'https://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-10,GETDATE())),
+(N'Clean Code C#', N'Kỹ thuật viết mã sạch, dễ bảo trì trong C#', 360000, 306000, 250000, 22, 'https://books.google.com/books/content?id=hjEFCAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 2, 1, 1, DATEADD(DAY,-8,GETDATE())),
+(N'ASP.NET Core MVC thực chiến', N'Xây dựng website bán hàng bằng ASP.NET Core MVC và SQL Server', 390000, 331500, 280000, 28, '/images/books/aspnet_core_mvc.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-5,GETDATE())),
+(N'Trí tuệ nhân tạo nhập môn', N'Nền tảng về AI, machine learning và ứng dụng thực tế', 295000, 250000, 210000, 31, '/images/books/ai_nhap_mon.jpg', N'Sách', 2, 1, 1, DATEADD(DAY,-14,GETDATE())),
+(N'Tư duy nhanh và chậm', N'Sách tâm lý học về cách con người ra quyết định', 230000, 195000, 160000, 37, 'https://books.google.com/books/content?id=XQuhEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 4, 4, 1, DATEADD(DAY,-21,GETDATE())),
+(N'Đắc nhân tâm', N'Nghệ thuật giao tiếp và xây dựng quan hệ bền vững', 160000, 136000, 105000, 55, 'https://books.google.com/books/content?id=eqjvDwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 4, 4, 1, DATEADD(DAY,-7,GETDATE())),
+(N'Nhà giả kim', N'Câu chuyện truyền cảm hứng về hành trình đi tìm ước mơ', 145000, 123000, 98000, 48, 'https://books.google.com/books/content?id=1onn0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-16,GETDATE())),
+(N'Khởi nghiệp tinh gọn', N'Phương pháp xây dựng sản phẩm và kiểm chứng mô hình kinh doanh', 260000, 221000, 180000, 30, 'https://books.google.com/books/content?id=-KsjEQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 3, 4, 1, DATEADD(DAY,-12,GETDATE())),
+(N'Quản trị học căn bản', N'Kiến thức nền tảng về quản trị doanh nghiệp', 240000, 204000, 170000, 34, '/images/books/quan_tri_hoc.jpg', N'Sách', 3, 4, 1, DATEADD(DAY,-25,GETDATE())),
+(N'Marketing 5.0', N'Marketing trong thời đại công nghệ và dữ liệu', 280000, 238000, 195000, 26, 'https://books.google.com/books/content?id=ANfzyQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 3, 4, 1, DATEADD(DAY,-11,GETDATE())),
+(N'Sapiens - Lược sử loài người', N'Hành trình phát triển của nhân loại qua các thời kỳ', 320000, 272000, 230000, 29, 'https://books.google.com/books/content?id=hN0vEQAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 5, 1, 1, DATEADD(DAY,-13,GETDATE())),
+(N'Địa lý Việt Nam hiện đại', N'Tổng quan lãnh thổ, vùng miền và đặc điểm tự nhiên Việt Nam', 210000, 178500, 145000, 33, '/images/books/dia_ly_vn.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-17,GETDATE())),
+(N'Lịch sử thế giới giản lược', N'Các nền văn minh và sự kiện nổi bật của thế giới', 300000, 255000, 210000, 27, '/images/books/lich_su_the_gioi.jpg', N'Sách', 5, 4, 1, DATEADD(DAY,-20,GETDATE())),
+(N'Tôi thấy hoa vàng trên cỏ xanh', N'Truyện dài giàu cảm xúc về tuổi thơ và gia đình', 125000, 106000, 82000, 51, 'https://books.google.com/books/content?id=xQMhyAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 2, 1, DATEADD(DAY,-9,GETDATE())),
+(N'Rừng Na Uy', N'Bản dịch tiếng Việt của Norwegian Wood', 220000, 187000, 150000, 24, 'https://books.google.com/books/content?id=M37o0AEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', N'Sách', 1, 3, 1, DATEADD(DAY,-6,GETDATE()));
 
-INSERT INTO SAN_PHAM_TAC_GIA (MaSanPham, MaTacGia) VALUES (1,1),(2,2),(3,3),(4,3),(5,7),(6,7),(7,5),(8,1);
+INSERT INTO SAN_PHAM_TAC_GIA (MaSanPham, MaTacGia) VALUES (1,1),(2,2),(3,3),(4,3),(5,7),(6,7),(7,5),(8,1),(9,4),(10,6),(11,3),(12,3),(13,3),(14,7),(15,7),(16,4),(17,7),(18,7),(19,7),(20,5),(21,1),(22,5),(23,2),(24,4);
 
 INSERT INTO KHUYEN_MAI (TenKhuyenMai, LoaiGiamGia, GiaTriGiam, DieuKienApDung, NgayBatDau, NgayKetThuc, TrangThai) VALUES
 (N'Giảm 10% cho toàn bộ sách', N'Phần trăm', 10, 100000, DATEADD(DAY,-5,GETDATE()), DATEADD(DAY,20,GETDATE()), 1),
@@ -355,3 +371,72 @@ CREATE TABLE DANG_KY_NHAN_TIN (
     TrangThai BIT NOT NULL DEFAULT 1
 );
 GO
+
+
+/* DPQ bổ sung sách thật và ảnh bìa online để giao diện đủ dữ liệu demo */
+DECLARE @catVanHoc INT = (SELECT TOP 1 MaDanhMuc FROM DANH_MUC WHERE TenDanhMuc=N'Văn học');
+DECLARE @catTech INT = (SELECT TOP 1 MaDanhMuc FROM DANH_MUC WHERE TenDanhMuc=N'Khoa học kỹ thuật');
+DECLARE @catBiz INT = (SELECT TOP 1 MaDanhMuc FROM DANH_MUC WHERE TenDanhMuc=N'Kinh tế - Quản lý');
+DECLARE @catSkill INT = (SELECT TOP 1 MaDanhMuc FROM DANH_MUC WHERE TenDanhMuc=N'Tâm lý - Kỹ năng sống');
+DECLARE @catHistory INT = (SELECT TOP 1 MaDanhMuc FROM DANH_MUC WHERE TenDanhMuc=N'Lịch sử - Địa lý');
+DECLARE @nxb INT = (SELECT TOP 1 MaNhaXuatBan FROM NHA_XUAT_BAN ORDER BY MaNhaXuatBan);
+
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Robert C. Martin') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Robert C. Martin',N'Mỹ',N'Tác giả Clean Code');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Andrew Hunt') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Andrew Hunt',N'Mỹ',N'Đồng tác giả The Pragmatic Programmer');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Eric Ries') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Eric Ries',N'Mỹ',N'Tác giả The Lean Startup');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Cal Newport') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Cal Newport',N'Mỹ',N'Tác giả Deep Work');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Yuval Noah Harari') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Yuval Noah Harari',N'Israel',N'Tác giả Sapiens');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Frank Herbert') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Frank Herbert',N'Mỹ',N'Tác giả Dune');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'Antoine de Saint-Exupéry') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'Antoine de Saint-Exupéry',N'Pháp',N'Tác giả Hoàng tử bé');
+IF NOT EXISTS (SELECT 1 FROM TAC_GIA WHERE TenTacGia=N'F. Scott Fitzgerald') INSERT INTO TAC_GIA(TenTacGia,QuocTich,MoTa) VALUES(N'F. Scott Fitzgerald',N'Mỹ',N'Tác giả The Great Gatsby');
+
+DECLARE @aMartin INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Robert C. Martin');
+DECLARE @aHunt INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Andrew Hunt');
+DECLARE @aRies INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Eric Ries');
+DECLARE @aNewport INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Cal Newport');
+DECLARE @aHarari INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Yuval Noah Harari');
+DECLARE @aHerbert INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Frank Herbert');
+DECLARE @aSaint INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'Antoine de Saint-Exupéry');
+DECLARE @aFitz INT=(SELECT MaTacGia FROM TAC_GIA WHERE TenTacGia=N'F. Scott Fitzgerald');
+
+DECLARE @NewBooks TABLE(Ten NVARCHAR(200), MoTa NVARCHAR(MAX), GiaBia DECIMAL(18,2), GiaBan DECIMAL(18,2), GiaNhap DECIMAL(18,2), Ton INT, Anh VARCHAR(255), Cat INT, TacGia INT);
+INSERT INTO @NewBooks VALUES
+(N'The Pragmatic Programmer',N'Tư duy thực dụng giúp lập trình viên viết phần mềm tốt hơn.',320000,272000,230000,32,'https://covers.openlibrary.org/b/isbn/9780201616224-L.jpg',@catTech,@aHunt),
+(N'Design Patterns',N'Các mẫu thiết kế kinh điển trong lập trình hướng đối tượng.',420000,357000,310000,18,'https://covers.openlibrary.org/b/isbn/9780201633610-L.jpg',@catTech,@aMartin),
+(N'Python Crash Course',N'Sách nhập môn Python dễ học, nhiều ví dụ thực hành.',360000,306000,250000,36,'https://covers.openlibrary.org/b/isbn/9781593279288-L.jpg',@catTech,@aMartin),
+(N'Fluent Python',N'Kỹ thuật Python nâng cao cho lập trình viên chuyên nghiệp.',520000,442000,390000,16,'https://covers.openlibrary.org/b/isbn/9781491946008-L.jpg',@catTech,@aMartin),
+(N'Deep Work',N'Làm việc sâu trong thời đại nhiều xao nhãng.',210000,178500,145000,42,'https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg',@catSkill,@aNewport),
+(N'Start With Why',N'Tìm lý do cốt lõi để dẫn dắt bản thân và tổ chức.',225000,191000,150000,40,'https://covers.openlibrary.org/b/isbn/9781591846444-L.jpg',@catSkill,@aNewport),
+(N'Good to Great',N'Từ công ty tốt đến công ty vĩ đại.',280000,238000,190000,24,'https://covers.openlibrary.org/b/isbn/9780066620992-L.jpg',@catBiz,@aRies),
+(N'Blue Ocean Strategy',N'Chiến lược đại dương xanh trong kinh doanh.',295000,250000,205000,26,'https://covers.openlibrary.org/b/isbn/9781591396192-L.jpg',@catBiz,@aRies),
+(N'Rich Dad Poor Dad',N'Bài học tài chính cá nhân nổi tiếng.',180000,153000,120000,50,'https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg',@catBiz,@aRies),
+(N'Homo Deus',N'Lược sử tương lai của nhân loại.',340000,289000,240000,28,'https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg',@catHistory,@aHarari),
+(N'Guns, Germs, and Steel',N'Phân tích lịch sử phát triển các nền văn minh.',360000,306000,250000,22,'https://covers.openlibrary.org/b/isbn/9780393317558-L.jpg',@catHistory,@aHarari),
+(N'A Brief History of Time',N'Lược sử thời gian và các ý tưởng vật lý hiện đại.',260000,221000,175000,30,'https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg',@catHistory,@aHarari),
+(N'Dune',N'Tiểu thuyết khoa học viễn tưởng kinh điển.',310000,263500,220000,21,'https://covers.openlibrary.org/b/isbn/9780441172719-L.jpg',@catVanHoc,@aHerbert),
+(N'Hoàng tử bé',N'Tác phẩm văn học thiếu nhi giàu triết lý.',120000,102000,82000,47,'https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg',@catVanHoc,@aSaint),
+(N'The Great Gatsby',N'Tác phẩm kinh điển của văn học Mỹ.',160000,136000,105000,34,'https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg',@catVanHoc,@aFitz);
+
+DECLARE @Ten NVARCHAR(200), @MoTa NVARCHAR(MAX), @GiaBia DECIMAL(18,2), @GiaBan DECIMAL(18,2), @GiaNhap DECIMAL(18,2), @Ton INT, @Anh VARCHAR(255), @Cat INT, @TacGia INT;
+DECLARE cur CURSOR FOR SELECT Ten,MoTa,GiaBia,GiaBan,GiaNhap,Ton,Anh,Cat,TacGia FROM @NewBooks;
+OPEN cur;
+FETCH NEXT FROM cur INTO @Ten,@MoTa,@GiaBia,@GiaBan,@GiaNhap,@Ton,@Anh,@Cat,@TacGia;
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM SAN_PHAM WHERE TenSanPham=@Ten)
+    BEGIN
+        INSERT INTO SAN_PHAM(TenSanPham,MoTa,GiaBia,GiaBan,GiaNhap,SoLuongTon,AnhBia,LoaiSanPham,MaDanhMuc,MaNhaXuatBan,TrangThai,NgayTao)
+        VALUES(@Ten,@MoTa,@GiaBia,@GiaBan,@GiaNhap,@Ton,@Anh,N'Sách',@Cat,@nxb,1,DATEADD(DAY,-ABS(CHECKSUM(NEWID()))%40,GETDATE()));
+        INSERT INTO SAN_PHAM_TAC_GIA(MaSanPham,MaTacGia) VALUES(SCOPE_IDENTITY(),@TacGia);
+    END
+    FETCH NEXT FROM cur INTO @Ten,@MoTa,@GiaBia,@GiaBan,@GiaNhap,@Ton,@Anh,@Cat,@TacGia;
+END
+CLOSE cur;
+DEALLOCATE cur;
+
+UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780743269513-L.jpg' WHERE TenSanPham=N'Những nguyên tắc để thành công';
+UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9781617291340-L.jpg' WHERE TenSanPham LIKE N'Lập trình C#%';
+UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9781492041139-L.jpg' WHERE TenSanPham LIKE N'Data Science%';
+UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9781617294617-L.jpg' WHERE TenSanPham LIKE N'ASP.NET Core%';
+UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780136042594-L.jpg' WHERE TenSanPham LIKE N'Trí tuệ nhân tạo%';
+UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg' WHERE TenSanPham LIKE N'Lịch sử Việt Nam';

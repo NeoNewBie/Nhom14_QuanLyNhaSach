@@ -1,11 +1,11 @@
 @model CartViewModel
 @{
-    Layout = "_BlankLayout";
+    Layout = "_Layout";
     ViewData["Title"] = "Giỏ hàng";
     var user = Model.NguoiDung;
 }
-<div class="figma-canvas cart-canvas">
-    <a class="figma-back" asp-controller="Home" asp-action="Index">‹</a>
+<section class="page-shell cart-page">
+    <div class="page-hero-mini"><p>CART PAGE</p><h1>Giỏ hàng</h1><span>Kiểm tra sách, áp dụng mã giảm giá và tiến hành thanh toán.</span></div>
     <div class="cart-figma-panel">
         <h1>Giỏ hàng của bạn (@Model.Items.Count sản phẩm)</h1>
         @if (!Model.Items.Any())
@@ -28,7 +28,7 @@
                         @foreach (var item in Model.Items)
                         {
                             <div class="cart-figma-row">
-                                <img class="cover-img" src="@(string.IsNullOrWhiteSpace(item.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : item.SanPham!.AnhBia)" alt="@item.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                                <img class="cover-img" src="@(item.SanPham?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@item.SanPham?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                                 <div class="cart-book-info">
                                     <h5>@item.SanPham?.TenSanPham</h5>
                                     <p>@(item.SanPham?.DanhMuc?.TenDanhMuc ?? "Sách") - @(item.SanPham?.TacGia?.TenTacGia ?? "Đang cập nhật")</p>
@@ -102,4 +102,4 @@
             </div>
         }
     </div>
-</div>
+</section>

@@ -11,7 +11,7 @@
                 @foreach (var item in Model.ChiTietDonHangs)
                 {
                     <div class="cart-row">
-                        <img class="cover-img" src="@(string.IsNullOrWhiteSpace(item.SanPham?.AnhBia) ? "/images/books/placeholder.svg" : item.SanPham!.AnhBia)" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                        <img class="cover-img" src="@(item.SanPham?.AnhBiaUrl ?? "/images/books/placeholder.svg")" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                         <div class="flex-grow-1">
                             <h5>@item.SanPham?.TenSanPham</h5>
                             <div class="small text-muted">Số lượng: @item.SoLuong</div>

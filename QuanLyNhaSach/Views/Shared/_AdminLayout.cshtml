@@ -2,72 +2,84 @@
 @{
     var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
     string Active(params string[] names) => names.Contains(action) ? "active" : "";
-    var adminName = Context.Session.GetString("HoTen") ?? "Admin";
+    var adminName = Context.Session.GetString("HoTen") ?? Context.Session.GetString("UserName") ?? "Admin";
 }
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Admin BookPort</title>
+    <title>@ViewData["Title"] - Admin BOOKPORT</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body class="admin-body">
-    <header class="admin-topbar">
-        <div>
-            <a class="admin-brand" asp-controller="Admin" asp-action="Dashboard">BOOKPORT</a>
-            <small>YOUR NEXT GREAT ADVENTURE AWAITS</small>
+<body class="admin-body admin-desktop-body">
+    <header class="admin-topbar-pro">
+        <div class="admin-brand-box">
+            <a class="admin-brand-pro" asp-controller="Admin" asp-action="Dashboard">BOOKPORT</a>
+            <span>Quản trị website bán sách</span>
         </div>
-        <nav class="admin-topnav">
+        <form class="admin-search-pro" asp-controller="Admin" asp-action="Products" method="get">
+            <span>⌕</span>
+            <input name="keyword" placeholder="Tìm sách, khách hàng, đơn hàng..." />
+        </form>
+        <nav class="admin-quick-nav">
             <a class='@Active("Dashboard")' asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
-            <a class='@Active("Products", "ProductForm")' asp-controller="Admin" asp-action="Products">Inventory</a>
-            <a class='@Active("Customers")' asp-controller="Admin" asp-action="Customers">Customers</a>
-            <a class='@Active("Analytics")' asp-controller="Admin" asp-action="Analytics">Analytics</a>
+            <a class='@Active("Orders", "OrderDetail")' asp-controller="Admin" asp-action="Orders">Đơn hàng</a>
+            <a class='@Active("Products", "ProductForm")' asp-controller="Admin" asp-action="Products">Kho sách</a>
+            <a asp-controller="Home" asp-action="Index">Xem website</a>
         </nav>
-        <div class="admin-user-icons">
-            <a asp-controller="Admin" asp-action="Settings" title="Tài khoản">◎</a>
-            <a asp-controller="Admin" asp-action="Notifications" title="Thông báo">🔔</a>
-            <a asp-controller="Account" asp-action="Logout" title="Đăng xuất">↪</a>
+        <div class="admin-account-pro">
+            <a class="admin-bell" asp-controller="Admin" asp-action="Notifications">🔔</a>
+            <div class="admin-avatar">@adminName.Substring(0,1).ToUpper()</div>
+            <div class="admin-account-text">
+                <strong>@adminName</strong>
+                <small>Quản trị viên</small>
+            </div>
+            <a class="admin-logout-btn" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
         </div>
     </header>
-    <div class="admin-shell">
-        <aside class="admin-sidebar">
-            <h5>LIBRARY ACCESS</h5>
-            <p>Welcome, @adminName</p>
-            <nav>
+
+    <div class="admin-shell-pro">
+        <aside class="admin-sidebar-pro">
+            <div class="admin-sidebar-card">
+                <p>LIBRARY ACCESS</p>
+                <h4>Xin chào, @adminName</h4>
+                <span>Quản lý sách, đơn hàng và khách hàng trên một màn hình.</span>
+            </div>
+            <nav class="admin-menu-pro">
+                <small>Tổng quan</small>
                 <a class='@Active("Dashboard")' asp-controller="Admin" asp-action="Dashboard"><span>▦</span>Dashboard</a>
-                <a class='@Active("Analytics")' asp-controller="Admin" asp-action="Analytics"><span>▥</span>Analytics</a>
+                <a class='@Active("Analytics")' asp-controller="Admin" asp-action="Analytics"><span>◈</span>Analytics</a>
                 <a class='@Active("Invoice")' asp-controller="Admin" asp-action="Invoice"><span>▧</span>Invoice</a>
-                <a class='@Active("Schedule")' asp-controller="Admin" asp-action="Schedule"><span>▤</span>Schedule</a>
-                <a class='@Active("Calendar")' asp-controller="Admin" asp-action="Calendar"><span>▣</span>Calendar</a>
-                <a class='@Active("Messages")' asp-controller="Admin" asp-action="Messages"><span>✉</span>Messages</a>
-                <a class='@Active("Notifications")' asp-controller="Admin" asp-action="Notifications"><span>🔔</span>Notification</a>
-                <a class='@Active("Settings")' asp-controller="Admin" asp-action="Settings"><span>⚙</span>Settings</a>
-                <hr />
-                <a class='@Active("Products", "ProductForm")' asp-controller="Admin" asp-action="Products"><span>▥</span>Inventory</a>
-                <a class='@Active("Orders", "OrderDetail")' asp-controller="Admin" asp-action="Orders"><span>▧</span>Orders</a>
-                <a class='@Active("Authors")' asp-controller="Admin" asp-action="Authors"><span>▤</span>Authors</a>
-                <a class='@Active("Publishers")' asp-controller="Admin" asp-action="Publishers"><span>▨</span>Publishers</a>
-                <a class='@Active("Categories")' asp-controller="Admin" asp-action="Categories"><span>▣</span>Categories</a>
-                <a class='@Active("Customers")' asp-controller="Admin" asp-action="Customers"><span>●</span>Customers</a>
-                <a asp-controller="Home" asp-action="Index"><span>↗</span>View site</a>
-                <a asp-controller="Account" asp-action="Logout"><span>↪</span>Logout</a>
+                <a class='@Active("Schedule", "Calendar")' asp-controller="Admin" asp-action="Schedule"><span>▤</span>Lịch làm việc</a>
+                <a class='@Active("Messages")' asp-controller="Admin" asp-action="Messages"><span>✉</span>Tin nhắn</a>
+                <a class='@Active("Notifications")' asp-controller="Admin" asp-action="Notifications"><span>🔔</span>Thông báo</a>
+                <small>Quản lý dữ liệu</small>
+                <a class='@Active("Products", "ProductForm")' asp-controller="Admin" asp-action="Products"><span>📚</span>Quản lý sách</a>
+                <a class='@Active("Orders", "OrderDetail")' asp-controller="Admin" asp-action="Orders"><span>🧾</span>Đơn hàng</a>
+                <a class='@Active("Categories")' asp-controller="Admin" asp-action="Categories"><span>🏷</span>Danh mục</a>
+                <a class='@Active("Authors")' asp-controller="Admin" asp-action="Authors"><span>✍</span>Tác giả</a>
+                <a class='@Active("Publishers")' asp-controller="Admin" asp-action="Publishers"><span>🏢</span>Nhà xuất bản</a>
+                <a class='@Active("Customers")' asp-controller="Admin" asp-action="Customers"><span>👥</span>Khách hàng</a>
+                <small>Hệ thống</small>
+                <a class='@Active("Settings")' asp-controller="Admin" asp-action="Settings"><span>⚙</span>Cài đặt</a>
+                <a asp-controller="Home" asp-action="Index"><span>↗</span>Trang khách hàng</a>
+                <a asp-controller="Account" asp-action="Logout"><span>↪</span>Đăng xuất</a>
             </nav>
         </aside>
-        <main class="admin-content">
+        <main class="admin-content-pro">
             @if (TempData["Success"] != null)
             {
-                <div class="alert alert-success">@TempData["Success"]</div>
+                <div class="alert alert-success admin-alert">@TempData["Success"]</div>
             }
             @if (TempData["Error"] != null)
             {
-                <div class="alert alert-danger">@TempData["Error"]</div>
+                <div class="alert alert-danger admin-alert">@TempData["Error"]</div>
             }
             @RenderBody()
         </main>
     </div>
-    <footer class="admin-footer"><strong>BookPort</strong><span>© 2026 Book Port. Powered by ASP.NET Core MVC.</span></footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

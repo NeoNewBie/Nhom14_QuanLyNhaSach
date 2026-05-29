@@ -6,6 +6,16 @@
     var reviews = ViewBag.DanhGias as List<DanhGia> ?? new List<DanhGia>();
     var soLuongDaBan = (int)(ViewBag.SoLuongDaBan ?? 0);
     var avg = (double)(ViewBag.DiemTrungBinh ?? 0d);
+    string CategoryIcon(string? ten)
+    {
+        ten = (ten ?? string.Empty).ToLowerInvariant();
+        if (ten.Contains("văn")) return "/images/categories/literature.svg";
+        if (ten.Contains("khoa") || ten.Contains("công") || ten.Contains("lập")) return "/images/categories/technology.svg";
+        if (ten.Contains("kinh") || ten.Contains("quản")) return "/images/categories/business.svg";
+        if (ten.Contains("tâm") || ten.Contains("kỹ")) return "/images/categories/selfhelp.svg";
+        if (ten.Contains("lịch") || ten.Contains("địa")) return "/images/categories/history.svg";
+        return "/images/categories/default.svg";
+    }
 }
 
 <div class="detail-figma-page">
@@ -16,7 +26,7 @@
         <a asp-controller="Home" asp-action="Index" asp-fragment="top-sellers">Sách bán chạy</a>
         @foreach (var dm in categories)
         {
-            <a class="@(Model.MaDanhMuc == dm.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@dm.MaDanhMuc">@dm.TenDanhMuc</a>
+            <a class="@(Model.MaDanhMuc == dm.MaDanhMuc ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-maDanhMuc="@dm.MaDanhMuc"><img class="side-cat-icon" src="@CategoryIcon(dm.TenDanhMuc)" alt="" /> @dm.TenDanhMuc</a>
         }
     </aside>
 
@@ -25,10 +35,10 @@
         <section class="detail-product-grid">
             <div class="detail-gallery">
                 <div class="detail-main-cover">
-                    <img id="mainBookCover" class="cover-img" src="@(string.IsNullOrWhiteSpace(Model.AnhBia) ? "/images/books/placeholder.svg" : Model.AnhBia)" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                    <img id="mainBookCover" class="cover-img" src="@Model.AnhBiaUrl" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                 </div>
                 <div class="cover-thumb-row">
-                    <button type="button" class="cover-thumb active" data-cover="@(string.IsNullOrWhiteSpace(Model.AnhBia) ? "/images/books/placeholder.svg" : Model.AnhBia)">Ảnh bìa</button>
+                    <button type="button" class="cover-thumb active" data-cover="@Model.AnhBiaUrl">Ảnh bìa</button>
                     <button type="button" class="cover-thumb" data-cover="/images/books/placeholder.svg">Mẫu</button>
                     <button type="button" class="cover-thumb" data-cover="/images/books/hero.svg">BookPort</button>
                 </div>

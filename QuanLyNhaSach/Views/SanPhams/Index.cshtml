@@ -3,40 +3,65 @@
     ViewData["Title"] = "Danh sách sách";
 }
 
-<section class="page-title">
-    <p>BOOK CATALOG</p>
-    <h1>Danh sách sách</h1>
+<section class="catalog-hero-desktop">
+    <div>
+        <p>BOOK CATALOG</p>
+        <h1>Danh sách sách</h1>
+        <span>Hiển thị sách theo dạng lưới 3 cột, ảnh bìa rõ ràng, dễ xem trên màn hình desktop.</span>
+    </div>
+    <div class="catalog-hero-stat">
+        <strong>@Model.SanPhams.Count</strong>
+        <small>đầu sách phù hợp</small>
+    </div>
 </section>
 
-<form class="search-box" asp-controller="SanPhams" asp-action="Index" method="get">
-    <input name="keyword" value="@Model.Keyword" placeholder="Tìm sách theo tên hoặc mô tả..." />
-    <select name="maDanhMuc">
-        <option value="">Tất cả thể loại</option>
-        @foreach (var cat in Model.DanhMucs)
-        {
-            if (Model.MaDanhMuc == cat.MaDanhMuc)
-            {
-                <option value="@cat.MaDanhMuc" selected>@cat.TenDanhMuc</option>
-            }
-            else
-            {
-                <option value="@cat.MaDanhMuc">@cat.TenDanhMuc</option>
-            }
-        }
-    </select>
-    <button type="submit">Lọc sách</button>
-</form>
+<section class="catalog-toolbar-card">
+    <form class="catalog-filter-form" asp-controller="SanPhams" asp-action="Index" method="get">
+        <div class="filter-field keyword-field">
+            <label>Tìm kiếm</label>
+            <input name="keyword" value="@Model.Keyword" placeholder="Nhập tên sách, tác giả hoặc mô tả..." />
+        </div>
+        <div class="filter-field category-field">
+            <label>Thể loại</label>
+            <select name="maDanhMuc">
+                <option value="">Tất cả thể loại</option>
+                @foreach (var cat in Model.DanhMucs)
+                {
+                    if (Model.MaDanhMuc == cat.MaDanhMuc)
+                    {
+                        <option value="@cat.MaDanhMuc" selected>@cat.TenDanhMuc</option>
+                    }
+                    else
+                    {
+                        <option value="@cat.MaDanhMuc">@cat.TenDanhMuc</option>
+                    }
+                }
+            </select>
+        </div>
+        <button type="submit" class="catalog-filter-btn">Lọc sách</button>
+        <a class="catalog-reset-btn" asp-controller="SanPhams" asp-action="Index">Xóa lọc</a>
+    </form>
+</section>
 
 @if (!Model.SanPhams.Any())
 {
-    <div class="empty-state">Không tìm thấy sách phù hợp.</div>
+    <div class="empty-state catalog-empty">Không tìm thấy sách phù hợp.</div>
 }
 else
 {
-    <div class="book-grid list-page">
-        @foreach (var item in Model.SanPhams)
-        {
-            <partial name="_ProductCard" model="item" />
-        }
-    </div>
+    <section class="catalog-result-section">
+        <div class="catalog-section-head">
+            <div>
+                <p>BOOKPORT COLLECTION</p>
+                <h2>Kết quả tìm kiếm</h2>
+            </div>
+            <span>Mỗi hàng hiển thị 3 sách để giáo viên dễ quan sát giao diện.</span>
+        </div>
+        <div class="book-grid catalog-grid-3">
+            @foreach (var item in Model.SanPhams)
+            {
+                <partial name="_ProductCard" model="item" />
+            }
+        </div>
+    </section>
 }

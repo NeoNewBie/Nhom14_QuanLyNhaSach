@@ -1,16 +1,14 @@
 @model SanPham
 @{
     ViewData["Title"] = Model.TenSanPham;
-    var img = string.IsNullOrWhiteSpace(Model.AnhBia)
-        ? Url.Content("~/images/books/book-default.jpg")
-        : (Model.AnhBia.StartsWith("http") ? Model.AnhBia : Url.Content("~/images/books/" + Model.AnhBia));
+    var img = Model.AnhBiaUrl;
     var tacGia = Model.MaTacGia.Any() ? string.Join(", ", Model.MaTacGia.Select(x => x.TenTacGia)) : "Đang cập nhật";
     var avg = Model.DanhGia.Any() ? Model.DanhGia.Average(x => x.SoSao) : 0;
 }
 
 <section class="details-wrap">
     <div class="details-cover">
-        <img src="@img" alt="@Model.TenSanPham" onerror="this.src='/images/books/book-default.jpg'" />
+        <img src="@img" alt="@Model.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
     </div>
     <div class="details-info">
         <p class="eyebrow">@(Model.MaDanhMucNavigation?.TenDanhMuc ?? Model.LoaiSanPham)</p>

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using QuanLyNhaSach.Models;
 
 namespace QuanLyNhaSach.ViewModels;
@@ -13,10 +13,10 @@ public class CartViewModel
     public string? MoTaGiamGia { get; set; }
 
     public decimal TamTinh => Items.Sum(x => x.SoLuong * x.DonGia);
-    public decimal TongTien => Items.Sum(x => x.SoLuong * x.DonGia);
     public decimal GiamGia { get; set; }
     public decimal PhiShip { get; set; } = 0;
-    public decimal ThanhToan => Math.Max(0, TongTien - GiamGia + PhiShip);
+    public decimal TongTien => Math.Max(0, TamTinh - GiamGia + PhiShip);
+    public decimal ThanhToan => TongTien;
 }
 
 public class CheckoutViewModel

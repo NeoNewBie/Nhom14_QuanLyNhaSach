@@ -1,12 +1,12 @@
 @model List<YeuThich>
 @{
-    Layout = "_BlankLayout";
+    Layout = "_Layout";
     ViewData["Title"] = "Sách yêu thích";
     var danhMucs = ViewBag.DanhMucs as List<DanhMuc> ?? new List<DanhMuc>();
     int? maDanhMuc = ViewBag.MaDanhMuc as int?;
 }
-<div class="figma-canvas list-canvas">
-    <a class="figma-back" asp-controller="Home" asp-action="Index">‹</a>
+<section class="page-shell wishlist-page">
+    <div class="page-hero-mini"><p>WISH LIST</p><h1>Danh sách yêu thích</h1><span>Lưu lại những cuốn sách bạn quan tâm và thêm nhanh vào giỏ hàng.</span></div>
     <section class="wishlist-panel">
         <div class="list-panel-head">
             <h1>▤ Quản lý sách đã lưu</h1>
@@ -65,7 +65,7 @@
                         <div class="wishlist-table-row">
                             <label class="wish-check"><input type="checkbox" name="maSanPhams" value="@item.MaSanPham" class="wishlist-check" /></label>
                             <div class="wish-book">
-                                <img class="cover-img" src="@(string.IsNullOrWhiteSpace(sp?.AnhBia) ? "/images/books/placeholder.svg" : sp!.AnhBia)" alt="@sp?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
+                                <img class="cover-img" src="@(sp?.AnhBiaUrl ?? "/images/books/placeholder.svg")" alt="@sp?.TenSanPham" onerror="this.onerror=null;this.src='/images/books/placeholder.svg';" />
                                 <div><h5>@sp?.TenSanPham</h5><p>@(sp?.TacGia?.TenTacGia ?? "Đang cập nhật") | @(sp?.DanhMuc?.TenDanhMuc ?? "Sách")</p></div>
                             </div>
                             <strong>@((sp?.GiaBan ?? 0).ToString("N0")) đ</strong>
@@ -81,4 +81,4 @@
             </form>
         }
     </section>
-</div>
+</section>
