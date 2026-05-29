@@ -17,6 +17,45 @@ public class GioHangController : Controller
         _context = context;
     }
 
+    public async Task<IActionResult> TestException()
+    {
+        try
+        {
+            var order = new DonHang
+            {
+                MaNguoiDung = 1,
+                NgayDat = DateTime.Now,
+                HoTenNguoiNhan = "Test User",
+                SoDienThoaiNhan = "0123456789",
+                TongTien = 100000,
+                PhiShip = 25000,
+                TrangThaiDonHang = "Chờ xác nhận",
+            };
+            _context.DonHangs.Add(order);
+            await _context.SaveChangesAsync();
+            
+            var tt = new ThanhToan
+            {
+                MaDonHang = order.MaDonHang,
+                PhuongThucThanhToan = "Thanh toán khi nhận hàng",
+                SoTienThanhToan = order.TongTien,
+                TrangThaiThanhToan = "Chưa thanh toán"
+            };
+            _context.ThanhToans.Add(tt);
+            await _context.SaveChangesAsync();
+
+            return Content("Success");
+        }
+        catch (DbUpdateException ex)
+        {
+            return Content("DbUpdateException: " + ex.InnerException?.Message);
+        }
+        catch (Exception ex)
+        {
+            return Content("Exception: " + ex.Message);
+        }
+    }
+
     public async Task<IActionResult> Index()
     {
         var userId = RequireLogin();
@@ -300,15 +339,14 @@ public class GioHangController : Controller
                 order.MaDonHang, item.MaSanPham, item.SoLuong, item.DonGia, item.SoLuong * item.DonGia);
         }
 
-        // Vẫn dùng EF Core cho ThanhToan vì bảng này không có Trigger gây lỗi
-        _context.ThanhToans.Add(new ThanhToan
-        {
-            MaDonHang = order.MaDonHang,
-            PhuongThucThanhToan = model.PhuongThucThanhToan == "Chuyển khoản" ? "Chuyển khoản" : "Thanh toán khi nhận hàng",
-            SoTienThanhToan = order.TongTien,
-            TrangThaiThanhToan = "Chưa thanh toán"
-        });
-        await _context.SaveChangesAsync();
+        // Sử dụng Raw SQL để Insert ThanhToan nhằm tránh lỗi UNIQUE KEY constraint
+        // trên cột MaGiaoDich khi giá trị là NULL (thanh toán khi nhận hàng).
+        await _context.Database.ExecuteSqlRawAsync(
+            "INSERT INTO THANH_TOAN (MaDonHang, PhuongThucThanhToan, SoTienThanhToan, TrangThaiThanhToan) VALUES ({0}, {1}, {2}, {3})",
+            order.MaDonHang,
+            model.PhuongThucThanhToan == "Chuyển khoản" ? "Chuyển khoản" : "Thanh toán khi nhận hàng",
+            order.TongTien,
+            "Chưa thanh toán");
 
         // Sử dụng Raw SQL để xóa giỏ hàng để đảm bảo không bị dính tracking state cũ
         await _context.Database.ExecuteSqlRawAsync("DELETE FROM CHI_TIET_GIO_HANG WHERE MaGioHang = {0}", cart.MaGioHang);

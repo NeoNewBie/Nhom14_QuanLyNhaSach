@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using QuanLyNhaSach.Validations;
 
 namespace QuanLyNhaSach.Models;
 
@@ -18,6 +19,7 @@ public partial class SanPham
     public decimal GiaBia { get; set; }
 
     [Column(TypeName = "decimal(18,2)")]
+    [GiaBanHopLe]
     public decimal GiaBan { get; set; }
 
     [Column(TypeName = "decimal(18,2)")]

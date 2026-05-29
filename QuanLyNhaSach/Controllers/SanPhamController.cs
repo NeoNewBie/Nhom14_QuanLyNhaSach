@@ -3,16 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using QuanLyNhaSach.Data;
 using QuanLyNhaSach.Models;
 using QuanLyNhaSach.ViewModels;
+using QuanLyNhaSach.Services;
 
 namespace QuanLyNhaSach.Controllers;
 
 public class SanPhamController : Controller
 {
     private readonly QuanLyBanSachContext _context;
+    private readonly ISanPhamService _sanPhamService;
 
-    public SanPhamController(QuanLyBanSachContext context)
+    public SanPhamController(QuanLyBanSachContext context, ISanPhamService sanPhamService)
     {
         _context = context;
+        _sanPhamService = sanPhamService;
     }
 
     private int? CurrentUserId => HttpContext.Session.GetInt32("UserId") ?? HttpContext.Session.GetInt32("MaNguoiDung");
@@ -20,11 +23,7 @@ public class SanPhamController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
-        var sanPham = await _context.SanPhams
-            .Include(x => x.MaDanhMucNavigation)
-            .Include(x => x.MaTacGia)
-            .Include(x => x.MaNhaXuatBanNavigation)
-            .FirstOrDefaultAsync(x => x.MaSanPham == id && x.TrangThai);
+        var sanPham = await _sanPhamService.LaySanPhamTheoIdAsync(id);
 
         if (sanPham == null) return NotFound();
 

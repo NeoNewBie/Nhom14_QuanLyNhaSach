@@ -441,3 +441,5 @@ UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9781617294617-
 UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780136042594-L.jpg' WHERE TenSanPham LIKE N'Trí tuệ nhân tạo%';
 UPDATE SAN_PHAM SET AnhBia='https://covers.openlibrary.org/b/isbn/9780062464316-L.jpg' WHERE TenSanPham LIKE N'Lịch sử Việt Nam';
 
+ALTER TABLE THANH_TOAN
+DROP CONSTRAINT UQ__THANH_TO__0A2A24EAE2D9F5E1;
